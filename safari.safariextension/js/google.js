@@ -2,12 +2,6 @@
 var options = []
 options.dev = true;
 
-function dbg() 
-{
-    if (options.dev)
-        console.log(arguments);
-}
-
 function lastQuery()
 {
     var regex = new RegExp('[\?\&]q=([^\&#]+)');
@@ -15,13 +9,12 @@ function lastQuery()
         var q = window.location.href.split(regex);
         q = q[q.length - 2].replace(/\+/g," ");
 
-        dbg(q);
+        if(options.dev) console.log(q);
 
         return decodeURIComponent(q);
     }
 }
 
-search(lastQuery());
 
 function getQuery(direct) {
     var instant = document.getElementsByClassName("gssb_a");
@@ -32,7 +25,7 @@ function getQuery(direct) {
                     childNodes[0].childNodes[0].childNodes[0].innerHTML;
         query = query.replace(/<\/?(?!\!)[^>]*>/gi, '');
 
-        dbg(query);
+        if(options.dev) console.log(query);
 
         return query;
 
@@ -41,44 +34,52 @@ function getQuery(direct) {
     }
 }
 
-var lasttime;
-function qsearch(direct) {
-    var query =  getQuery(direct);
-    lastquery = query;
-    search(query);
-}
+var regexp = new RegExp(/^https?:\/\/(www|encrypted)\.google\..*\/.*$/);
 
-var lastquery = document.getElementsByName("q")[0].value;
-// instant search
-document.getElementsByName("q")[0].onkeyup = function(e){
+if (regexp.test(window.location.href)){
+    if(options.dev) console.log('on Google');
 
-    if(lastquery !== getQuery())
-        hideZeroClick();
+    search(lastQuery());
 
-    if(options.dev)
-        dbg(e.keyCode);
+    var lasttime;
+    function qsearch(direct) {
+        var query =  getQuery(direct);
+        lastquery = query;
+        search(query);
+    }
 
-    var fn = 'qsearch()';
-    if(e.keyCode == 40 || e.keyCode == 38)
-        fn = 'qsearch(true)';
+    var lastquery = document.getElementsByName("q")[0].value;
+    // instant search
+    document.getElementsByName("q")[0].onkeyup = function(e){
 
-    clearTimeout(lasttime);
-    lasttime = setTimeout(fn, 700);
+        if(lastquery !== getQuery())
+            hideZeroClick();
 
-    // instant search suggestions box onclick
-    document.getElementsByClassName("gssb_c")[0].onclick = function(){
         if(options.dev)
-            dbg("clicked")
+            if(options.dev) console.log(e.keyCode);
 
-        hideZeroClick();
-        qsearch(true);
+        var fn = 'qsearch()';
+        if(e.keyCode == 40 || e.keyCode == 38)
+            fn = 'qsearch(true)';
+
+        clearTimeout(lasttime);
+        lasttime = setTimeout(fn, 700);
+
+        // instant search suggestions box onclick
+        document.getElementsByClassName("gssb_c")[0].onclick = function(){
+            if(options.dev) console.log("clicked")
+
+            hideZeroClick();
+            qsearch(true);
+        };
     };
-};
 
-// click on search button
-document.getElementsByName("btnG")[0].onclick = function(){
-    qsearch();
-};
+    // click on search button
+    document.getElementsByName("btnG")[0].onclick = function(){
+        qsearch();
+    };
+
+}
 
 function search(query)
 {
@@ -86,13 +87,16 @@ function search(query)
   //    '<img src="http://duckduckgo.com/l.gif" /> Loading ...' +
   //    '</div>' + document.getElementById('center_col').innerHTML;
 
-    safari.self.tab.dispatchMessage("request", query);
-    dbg('sending request', query);
+    if (query === undefined)
+        return;
+
+    safari.self.tab.dispatchMessage("request_google", query);
+    if(options.dev) console.log('sending request', query);
 
     safari.self.addEventListener("message", function(event){
-        dbg('message in');
-        if (event.name === "response") {
-            dbg(event.message);
+        if(options.dev) console.log('message in');
+        if (event.name === "response_google") {
+            if(options.dev) console.log(event.message);
             renderZeroClick(event.message, query);
         }
     }, false);
@@ -102,7 +106,7 @@ function search(query)
 function renderZeroClick(res, query) 
 {
     
-        dbg(res);
+        if(options.dev) console.log(res);
     
     // disable on images
     if (document.getElementById('isr_pps') !== null)
@@ -166,8 +170,7 @@ function createResultDiv()
 
 function resultsLoaded()
 {
-    if(options.dev)
-        dbg(document.getElementById("center_col"), document.getElementById("center_col").style.visibility);
+        if(options.dev) console.log(document.getElementById("center_col"), document.getElementById("center_col").style.visibility);
     
     if (document.getElementById("center_col") !== null){
         if (document.getElementById("center_col").style.visibility === "visible") {
@@ -189,10 +192,10 @@ function displayAnswer(answer)
         ddg_result.className = "ddg_answer";
         ddg_result.innerHTML = answer;
         if(options.dev)
-            dbg('showing answer');
+            if(options.dev) console.log('showing answer');
     } else {
         if(options.dev)
-            dbg('trying again');
+            if(options.dev) console.log('trying again');
         setTimeout('displayAnswer("'+answer+'");', 200);
     }
 }
@@ -294,11 +297,11 @@ function displaySummary(res, query) {
         ddg_result.className = '';
         ddg_result.innerHTML = result;
         if(options.dev)
-            dbg('loaded and showing');
+            if(options.dev) console.log('loaded and showing');
     } else {
         setTimeout(function(){
             if(options.dev)
-                dbg('trying again');
+                if(options.dev) console.log('trying again');
             displaySummary(res, query);
         }, 200);
     }
@@ -329,7 +332,7 @@ function displayDisambiguation(res, query){
             break;
         
         
-            dbg(res['RelatedTopics'][i]['Result']);
+            if(options.dev) console.log(res['RelatedTopics'][i]['Result']);
         
         // other topics
         if(res['RelatedTopics'][i]['Topics']) {
@@ -402,7 +405,7 @@ function displayDisambiguation(res, query){
               
     
     
-        dbg(result);
+        if(options.dev) console.log(result);
 
     if(resultsLoaded()) {
         var ddg_result = createResultDiv();
@@ -436,12 +439,12 @@ function displayCategory(res, query){
             break;
         
         
-            dbg(res['RelatedTopics'][i]['Result']);
+            if(options.dev) console.log(res['RelatedTopics'][i]['Result']);
  
         if (i <= 2) {
             categories += '<div class="wrapper" onmouseover="this.className+=\' ddg_selected\'" onmouseout="this.className=this.className.replace(\' ddg_selected\',\'\')" onclick="window.location.href=this.lastChild.firstChild.href;">' +
                             '<div class="icon_category">' + 
-                                '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' +
+                                (res['RelatedTopics'][i]['Icon']['URL'] !== '' ? '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' : '' )  +
                             '</div>' +
                             '<div class="ddg_zeroclick_category_item">' +
                                 res['RelatedTopics'][i]['Result'] +
@@ -450,7 +453,7 @@ function displayCategory(res, query){
         } else {
             hidden_categories += '<div class="wrapper" onmouseover="this.className+=\' ddg_selected\'" onmouseout="this.className=this.className.replace(\' ddg_selected\',\'\')" onclick="window.location.href=this.lastChild.firstChild.href;">' +
                                 '<div class="icon_category">' + 
-                                    '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' +
+                                    (res['RelatedTopics'][i]['Icon']['URL'] !== '' ? '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' : '' )  +
                                 '</div>' +
                                 '<div class="ddg_zeroclick_category_item">' +
                                     res['RelatedTopics'][i]['Result'] +
@@ -482,7 +485,7 @@ function displayCategory(res, query){
                 
     
     
-        dbg(result);
+        if(options.dev) console.log(result);
 
     if(resultsLoaded()) {
         var ddg_result = createResultDiv();

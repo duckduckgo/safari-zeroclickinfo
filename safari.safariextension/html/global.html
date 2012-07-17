@@ -54,7 +54,7 @@
     }
 
     function ddgCheckMessage (event) {
-      if (event.name === 'request') {
+      if (event.name === 'request_google') {
             query = event.message;
             var req = new XMLHttpRequest();
           //if(options.meanings)
@@ -65,11 +65,25 @@
             req.onreadystatechange = function(data) {
                 if (req.readyState != 4)  { return; } 
                 var res = JSON.parse(req.responseText);
-                event.target.page.dispatchMessage('response', res);
+                event.target.page.dispatchMessage('response_google', res);
             }
             req.send(null);
-    
       }  
+      if (event.name === 'request_bing') {
+            query = event.message;
+            var req = new XMLHttpRequest();
+          //if(options.meanings)
+                req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json', true);
+          //else
+          //    req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
+
+            req.onreadystatechange = function(data) {
+                if (req.readyState != 4)  { return; } 
+                var res = JSON.parse(req.responseText);
+                event.target.page.dispatchMessage('response_bing', res);
+            }
+            req.send(null);
+      }
     }
     safari.application.addEventListener("validate", ddgRightClickValidate, false);
     safari.application.addEventListener("command", ddgRightClickCommand, false);

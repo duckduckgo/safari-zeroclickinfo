@@ -1,5 +1,5 @@
 
-#ddg_zeroclick {
+#ddg_bing_zeroclick {
     background: none repeat scroll 0 0 #fafafa;
     border: 1px solid #dedede;
     border-radius: 2px;
@@ -9,7 +9,7 @@
     z-index: 10;
 }
 
-.ddg_zeroclick_icon {
+.ddg_bing_zeroclick_icon {
     display: inline;
     float: left;
     padding-left: 8px;
@@ -17,7 +17,7 @@
     padding-top: 4px;
 }
 
-.ddg_answer {
+.ddg_bing_answer {
     background: url(https://duckduckgo.com/icon16.png) 4px 4px no-repeat #F9F9F9 !important;
     line-height: 1.4;
     padding: 4px 0px 4px 30px !important;
@@ -25,7 +25,7 @@
 }
 
 
-#ddg_zeroclick_header {
+#ddg_bing_zeroclick_header {
     padding: 4px;
     font-weight: bold;
     /*background: -webkit-gradient(linear, left top, left bottom, from(#e16036), to(#d64a2d)); 
@@ -45,43 +45,43 @@
     font-family: "Helvetica Neue", sans-serif;
 }
 
-#ddg_zeroclick_header img {
+#ddg_bing_zeroclick_header img {
     margin-top: -4px;
     float: right;
 }
 
-#ddg_zeroclick_header a:active {
+#ddg_bing_zeroclick_header a:active {
     color: #fff !important;
 }
 
 
-#ddg_zeroclick_image {
+#ddg_bing_zeroclick_image {
     margin: 10px;
     float: right;
 }
 
-#ddg_zeroclick_image img {
+#ddg_bing_zeroclick_image img {
     padding: 1px;
     border-radius: 2px;
 }
 
-.ddg_zeroclick_img {
+.ddg_bing_zeroclick_img {
     max-width: 100px;
     max-height: 100px;
 }
 
-#ddg_zeroclick_abstract {
+#ddg_bing_zeroclick_abstract {
     margin: 5px 7px 5px 10px;
     word-wrap: break-word;
     font-size: 13px; 
     color: #505050;
 }
 
-#ddg_zeroclick_abstract > div{
+#ddg_bing_zeroclick_abstract > div{
     padding-left: 2px;
 }
 
-#ddg_zeroclick_abstract p {
+#ddg_bing_zeroclick_abstract p {
     line-height: 16px;
     font-family: "Helvetica Neue",  sans-serif;
     color: #202020;
@@ -89,12 +89,12 @@
     margin: 0;
 }
 
-#ddg_zeroclick_abstract a{
+#ddg_bing_zeroclick_abstract a{
     text-decoration: none;
     color: #0033cc;
 }
 
-#ddg_zeroclick_abstract a:hover {
+#ddg_bing_zeroclick_abstract a:hover {
     text-decoration: underline;
 }
 
@@ -102,11 +102,11 @@
     /*margin-top: 3px !important;*/
 }
 
-#ddg_zeroclick_official_links {
+#ddg_bing_zeroclick_official_links {
     padding: 5px 0px 5px 1px;
 }
 
-#ddg_zeroclick_official_links img{
+#ddg_bing_zeroclick_official_links img{
     display: inline;
     float: left;
     padding-right: 5px;
@@ -117,16 +117,16 @@
 
 
 
-#ddg_zeroclick_header a {
+#ddg_bing_zeroclick_header a {
     text-decoration: none;
-    color: #fff;
+    color: #fff !important;
 }
 
-#ddg_zeroclick_header a:hover {
+#ddg_bing_zeroclick_header a:hover {
     text-decoration: underline;
 }
 
-.ddg_zeroclick_category{
+.ddg_bing_zeroclick_category{
     /* background-image: url("data:image/gif;base64,R0lGODlhEAAQAMQQAKCgoJiYmIaGho6OjqSkpHt7e35+fq6urqurq4KCgoqKipycnJOTk3h4eLCwsKioqP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAABAALAAAAAAQABAAAAVYICQ6ZGmWInSkLLu2cIo8dG3X4kPE7A4RAF4qCAEsRIuk8ghhLgJCERQSYIgY2KwVsmUMopBvWCFSmM9kSFohALchgoQoQaez5HQDWC8qgP0iDYKDhIMpIQA7"); */
     background-image: url(https://duckduckgo.com/assets/icon_category.v101.png);
     background-repeat: no-repeat;
@@ -137,7 +137,7 @@
 }
 
 
-.ddg_zeroclick_article{
+.ddg_bing_zeroclick_article{
     /* background-image: url("data:image/gif;base64,R0lGODlhEAAQAMQQAKCgoJiYmIaGho6OjqSkpHt7e35+fq6urqurq4KCgoqKipycnJOTk3h4eLCwsKioqP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAABAALAAAAAAQABAAAAVYICQ6ZGmWInSkLLu2cIo8dG3X4kPE7A4RAF4qCAEsRIuk8ghhLgJCERQSYIgY2KwVsmUMopBvWCFSmM9kSFohALchgoQoQaez5HQDWC8qgP0iDYKDhIMpIQA7"); */
     background-image: url(https://duckduckgo.com/assets/icon_article.v101.png);
     background-repeat: no-repeat;
@@ -147,7 +147,7 @@
     border: 1px solid #fafafa;
 }
 
-.ddg_zeroclick_more{
+.ddg_bing_zeroclick_more{
     background-image: url(https://duckduckgo.com/assets/icon_ellipsis.v101.png);
     background-position: 2px 2px;
     background-repeat: no-repeat;
@@ -157,7 +157,7 @@
 }
 
 
-.ddg_zeroclick_disambig {
+.ddg_bing_zeroclick_disambig {
     line-height: 1.4;
     padding: 4px;
     margin-left: 48px;
@@ -193,7 +193,7 @@
     max-width: 50px;   
 }
 
-.ddg_zeroclick_category_item {
+.ddg_bing_zeroclick_category_item {
     line-height: 1.4;
     padding: 4px;
     min-height: 30px;
@@ -201,7 +201,7 @@
     width: 430px !important;
 }
 
-.ddg_zeroclick_category_item a {
+.ddg_bing_zeroclick_category_item a {
     font-size: 1.2em;
 }
 
@@ -228,7 +228,7 @@
     text-align: left;
 }
 
-.ddg_selected{
+.ddg_bing_selected{
     background-color: #efefef !important;
     border-radius: 2px;
     border: 1px solid #c2c2c2 !important;
@@ -241,7 +241,7 @@
 }
 
 
-#ddg_zeroclick_category_img {
+#ddg_bing_zeroclick_category_img {
     max-height: 30px;
     max-width: 30px;   
 }
@@ -253,18 +253,18 @@
     border: 1px solid #fafafa;
 }
 
-.ddg_more {
+.ddg_bing_more {
     font-size: 12px;
     float: right;
     font-weight: normal;
     line-height: 24px; 
 }
 
-.ddg_more_link {
+.ddg_bing_more_link {
     padding-left: 2px;
 }
 
-.ddg_head {
+.ddg_bing_head {
     font-size: 18px;
     line-height: 24px; 
     padding-left: 5px;

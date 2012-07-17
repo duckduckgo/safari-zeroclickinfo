@@ -58,12 +58,13 @@
 			<key>End</key>
 			<array>
 				<string>js/google.js</string>
+				<string>js/bing.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
 		<array>
 			<string>css/google.css</string>
-			<string></string>
+			<string>css/bing.css</string>
 		</array>
 	</dict>
 	<key>Description</key>

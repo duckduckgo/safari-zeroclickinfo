@@ -1,9 +1,7 @@
 var options = [];
-chrome.extension.sendRequest({options: "get"}, function(opt){
-    options = opt;
-});
+options.dev = true;
 
-function lastQuery()
+function bing_lastQuery()
 {
     var regex = new RegExp('[\?\&]q=([^\&#]+)');
     if(regex.test(window.location.href)) {
@@ -17,9 +15,8 @@ function lastQuery()
     }
 }
 
-search(lastQuery());
 
-function getQuery(direct) {
+function bing_getQuery(direct) {
     var instant = document.getElementsByClassName("gssb_a");
     if (instant.length !== 0 && !direct){
         var selected_instant = instant[0];
@@ -38,57 +35,72 @@ function getQuery(direct) {
     }
 }
 
-var lasttime;
-function qsearch(direct) {
-    var query =  getQuery(direct);
-    lastquery = query;
-    search(query);
+var bing_regexp = new RegExp(/^https?:\/\/www\.bing\.com\/.*$/);
+
+if (bing_regexp.test(window.location.href)){
+    console.log('on Bing!');
+    var bing_lastquery = document.getElementsByName("q")[0].value;
+
+
+    bing_search(bing_lastQuery());
+    var bing_lasttime;
+    function qbing_search(direct) {
+        var query =  bing_getQuery(direct);
+        bing_lastquery = query;
+        bing_search(query);
+    }
+
+    // instant bing_search
+    document.getElementsByName("q")[0].onkeyup = function(e){
+
+        if(bing_lastquery !== bing_getQuery())
+            bing_hideZeroClick();
+
+        if(options.dev)
+            console.log(e.keyCode);
+
+        var fn = 'qbing_search()';
+        if(e.keyCode == 40 || e.keyCode == 38)
+            fn = 'qbing_search(true)';
+
+        clearTimeout(bing_lasttime);
+        bing_lasttime = setTimeout(fn, 700);
+
+        // instant bing_search suggestions box onclick
+        document.getElementsByClassName("gssb_c")[0].onclick = function(){
+            if(options.dev)
+                console.log("clicked")
+
+            bing_hideZeroClick();
+            qbing_search(true);
+        };
+    };
+
+    // click on bing_search button
+    document.getElementsByName("go")[0].onclick = function(){
+        qbing_search();
+    };
 }
 
-var lastquery = document.getElementsByName("q")[0].value;
-// instant search
-document.getElementsByName("q")[0].onkeyup = function(e){
-
-    if(lastquery !== getQuery())
-        hideZeroClick();
-
-    if(options.dev)
-        console.log(e.keyCode);
-
-    var fn = 'qsearch()';
-    if(e.keyCode == 40 || e.keyCode == 38)
-        fn = 'qsearch(true)';
-
-    clearTimeout(lasttime);
-    lasttime = setTimeout(fn, 700);
-
-    // instant search suggestions box onclick
-    document.getElementsByClassName("gssb_c")[0].onclick = function(){
-        if(options.dev)
-            console.log("clicked")
-
-        hideZeroClick();
-        qsearch(true);
-    };
-};
-
-// click on search button
-document.getElementsByName("go")[0].onclick = function(){
-    qsearch();
-};
-
-function search(query)
+function bing_search(query)
 {
-    var request = {query: query};
-    chrome.extension.sendRequest(request, function(response){
-        renderZeroClick(response, query);
-    });
+    if (query === undefined)
+        return;
+
+    safari.self.tab.dispatchMessage("request_bing", query);
+
+    safari.self.addEventListener("message", function(event){
+        if (event.name === "response_bing") {
+            bing_renderZeroClick(event.message, query);
+        }
+    }, false);
+
     if (options.dev)
         console.log("query:", query);
  
 }
 
-function renderZeroClick(res, query) 
+function bing_renderZeroClick(res, query) 
 {
     if (options.dev)
         console.log(res);
@@ -98,62 +110,62 @@ function renderZeroClick(res, query)
         return;
 
     if (res['AnswerType'] !== "") {
-        displayAnswer(res['Answer']);
+        bing_displayAnswer(res['Answer']);
     } else if (res['Type'] == 'A' && res['Abstract'] !== "") {
-        displaySummary(res, query);
+        bing_displaySummary(res, query);
     } else {     
         switch (res['Type']){
             case 'E':
-                displayAnswer(res['Answer']);
+                bing_displayAnswer(res['Answer']);
                 break;
 
             case 'A':
-                displayAnswer(res['Answer']);
+                bing_displayAnswer(res['Answer']);
                 break;
 
             case 'C':
-                displayCategory(res, query);
+                bing_displayCategory(res, query);
                 break;
 
             case 'D':
-                displayDisambiguation(res, query);
+                bing_displayDisambiguation(res, query);
                 break;
 
             default:
-                hideZeroClick();
+                bing_hideZeroClick();
                 break;
                     
         } 
     }
 }
 
-function hideZeroClick()
+function bing_hideZeroClick()
 {
-    var ddg_result = document.getElementById("ddg_zeroclick");
-    if (ddg_result !== null)
-        ddg_result.style.display = 'none';
+    var ddg_bing_result = document.getElementById("ddg_bing_zeroclick");
+    if (ddg_bing_result !== null)
+        ddg_bing_result.style.display = 'none';
 }
 
-function showZeroClick()
+function bing_showZeroClick()
 {
-    var ddg_result = document.getElementById("ddg_zeroclick");
-    if (ddg_result !== null)
-        ddg_result.style.display = 'block';
+    var ddg_bing_result = document.getElementById("ddg_bing_zeroclick");
+    if (ddg_bing_result !== null)
+        ddg_bing_result.style.display = 'block';
 }
 
-function createResultDiv()
+function bing_createResultDiv()
 {
     var result = document.getElementById("results_container");
-    var ddg_result = document.getElementById("ddg_zeroclick");
-    showZeroClick();
-    if (ddg_result === null) {
-        result.innerHTML = '<div id="ddg_zeroclick"></div>' + result.innerHTML;
-        ddg_result = document.getElementById("ddg_zeroclick");
+    var ddg_bing_result = document.getElementById("ddg_bing_zeroclick");
+    bing_showZeroClick();
+    if (ddg_bing_result === null) {
+        result.innerHTML = '<div id="ddg_bing_zeroclick"></div>' + result.innerHTML;
+        ddg_bing_result = document.getElementById("ddg_bing_zeroclick");
     }
-    return ddg_result;
+    return ddg_bing_result;
 }
 
-function resultsLoaded()
+function bing_resultsLoaded()
 {
     if(options.dev)
         console.log(document.getElementById("results_container"), document.getElementById("results_container").style.visibility);
@@ -165,26 +177,26 @@ function resultsLoaded()
     return false;
 }
 
-function displayAnswer(answer)
+function bing_displayAnswer(answer)
 {
     if (answer === '') {
-        hideZeroClick();
+        bing_hideZeroClick();
         return;
     }
-    if (resultsLoaded()) {
-        var ddg_result = createResultDiv();
-        ddg_result.className = "ddg_answer";
-        ddg_result.innerHTML = answer;
+    if (bing_resultsLoaded()) {
+        var ddg_bing_result = bing_createResultDiv();
+        ddg_bing_result.className = "ddg_bing_answer";
+        ddg_bing_result.innerHTML = answer;
         if(options.dev)
             console.log('showing answer');
     } else {
         if(options.dev)
             console.log('trying again');
-        setTimeout('displayAnswer("'+answer+'");', 200);
+        setTimeout('bing_displayAnswer("'+answer+'");', 200);
     }
 }
 
-function displaySummary(res, query) {
+function bing_displaySummary(res, query) {
     var result = ''
 
     var img_url = res['AbstractURL'];
@@ -210,7 +222,7 @@ function displaySummary(res, query) {
         var link = res['RelatedTopics'][i]['Result'].
                     match(/<a href=".*">.*<\/a>/);
 
-        var cls = (res['RelatedTopics'][i]['FirstURL'].match(/https?:\/\/[a-z0-9\-]+\.[a-z]+(?:\/\d+)?\/c\/.*/) !== null) ? "ddg_zeroclick_category" : "ddg_zeroclick_article";
+        var cls = (res['RelatedTopics'][i]['FirstURL'].match(/https?:\/\/[a-z0-9\-]+\.[a-z]+(?:\/\d+)?\/c\/.*/) !== null) ? "ddg_bing_zeroclick_category" : "ddg_bing_zeroclick_article";
         
         if (i < 2) {
             var first = (i === 0)? 'first_category': '';
@@ -225,7 +237,7 @@ function displaySummary(res, query) {
     }
 
     if (hidden_categories !== '') {
-        hidden_categories  = '<div class="ddg_zeroclick_more">' +
+        hidden_categories  = '<div class="ddg_bing_zeroclick_more">' +
                                 '<a href="javascript:;" onclick="' + 
                                     "this.parentElement.style.display='none';" +
                                     "this.parentElement.nextElementSibling.style.display='block'" +
@@ -237,21 +249,21 @@ function displaySummary(res, query) {
     }
 
 
-    result += '<div id="ddg_zeroclick_header">' +
-                '<a class="ddg_head" href="https://duckduckgo.com/?q='+ 
+    result += '<div id="ddg_bing_zeroclick_header">' +
+                '<a class="ddg_bing_head" href="https://duckduckgo.com/?q='+ 
                     encodeURIComponent(query)
                 +'">'+ 
                     (res['Heading'] === ''? "&nbsp;": res['Heading']) +
                 '</a> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAgCAYAAACRpmGNAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABM9JREFUeNq8WF1oHFUUPndnZid/7S5JmzVJk7V9sNJqVqOiaBof1NY+JEVIQZA8CBVfIn3yyfhkC4XogxgfJJY+VEFRKM2iJGjRrMQUSsLuNoFGmthSu+xust2Z/Z2fnb3eGZJ1dnd2fhLwwGHv3Dkz95t7znfOuYsAgIZ6QWAuVveNBDu1cf1PwOw+V2VDO3gBWrqzEXiy1xegadpfLBbnifJdXV2RXQDEFjZYD1BVxkTdql5bWh/NCXIa66RcLt8TRfGTubm5zh07m8pYKA12gal6dzMbTmQF/KggYQNJcxx3ltix27pnkGh7YCsGLs+vDu2Mn32889UnfN7xVpb26m1kWf4ikUh809vbG9ktEfRiuWN6zWazo6orsYWUSqXrRHwOdtIIg31g+Xz+HHYgKkAdOMcAbaeS2cWIn2Gbpp3kDoqiRsgHjdW823Yqou0aPtbd8zFDuSAvYfhuWQShIMCZZ1rgULu7zjaZA7j4qwAcn4G3A82TZOqqWbowm7d0p+qStURGi7PPQgr+eVXU3PYgJRq6M1szrYZDjXtZm+61B+52jNcW2kiVbcdcLMHjTE5Qc2HYABxrBc5lozpUzR9uR5DNi/DtzLKmjeS3m3fh5Htfw8yNVUAIBQhzvQ5KGmpUWw2FK0qVsbrgpcu/w9HDByFIxkYSS2a0350PGBwc7HdajGm7u1aUFTWpBtTx/lZWm3t34ge4cuGs4YPvjAxo4Ht8HsP7qT/pkWYWNMBFEeY7Xi6Fate2zdYkX4jugBt+7Th0de6HfQTk0SOdDZ95/uneyrip8H0ge4sJuBk4QbnwiN6OzE1sx+DuUomilKLJnAidbWzdwtWGGcCZWUDSA8D5BW2qLCwBq8Qm65cn5mUU4rNwwWmeq3K1JAoRriBVwBkKPwvKw/fJijHLEJZLOJhMUVP+N6SIGQCmQczVzd28lxJe9Lcbvym3CMrfQ6aISgoKSjLh06Ir+NZ5kbMq/rQT9mQEuUKKurZCWKm6Lorow30vyFPLP7L+Dg/2kB2KOuhSwFEq2SGFrJSNXeA5TYppd938wKh4XwdMk5XrjF9la2GJnrj2OevdTW3Fta5VSZEuysZxxxwCquerSsw1s3hSCjNjJLZCGAOvmTDohAthPyJaAX8MB9UY3FPhVyXLpUPJrK8xKTxvQkq8dYpe7/G0NOFhmoIR1g3jRmFFWDoT30QXtwmBnRLCkBR/rG8Kg0cONHZ9MnnK5/NVEur9X9z9ba1lP8tAwOUCnCug0MKyK1pDCMtO2LDg12ow+s+8WbEnJzI1ZzUZKGuihg2AFSHqvogvSpG8VGpcD2m63+GButE97IitWq4qydF0QTbrfquS3cFPn+uD6VemqamXhpyu5bLzBfqLrXgsxBHGpoV1+DI6DFfuXIJIKvxfkCLkIUfEYa0G/zT4kbevZY2i0ZjCUmNOdk1PCFsn/kqv9lcyfqwn5r26dh5u8xhWOAxu5IPRpwJwIxaG5WScO9NB8Vsy+KPk3kYeA1ZwqHxu4aQTcLRVbjNsd/JFNalWuSmhxGFu6yHEBQRlQN5HMnh3eVbFZhXC8qGiWApxJnGnlTppz/84gVNC4O0OhVSK6tVJwwLN0KaNXz8wAOPHP4Du5j59x8E5Ze6/AgwAHWTjLQ+v54oAAAAASUVORK5CYII=" />' + 
-                '<a class="ddg_more" href="https://duckduckgo.com/?q='+ 
+                '<a class="ddg_bing_more" href="https://duckduckgo.com/?q='+ 
                     encodeURIComponent(query)
                 +'"> See DuckDuckGo results </a>' +
                 '</div>';
     
     if (res['Image']) {
-        result += '<div id="ddg_zeroclick_image">' + 
+        result += '<div id="ddg_bing_zeroclick_image">' + 
                     '<a href="' + img_url +'">' + 
-                        '<img class="ddg_zeroclick_img" src="' + res['Image']  +
+                        '<img class="ddg_bing_zeroclick_img" src="' + res['Image']  +
                         '" />' +
                     '</a>' +
                   '</div>';
@@ -262,12 +274,12 @@ function displaySummary(res, query) {
     if (source_base_url === "wikipedia.org")
         more_image = '<img src="https://duckduckgo.com/assets/icon_wikipedia.v101.png" />';
 
-    result += '<div id="ddg_zeroclick_abstract" style="'+ (res['Image'] ? 'max-width: 383px': '') +'">' +
+    result += '<div id="ddg_bing_zeroclick_abstract" style="'+ (res['Image'] ? 'max-width: 383px': '') +'">' +
                 '<div onclick="window.location.href=\''+ res['AbstractURL'] +'\'">' +
                 '<p>' + res['Abstract'] +
-                '</p><div id="ddg_zeroclick_official_links">' + 
+                '</p><div id="ddg_bing_zeroclick_official_links">' + 
                     more_image + 
-                    '<a class="ddg_more_link" href="' + res['AbstractURL'] + '"> More at ' +
+                    '<a class="ddg_bing_more_link" href="' + res['AbstractURL'] + '"> More at ' +
                         res['AbstractSource'] +
                     '</a>' + official_site +
                 '</div></div>' +
@@ -276,31 +288,31 @@ function displaySummary(res, query) {
               '</div><div class="clear"></div>';
 
 
-    if(resultsLoaded()) {
-        var ddg_result = createResultDiv();
-        ddg_result.className = '';
-        ddg_result.innerHTML = result;
+    if(bing_resultsLoaded()) {
+        var ddg_bing_result = bing_createResultDiv();
+        ddg_bing_result.className = '';
+        ddg_bing_result.innerHTML = result;
         if(options.dev)
             console.log('loaded and showing');
     } else {
         setTimeout(function(){
             if(options.dev)
                 console.log('trying again');
-            displaySummary(res, query);
+            bing_displaySummary(res, query);
         }, 200);
     }
 
 }
 
-function displayDisambiguation(res, query){
+function bing_displayDisambiguation(res, query){
     
     var result = '';
-    result += '<div id="ddg_zeroclick_header"> <a class="ddg_head" href="https://duckduckgo.com/?q='+ 
+    result += '<div id="ddg_bing_zeroclick_header"> <a class="ddg_bing_head" href="https://duckduckgo.com/?q='+ 
                     encodeURIComponent(query)
                 +'"> Meanings of ' +
                     res['Heading'] +
                 '</a> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAgCAYAAACRpmGNAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABM9JREFUeNq8WF1oHFUUPndnZid/7S5JmzVJk7V9sNJqVqOiaBof1NY+JEVIQZA8CBVfIn3yyfhkC4XogxgfJJY+VEFRKM2iJGjRrMQUSsLuNoFGmthSu+xust2Z/Z2fnb3eGZJ1dnd2fhLwwGHv3Dkz95t7znfOuYsAgIZ6QWAuVveNBDu1cf1PwOw+V2VDO3gBWrqzEXiy1xegadpfLBbnifJdXV2RXQDEFjZYD1BVxkTdql5bWh/NCXIa66RcLt8TRfGTubm5zh07m8pYKA12gal6dzMbTmQF/KggYQNJcxx3ltix27pnkGh7YCsGLs+vDu2Mn32889UnfN7xVpb26m1kWf4ikUh809vbG9ktEfRiuWN6zWazo6orsYWUSqXrRHwOdtIIg31g+Xz+HHYgKkAdOMcAbaeS2cWIn2Gbpp3kDoqiRsgHjdW823Yqou0aPtbd8zFDuSAvYfhuWQShIMCZZ1rgULu7zjaZA7j4qwAcn4G3A82TZOqqWbowm7d0p+qStURGi7PPQgr+eVXU3PYgJRq6M1szrYZDjXtZm+61B+52jNcW2kiVbcdcLMHjTE5Qc2HYABxrBc5lozpUzR9uR5DNi/DtzLKmjeS3m3fh5Htfw8yNVUAIBQhzvQ5KGmpUWw2FK0qVsbrgpcu/w9HDByFIxkYSS2a0350PGBwc7HdajGm7u1aUFTWpBtTx/lZWm3t34ge4cuGs4YPvjAxo4Ht8HsP7qT/pkWYWNMBFEeY7Xi6Fate2zdYkX4jugBt+7Th0de6HfQTk0SOdDZ95/uneyrip8H0ge4sJuBk4QbnwiN6OzE1sx+DuUomilKLJnAidbWzdwtWGGcCZWUDSA8D5BW2qLCwBq8Qm65cn5mUU4rNwwWmeq3K1JAoRriBVwBkKPwvKw/fJijHLEJZLOJhMUVP+N6SIGQCmQczVzd28lxJe9Lcbvym3CMrfQ6aISgoKSjLh06Ir+NZ5kbMq/rQT9mQEuUKKurZCWKm6Lorow30vyFPLP7L+Dg/2kB2KOuhSwFEq2SGFrJSNXeA5TYppd938wKh4XwdMk5XrjF9la2GJnrj2OevdTW3Fta5VSZEuysZxxxwCquerSsw1s3hSCjNjJLZCGAOvmTDohAthPyJaAX8MB9UY3FPhVyXLpUPJrK8xKTxvQkq8dYpe7/G0NOFhmoIR1g3jRmFFWDoT30QXtwmBnRLCkBR/rG8Kg0cONHZ9MnnK5/NVEur9X9z9ba1lP8tAwOUCnCug0MKyK1pDCMtO2LDg12ow+s+8WbEnJzI1ZzUZKGuihg2AFSHqvogvSpG8VGpcD2m63+GButE97IitWq4qydF0QTbrfquS3cFPn+uD6VemqamXhpyu5bLzBfqLrXgsxBHGpoV1+DI6DFfuXIJIKvxfkCLkIUfEYa0G/zT4kbevZY2i0ZjCUmNOdk1PCFsn/kqv9lcyfqwn5r26dh5u8xhWOAxu5IPRpwJwIxaG5WScO9NB8Vsy+KPk3kYeA1ZwqHxu4aQTcLRVbjNsd/JFNalWuSmhxGFu6yHEBQRlQN5HMnh3eVbFZhXC8qGiWApxJnGnlTppz/84gVNC4O0OhVSK6tVJwwLN0KaNXz8wAOPHP4Du5j59x8E5Ze6/AgwAHWTjLQ+v54oAAAAASUVORK5CYII=" />' + 
-                '<a class="ddg_more" href="https://duckduckgo.com/?q='+ 
+                '<a class="ddg_bing_more" href="https://duckduckgo.com/?q='+ 
                     encodeURIComponent(query)
                 +'"> See DuckDuckGo results </a>' +
 
@@ -325,9 +337,9 @@ function displayDisambiguation(res, query){
             for(var j = 0; j < topics.length; j++){
                 output += '<div class="wrapper">' +
                             '<div class="icon_disambig">' + 
-                                '<img src="' + topics[j]['Icon']['URL'] +'" />' +
+                                (topics[j]['Icon']['URL'] !== '' ? '<img src="' + topics[j]['Icon']['URL'] +'" />' : '' )  +
                             '</div>' +
-                            '<div class="ddg_zeroclick_disambig" >' +
+                            '<div class="ddg_bing_zeroclick_disambig" >' +
                                 topics[j]['Result'] +
                             '</div>' +
                           '</div>';
@@ -349,18 +361,18 @@ function displayDisambiguation(res, query){
         if (i <= 2) {
             disambigs += '<div class="wrapper">' +
                             '<div class="icon_disambig">' + 
-                                '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' +
+                                (res['RelatedTopics'][i]['Icon']['URL'] !== '' ? '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' : '' )  +
                             '</div>' +
-                            '<div class="ddg_zeroclick_disambig" >' +
+                            '<div class="ddg_bing_zeroclick_disambig" >' +
                                 res['RelatedTopics'][i]['Result'] +
                             '</div>' +
                           '</div>';
         } else {
             hidden_disambigs += '<div class="wrapper">' +
                                     '<div class="icon_disambig">' + 
-                                        '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' +
+                                        (res['RelatedTopics'][i]['Icon']['URL'] !== '' ? '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' : '' )  +
                                     '</div>' +
-                                    '<div class="ddg_zeroclick_disambig" >' +
+                                    '<div class="ddg_bing_zeroclick_disambig" >' +
                                         res['RelatedTopics'][i]['Result'] +
                                     '</div>' +
                                   '</div>'; 
@@ -381,7 +393,7 @@ function displayDisambiguation(res, query){
     }
 
 
-    result += '<div id="ddg_zeroclick_abstract">' + 
+    result += '<div id="ddg_bing_zeroclick_abstract">' + 
                   disambigs +
                   hidden_disambigs +
                   others +
@@ -391,26 +403,26 @@ function displayDisambiguation(res, query){
     if (options.dev)
         console.log(result);
 
-    if(resultsLoaded()) {
-        var ddg_result = createResultDiv();
-        ddg_result.className = '';
-        ddg_result.innerHTML = result;
+    if(bing_resultsLoaded()) {
+        var ddg_bing_result = bing_createResultDiv();
+        ddg_bing_result.className = '';
+        ddg_bing_result.innerHTML = result;
     } else {
         setTimeout(function(){
-            displayDisambiguation(res, query);
+            bing_displayDisambiguation(res, query);
         }, 200);
     }
 
 }
 
-function displayCategory(res, query){
+function bing_displayCategory(res, query){
     var result = '';
-    result += '<div id="ddg_zeroclick_header"> <a class="ddg_head" href="https://duckduckgo.com/?q='+ 
+    result += '<div id="ddg_bing_zeroclick_header"> <a class="ddg_bing_head" href="https://duckduckgo.com/?q='+ 
                     encodeURIComponent(query)
                 +'">' +
                     res['Heading'] +
                 '</a> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAgCAYAAACRpmGNAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABM9JREFUeNq8WF1oHFUUPndnZid/7S5JmzVJk7V9sNJqVqOiaBof1NY+JEVIQZA8CBVfIn3yyfhkC4XogxgfJJY+VEFRKM2iJGjRrMQUSsLuNoFGmthSu+xust2Z/Z2fnb3eGZJ1dnd2fhLwwGHv3Dkz95t7znfOuYsAgIZ6QWAuVveNBDu1cf1PwOw+V2VDO3gBWrqzEXiy1xegadpfLBbnifJdXV2RXQDEFjZYD1BVxkTdql5bWh/NCXIa66RcLt8TRfGTubm5zh07m8pYKA12gal6dzMbTmQF/KggYQNJcxx3ltix27pnkGh7YCsGLs+vDu2Mn32889UnfN7xVpb26m1kWf4ikUh809vbG9ktEfRiuWN6zWazo6orsYWUSqXrRHwOdtIIg31g+Xz+HHYgKkAdOMcAbaeS2cWIn2Gbpp3kDoqiRsgHjdW823Yqou0aPtbd8zFDuSAvYfhuWQShIMCZZ1rgULu7zjaZA7j4qwAcn4G3A82TZOqqWbowm7d0p+qStURGi7PPQgr+eVXU3PYgJRq6M1szrYZDjXtZm+61B+52jNcW2kiVbcdcLMHjTE5Qc2HYABxrBc5lozpUzR9uR5DNi/DtzLKmjeS3m3fh5Htfw8yNVUAIBQhzvQ5KGmpUWw2FK0qVsbrgpcu/w9HDByFIxkYSS2a0350PGBwc7HdajGm7u1aUFTWpBtTx/lZWm3t34ge4cuGs4YPvjAxo4Ht8HsP7qT/pkWYWNMBFEeY7Xi6Fate2zdYkX4jugBt+7Th0de6HfQTk0SOdDZ95/uneyrip8H0ge4sJuBk4QbnwiN6OzE1sx+DuUomilKLJnAidbWzdwtWGGcCZWUDSA8D5BW2qLCwBq8Qm65cn5mUU4rNwwWmeq3K1JAoRriBVwBkKPwvKw/fJijHLEJZLOJhMUVP+N6SIGQCmQczVzd28lxJe9Lcbvym3CMrfQ6aISgoKSjLh06Ir+NZ5kbMq/rQT9mQEuUKKurZCWKm6Lorow30vyFPLP7L+Dg/2kB2KOuhSwFEq2SGFrJSNXeA5TYppd938wKh4XwdMk5XrjF9la2GJnrj2OevdTW3Fta5VSZEuysZxxxwCquerSsw1s3hSCjNjJLZCGAOvmTDohAthPyJaAX8MB9UY3FPhVyXLpUPJrK8xKTxvQkq8dYpe7/G0NOFhmoIR1g3jRmFFWDoT30QXtwmBnRLCkBR/rG8Kg0cONHZ9MnnK5/NVEur9X9z9ba1lP8tAwOUCnCug0MKyK1pDCMtO2LDg12ow+s+8WbEnJzI1ZzUZKGuihg2AFSHqvogvSpG8VGpcD2m63+GButE97IitWq4qydF0QTbrfquS3cFPn+uD6VemqamXhpyu5bLzBfqLrXgsxBHGpoV1+DI6DFfuXIJIKvxfkCLkIUfEYa0G/zT4kbevZY2i0ZjCUmNOdk1PCFsn/kqv9lcyfqwn5r26dh5u8xhWOAxu5IPRpwJwIxaG5WScO9NB8Vsy+KPk3kYeA1ZwqHxu4aQTcLRVbjNsd/JFNalWuSmhxGFu6yHEBQRlQN5HMnh3eVbFZhXC8qGiWApxJnGnlTppz/84gVNC4O0OhVSK6tVJwwLN0KaNXz8wAOPHP4Du5j59x8E5Ze6/AgwAHWTjLQ+v54oAAAAASUVORK5CYII=" />' + 
-                '<a class="ddg_more" href="https://duckduckgo.com/?q='+ 
+                '<a class="ddg_bing_more" href="https://duckduckgo.com/?q='+ 
                     encodeURIComponent(query)
                 +'"> See DuckDuckGo results </a>' +
               '</div>';
@@ -428,18 +440,18 @@ function displayCategory(res, query){
         if (i <= 2) {
             categories += '<div class="wrapper" >' +
                             '<div class="icon_category">' + 
-                                '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' +
+                                    (res['RelatedTopics'][i]['Icon']['URL'] !== '' ? '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' : '' )  +
                             '</div>' +
-                            '<div class="ddg_zeroclick_category_item">' +
+                            '<div class="ddg_bing_zeroclick_category_item">' +
                                 res['RelatedTopics'][i]['Result'] +
                             '</div>' +
                           '</div>';
         } else {
             hidden_categories += '<div class="wrapper" >' +
                                 '<div class="icon_category">' + 
-                                    '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' +
+                                    (res['RelatedTopics'][i]['Icon']['URL'] !== '' ? '<img src="' + res['RelatedTopics'][i]['Icon']['URL'] +'" />' : '' )  +
                                 '</div>' +
-                                '<div class="ddg_zeroclick_category_item">' +
+                                '<div class="ddg_bing_zeroclick_category_item">' +
                                     res['RelatedTopics'][i]['Result'] +
                                 '</div>' +
                               '</div>';
@@ -462,7 +474,7 @@ function displayCategory(res, query){
  
     }
 
-    result += '<div id="ddg_zeroclick_abstract">' + 
+    result += '<div id="ddg_bing_zeroclick_abstract">' + 
                     categories +
                     hidden_categories +
                 '</div>';
@@ -471,13 +483,13 @@ function displayCategory(res, query){
     if (options.dev)
         console.log(result);
 
-    if(resultsLoaded()) {
-        var ddg_result = createResultDiv();
-        ddg_result.className = '';
-        ddg_result.innerHTML = result;
+    if(bing_resultsLoaded()) {
+        var ddg_bing_result = bing_createResultDiv();
+        ddg_bing_result.className = '';
+        ddg_bing_result.innerHTML = result;
     } else {
         setTimeout(function(){
-            displayCategory(res, query);
+            bing_displayCategory(res, query);
         }, 200);
     }
 
