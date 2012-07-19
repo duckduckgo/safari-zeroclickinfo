@@ -360,10 +360,13 @@ function search(){
     special = '&d=1'; 
   }
 
-
-  var tab = safari.application.activeBrowserWindow.openTab();
-  tab.url = "https://duckduckgo.com/?q="+encodeURIComponent(input)+special;
-  tab.activate();
+  if (safari.application.activeBrowserWindow.activeTab.url === undefined) {
+    safari.application.activeTab.url = searchURL;
+  } else {
+    var tab = safari.application.activeBrowserWindow.openTab();
+    tab.url = "https://duckduckgo.com/?q="+encodeURIComponent(input)+special;
+    tab.activate();
+  }
 
   var search = document.getElementById("search_form_input_homepage");
   search.value = prefill_text;

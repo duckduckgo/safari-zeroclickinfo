@@ -6,51 +6,60 @@
     <script type="text/javascript">
     function ddgRightClickCommand(event) {
         var searchTerms = event.userInfo;
-        var secure = safari.extension.settings.getItem("ddgSecure");
-        if (secure) {
-          searchURL = "https://duckduckgo.com/?q=" + searchTerms;
-        }
-        else {
-          searchURL = "http://duckduckgo.com/?q=" + searchTerms;
-        }
-        
-        ddgRightClickStyle = safari.extension.settings.getItem("ddgRightClickStyle");
-        switch(ddgRightClickStyle) {
-          case 'newTab':
-            var tab = safari.application.activeBrowserWindow.openTab("foreground");
-            tab.url = searchURL;
-            break;
-          case 'bgTab':
-            var tab = safari.application.activeBrowserWindow.openTab("background");
-            tab.url = searchURL;
-            break;
-          case 'newWindow':
-            safari.application.openBrowserWindow();
-          case 'curTab':
-            safari.application.activeBrowserWindow.activeTab.url = searchURL;
-            break;
-        }
-          var searchField = document.getElementById("searchField");
-          searchField.value = safari.application.activeBrowserWindow.getSelection;
-    //    safari.self.browserWindow.openTab();
+        var searchURL = "https://duckduckgo.com/?q=" + searchTerms;
 
-  //      safari.application.activeBrowserWindow.activeTab.url = "https://duckduckgo.com/?q=" + searchField.value;
+        var tab = safari.application.activeBrowserWindow.openTab();
+        tab.url = searchURL;
+        tab.activate();
+
     }
+
     function ddgRightClickValidate(event) {
       var selectedText = event.userInfo;
-      if (event.command !== 'ddgRightClickHandler' || selectedText === undefined) {
+      console.log(selectedText);
+      if (event.command !== 'ddg_context' || selectedText === undefined) {
         return;
       }
       if (selectedText.length == 0 || !selectedText) {
         event.target.disabled = true;
       }
-      if (selectedText.length > 30) {
-        selectedText = selectedText.substr(0,30);
-        selectedText = selectedText.replace(/^\s+|\s+$/g,"");
-        selectedText = selectedText + "...";
-      }
+    //if (selectedText.length > 30) {
+    //  selectedText = selectedText.substr(0,30);
+    //  selectedText = selectedText.replace(/^\s+|\s+$/g,"");
+    //  selectedText = selectedText + "...";
+    //}
+      var request = new XMLHttpRequest();  
+      request.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(selectedText) + '&format=json&d=1', false);
+      request.send(null);  
+        
+      var out = [];
+      if (request.status === 200) {  
+          var res = JSON.parse(request.responseText);
+          console.log(res['Type']);
+
+       
+          if (res['AnswerType'] !== "" || 
+              (res['Type'] === 'A' && res['Abstract']  === '') || 
+              res['Type'] === 'E') {
+              out[0] = res['Answer'];       
+              out[1] = 'http://duckduckgo.com/icon16.png';
+          } else if (res['Type'] === 'A' && res['Abstract'] !== '') {
+              out[0] = res['Heading'] + ": " + res['AbstractText'];
+              var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
+              out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
+          } else if (res['Type'] === 'D' && res['Definition'] !== '') { 
+              out[0] = res['Definition'];                                  
+              var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
+              out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
+       
+          }  
+      }  
+ 
       
-      event.target.title = 'Ask Dax about ' + selectedText ;
+      if (out[0])
+        event.target.title = out[0];
+      else
+        event.target.title = 'Ask Dax about ' + selectedText ;
     }
 
     function ddgCheckMessage (event) {

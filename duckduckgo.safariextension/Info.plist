@@ -18,6 +18,17 @@
 	<string>1</string>
 	<key>Chrome</key>
 	<dict>
+		<key>Context Menu Items</key>
+		<array>
+			<dict>
+				<key>Command</key>
+				<string>ddg_context</string>
+				<key>Identifier</key>
+				<string>ddg_context</string>
+				<key>Title</key>
+				<string>Ask Dax</string>
+			</dict>
+		</array>
 		<key>Global Page</key>
 		<string>html/global.html</string>
 		<key>Popovers</key>
@@ -60,6 +71,10 @@
 				<string>js/google.js</string>
 				<string>js/bing.js</string>
 			</array>
+			<key>Start</key>
+			<array>
+				<string>js/contextmenu.js</string>
+			</array>
 		</dict>
 		<key>Stylesheets</key>
 		<array>
@@ -75,16 +90,10 @@
 	<dict>
 		<key>Website Access</key>
 		<dict>
-			<key>Allowed Domains</key>
-			<array>
-				<string>*.google.sk</string>
-				<string>api.duckduckgo.com</string>
-				<string>*.bing.com</string>
-			</array>
 			<key>Include Secure Pages</key>
 			<true/>
 			<key>Level</key>
-			<string>Some</string>
+			<string>All</string>
 		</dict>
 	</dict>
 	<key>Website</key>
