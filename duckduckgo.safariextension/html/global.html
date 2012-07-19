@@ -16,18 +16,14 @@
 
     function ddgRightClickValidate(event) {
       var selectedText = event.userInfo;
-      console.log(selectedText);
+
       if (event.command !== 'ddg_context' || selectedText === undefined) {
         return;
       }
       if (selectedText.length == 0 || !selectedText) {
         event.target.disabled = true;
       }
-    //if (selectedText.length > 30) {
-    //  selectedText = selectedText.substr(0,30);
-    //  selectedText = selectedText.replace(/^\s+|\s+$/g,"");
-    //  selectedText = selectedText + "...";
-    //}
+
       var request = new XMLHttpRequest();  
       request.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(selectedText) + '&format=json&d=1', false);
       request.send(null);  
@@ -35,8 +31,6 @@
       var out = [];
       if (request.status === 200) {  
           var res = JSON.parse(request.responseText);
-          console.log(res['Type']);
-
        
           if (res['AnswerType'] !== "" || 
               (res['Type'] === 'A' && res['Abstract']  === '') || 
