@@ -359,9 +359,10 @@ function search(){
   if(document.getElementById('adv_meanings').checked !== true) {
     special = '&d=1'; 
   }
-
-  if (safari.application.activeBrowserWindow.activeTab.url === undefined) {
-    safari.application.activeTab.url = searchURL;
+  
+  if (safari.application.activeBrowserWindow.activeTab.url === undefined ||
+      safari.application.activeBrowserWindow.activeTab.url === '') {
+    safari.application.activeBrowserWindow.activeTab.url = "https://duckduckgo.com/?q="+encodeURIComponent(input)+special;
   } else {
     var tab = safari.application.activeBrowserWindow.openTab();
     tab.url = "https://duckduckgo.com/?q="+encodeURIComponent(input)+special;
