@@ -48,7 +48,10 @@ if (regexp.test(window.location.href)){
         search(query);
     }
 
-    var lastquery = document.getElementsByName("q")[0].value;
+    if (document.getElementsByName("q").length > 0)
+        var lastquery = document.getElementsByName("q")[0].value;
+    else
+        var lastquery = '';
     // instant search
     document.getElementsByName("q")[0].onkeyup = function(e){
 
@@ -170,8 +173,6 @@ function createResultDiv()
 
 function resultsLoaded()
 {
-        if(options.dev) console.log(document.getElementById("center_col"), document.getElementById("center_col").style.visibility);
-    
     if (document.getElementById("center_col") !== null){
         if (document.getElementById("center_col").style.visibility === "visible") {
             return true;
