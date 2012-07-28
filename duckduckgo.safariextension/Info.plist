@@ -68,12 +68,14 @@
 		<dict>
 			<key>End</key>
 			<array>
-				<string>js/google.js</string>
+				<string>js/common.js</string>
 				<string>js/bing.js</string>
+				<string>js/google.js</string>
 			</array>
 			<key>Start</key>
 			<array>
 				<string>js/contextmenu.js</string>
+				<string>js/jquery.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
