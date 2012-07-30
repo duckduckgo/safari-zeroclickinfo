@@ -474,6 +474,9 @@ function ducky_check(){
 
 function meanings_check(){
   localStorage['meanings'] = document.getElementById('adv_meanings').checked;
+
+  safari.extension.settings.meanings =
+    document.getElementById('adv_meanings').checked === 'true';
 }
 
 </script>

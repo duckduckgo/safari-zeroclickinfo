@@ -14,32 +14,47 @@
  * limitations under the License.
  */
 
-var options = [];
-chrome.extension.sendRequest({options: "get"}, function(opt){
-    for (var option in opt) {
-        options[option] = (opt[option] === 'true') ? true : false; 
+var options = {};
+safari.self.tab.dispatchMessage("get_settings");
+
+safari.self.addEventListener("message", function(event){
+    if (event.name === "set_settings") {
+        if(options.dev) console.log(event.message);
+        options = event.message;
     }
-});
+}, false);
+ 
 
 var ddgBox;
 
-$(document).ready(function(){
-    if (options.zeroclickinfo) {
+var regexp = new RegExp(/^https?:\/\/www\.bing\.com\/.*$/);
+if (regexp.test(window.location.href)) {
+
+    $(document).ready(function(){
         ddgBox = new DuckDuckBox('q', [], 'results_container', false);
 
         ddgBox.search = function(query) {
-            var request = {query: query};
-            chrome.extension.sendRequest(request, function(response){
-                ddgBox.renderZeroClick(response, query);
-            });
+            if (query === undefined)
+                return;
+
+            safari.self.tab.dispatchMessage("request_bing", query);
+            if(options.dev) console.log('sending request', query);
+
+            safari.self.addEventListener("message", function(event){
+                if(options.dev) console.log('message in');
+                if (event.name === "response_bing") {
+                    if(options.dev) console.log(event.message, query);
+                    ddgBox.renderZeroClick(event.message, query);
+                }
+            }, false);
 
             if (options.dev)
                 console.log("query:", query);
         }
 
         ddgBox.init();
-    } 
-});
+    });
+}
 
 var ddg_timer;
 
