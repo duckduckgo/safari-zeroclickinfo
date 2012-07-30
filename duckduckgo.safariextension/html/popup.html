@@ -211,6 +211,12 @@ QmCC">
           Show Meanings
         </label>
       </li> 
+      <li>
+        <input type="checkbox" id="zeroclickinfo" onclick="return zeroclickinfo_check()">
+        <label for="zeroclickinfo">
+          Answers on Google/Bing
+        </label>
+      </li> 
     </ul>
     
   </div>
@@ -274,15 +280,12 @@ if (localStorage['advanced_options'] == undefined){
   localStorage['advanced_options'] = 'true';
 }
 
-
-if (localStorage['ducky'] === 'true') {
-  document.getElementById('adv_ducky').checked = true;  
+if (localStorage['zeroclickinfo'] == undefined){
+  localStorage['zeroclickinfo'] = 'true';
 }
 
-if (localStorage['meanings'] === 'true') {
-  document.getElementById('adv_meanings').checked = true;  
-}
-
+settings_check();
+defaults_check();
 
 if (localStorage['advanced_options'] !== 'true') {
   document.getElementById('icon_advanced').src = 
@@ -474,11 +477,45 @@ function ducky_check(){
 
 function meanings_check(){
   localStorage['meanings'] = document.getElementById('adv_meanings').checked;
-
-  safari.extension.settings.meanings =
-    document.getElementById('adv_meanings').checked === 'true';
+  safari.extension.settings.meanings = ( document.getElementById('adv_meanings').checked === true );
 }
 
+function zeroclickinfo_check(){
+  localStorage['zeroclickinfo'] = document.getElementById('zeroclickinfo').checked;
+  safari.extension.settings.zeroclickinfo = ( document.getElementById('zeroclickinfo').checked === true );
+}
+
+function settings_check() {
+
+  document.getElementById('zeroclickinfo').checked = safari.extension.settings.zeroclickinfo;  
+  if (safari.extension.settings.zeroclickinfo)
+    localStorage['zeroclickinfo'] = 'true';
+  else
+    localStorage['zeroclickinfo'] = 'false';
+
+  document.getElementById('adv_meanings').checked = safari.extension.settings.meanings;  
+  if (safari.extension.settings.meanings)
+    localStorage['meanings'] = 'true';
+  else
+    localStorage['meanings'] = 'false';
+
+
+}
+
+function defaults_check(){
+  if (localStorage['ducky'] === 'true') {
+    document.getElementById('adv_ducky').checked = true;  
+  }
+
+  if (localStorage['meanings'] === 'true') {
+    document.getElementById('adv_meanings').checked = true;  
+  }
+
+  if (localStorage['zeroclickinfo'] === 'true') {
+    document.getElementById('zeroclickinfo').checked = true;  
+  }
+
+}
 </script>
 
 </body></html>

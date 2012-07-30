@@ -99,7 +99,14 @@
       if (event.name === 'get_settings') {
         event.target.page.dispatchMessage('set_settings', safari.extension.settings);
       }
+
     }
+    
+    function ddgSettingChange(event) {
+      safari.extension.popovers[0].contentWindow.settings_check();
+    }
+
+    safari.extension.settings.addEventListener("change", ddgSettingChange, false);
     safari.application.addEventListener("validate", ddgRightClickValidate, false);
     safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("message", ddgCheckMessage, false);
