@@ -12,7 +12,7 @@
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
-  <dict>
+	<dict>
 		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
@@ -29,6 +29,14 @@
 		<string>zeroclickinfo</string>
 		<key>Title</key>
 		<string>Instant answers on Google/Bing</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>Key</key>
+		<string>ddg_locationbar</string>
+		<key>Title</key>
+		<string>Use DuckDuckGo Search in the location bar</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>

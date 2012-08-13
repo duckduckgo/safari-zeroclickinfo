@@ -4,6 +4,7 @@
     <meta charset='utf-8' />
     <title>DuckDuckGo</title>
     <script type="text/javascript">
+    var DDG_URL = 'https://duckduckgo.com/?q=';
     function ddgRightClickCommand(event) {
         var searchTerms = event.userInfo;
         var searchURL = "https://duckduckgo.com/?q=" + searchTerms;
@@ -106,10 +107,58 @@
       safari.extension.popovers[0].contentWindow.settings_check();
     }
 
+    function checkURL(url){
+      var expr = /^(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/i;
+      var regex = RegExp(expr);
+      var about = RegExp(/about:.*/);
+      return url.match(regex) || url.match(about);
+    } 
+
     safari.extension.settings.addEventListener("change", ddgSettingChange, false);
     safari.application.addEventListener("validate", ddgRightClickValidate, false);
     safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("message", ddgCheckMessage, false);
+
+    // Use the new beforeSearch event on Safari 6
+    if (navigator.appVersion.match(/Version\/6.\d Safari/)) {
+        safari.application.addEventListener('beforeSearch', function(evt) {
+          if (!safari.extension.settings.ddg_locationbar) {
+            return;
+          }
+          
+          var query = evt.query;
+          if (!checkURL(query)) {
+            evt.preventDefault();
+            evt.target.url = DDG_URL + decodeURIComponent(query);
+          }
+        }, false);
+    } else {
+    // Use the new old beforeNavigate event on Safari 5
+        safari.application.addEventListener('beforeNavigate', function(evt) {
+            if (!safari.extension.settings.ddg_locationbar) {
+              return;
+            }
+ 
+            //console.log(evt);
+            var url = evt.url;
+
+            if (!url) {
+                return;
+            }
+
+            url = url.replace(/^\w{2,8}:\/\//, '').replace(/\/$/, '');
+            //console.log(url);
+
+            if (!checkURL(url)) {
+              evt.preventDefault();
+              evt.target.url = DDG_URL + decodeURIComponent(url);
+            }
+
+        }, false);
+    }
+
+
+
     </script>
   </head>
 </html>
