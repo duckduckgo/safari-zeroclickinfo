@@ -217,6 +217,13 @@ QmCC">
           Answers on Google/Bing
         </label>
       </li> 
+      <li>
+        <input type="checkbox" id="locationbar" onclick="return locationbar_check()">
+        <label for="locationbar">
+          DuckDuckGo in the address bar
+        </label>
+      </li> 
+ 
     </ul>
     
   </div>
@@ -282,6 +289,10 @@ if (localStorage['advanced_options'] == undefined){
 
 if (localStorage['zeroclickinfo'] == undefined){
   localStorage['zeroclickinfo'] = 'true';
+}
+
+if (localStorage['locationbar'] == undefined){
+  localStorage['locationbar'] = 'true';
 }
 
 settings_check();
@@ -477,12 +488,21 @@ function ducky_check(){
 
 function meanings_check(){
   localStorage['meanings'] = document.getElementById('adv_meanings').checked;
-  safari.extension.settings.meanings = ( document.getElementById('adv_meanings').checked === true );
+  safari.extension.settings.meanings = 
+    ( document.getElementById('adv_meanings').checked === true );
 }
 
 function zeroclickinfo_check(){
   localStorage['zeroclickinfo'] = document.getElementById('zeroclickinfo').checked;
-  safari.extension.settings.zeroclickinfo = ( document.getElementById('zeroclickinfo').checked === true );
+  safari.extension.settings.zeroclickinfo = 
+    ( document.getElementById('zeroclickinfo').checked === true );
+}
+
+function locationbar_check(){
+  localStorage['locationbar'] = document.getElementById('locationbar').checked;
+  safari.extension.settings.ddg_locationbar = 
+    ( document.getElementById('locationbar').checked === true );
+
 }
 
 function settings_check() {
@@ -499,6 +519,12 @@ function settings_check() {
   else
     localStorage['meanings'] = 'false';
 
+  document.getElementById('locationbar').checked =
+    safari.extension.settings.ddg_locationbar;  
+  if (safari.extension.settings.ddg_locationbar)
+    localStorage['locationbar'] = 'true';
+  else
+    localStorage['locationbar'] = 'false';
 
 }
 
@@ -514,6 +540,12 @@ function defaults_check(){
   if (localStorage['zeroclickinfo'] === 'true') {
     document.getElementById('zeroclickinfo').checked = true;  
   }
+
+  if (localStorage['locationbar'] === 'true') {
+    document.getElementById('locationbar').checked = true;  
+  }
+
+
 
 }
 </script>

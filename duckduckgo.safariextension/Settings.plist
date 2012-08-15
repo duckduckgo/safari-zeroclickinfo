@@ -33,10 +33,12 @@
 		<string>CheckBox</string>
 	</dict>
 	<dict>
+		<key>DefaultValue</key>
+		<true/>
 		<key>Key</key>
 		<string>ddg_locationbar</string>
 		<key>Title</key>
-		<string>Use DuckDuckGo Search in the location bar</string>
+		<string>DuckDuckGo in the address bar</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
