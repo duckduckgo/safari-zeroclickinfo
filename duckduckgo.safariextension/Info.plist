@@ -80,8 +80,7 @@
 		</dict>
 		<key>Stylesheets</key>
 		<array>
-			<string>css/google.css</string>
-			<string>css/bing.css</string>
+			<string>css/duckduckbox.css</string>
 		</array>
 		<key>Whitelist</key>
 		<array>

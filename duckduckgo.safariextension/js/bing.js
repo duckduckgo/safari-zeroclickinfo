@@ -31,7 +31,7 @@ var regexp = new RegExp(/^https?:\/\/www\.bing\.com\/.*$/);
 if (regexp.test(window.location.href)) {
 
     $(document).ready(function(){
-        ddgBox = new DuckDuckBox('q', [], 'results_container', false);
+        ddgBox = new DuckDuckBox('q', [], 'results_container', false, 'bing');
 
         ddgBox.search = function(query) {
             if (query === undefined)
