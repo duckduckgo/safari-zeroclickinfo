@@ -476,6 +476,8 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://duckduckgo.com/extensions/duckduckgo.plist</string>
 	<key>Website</key>
 	<string>http://duckduckgo.com</string>
 </dict>
