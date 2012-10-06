@@ -110,7 +110,7 @@
     function checkURL(url){
       var expr = /^(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/i;
       var regex = RegExp(expr);
-      var about = RegExp(/about:.*/);
+      var about = RegExp(/(about|safari-extension):.*/);
       return url.match(regex) || url.match(about);
     } 
 
