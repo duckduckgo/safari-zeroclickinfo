@@ -461,6 +461,7 @@
 			<string>https://*.bing.com/*</string>
 			<string>http://*.bing.com/*</string>
 			<string>http://*/*</string>
+			<string>https://*/*</string>
 		</array>
 	</dict>
 	<key>Description</key>
