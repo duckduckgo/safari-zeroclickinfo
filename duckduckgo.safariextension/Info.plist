@@ -460,6 +460,7 @@
 			<string>https://*.google.co.zw/*</string>
 			<string>https://*.bing.com/*</string>
 			<string>http://*.bing.com/*</string>
+			<string>http://*/*</string>
 		</array>
 	</dict>
 	<key>Description</key>

@@ -17,8 +17,11 @@
 
     function ddgRightClickValidate(event) {
       var selectedText = event.userInfo;
+      if (safari.extension.settings.dev) console.log('selectedText:', selectedText);
 
-      if (event.command !== 'ddg_context' || selectedText === undefined) {
+      if (event.command !== 'ddg_context' || 
+          selectedText === undefined ||
+          selectedText === null) {
         return;
       }
       if (selectedText.length == 0 || !selectedText) {
