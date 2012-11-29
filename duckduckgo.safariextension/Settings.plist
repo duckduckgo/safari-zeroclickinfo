@@ -28,7 +28,7 @@
 		<key>Key</key>
 		<string>rightclick</string>
 		<key>Title</key>
-		<string></string>
+		<string>Answers on right-click</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>

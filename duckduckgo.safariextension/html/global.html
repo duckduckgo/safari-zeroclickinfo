@@ -53,16 +53,15 @@
               (res['Type'] === 'A' && res['Abstract']  === '') || res['Type'] === 'E') {
               out[0] = res['Answer'];       
               out[1] = 'http://duckduckgo.com/icon16.png';
-          } else if (res['Type'] === 'A' && res['Abstract'] !== '') {
-              out[0] = res['Heading'] + ": " + res['AbstractText'];
-              var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
-              out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
           } else if (res['Type'] === 'D' && res['Definition'] !== '') { 
               out[0] = res['Definition'];                                  
               var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
               out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
-       
-          }  
+          } else if (res['Type'] === 'A' && res['Abstract'] !== '') {
+              out[0] = res['Heading'] + ": " + res['AbstractText'];
+              var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
+              out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
+          }   
       }  
  
       
