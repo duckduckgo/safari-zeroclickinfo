@@ -26,6 +26,9 @@
     }
 
     function ddgRightClickValidate(event) {
+      if (!safari.extension.settings.rightclick)
+        return;
+
       var selectedText = event.userInfo;
       if (safari.extension.settings.dev) console.log('selectedText:', selectedText);
 
@@ -128,8 +131,10 @@
     } 
 
     safari.extension.settings.addEventListener("change", ddgSettingChange, false);
-    safari.application.addEventListener("validate", ddgRightClickValidate, false);
-    safari.application.addEventListener("command", ddgRightClickCommand, false);
+    if (safari.extension.settings.rightclick) {
+      safari.application.addEventListener("validate", ddgRightClickValidate, false);
+      safari.application.addEventListener("command", ddgRightClickCommand, false);
+    }
     safari.application.addEventListener("message", ddgCheckMessage, false);
 
     // Use the new beforeSearch event on Safari 6

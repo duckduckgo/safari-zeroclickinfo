@@ -26,6 +26,16 @@
 		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
+		<string>rightclick</string>
+		<key>Title</key>
+		<string></string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
 		<string>zeroclickinfo</string>
 		<key>Title</key>
 		<string>Instant answers on Google/Bing</string>
