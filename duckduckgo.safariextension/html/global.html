@@ -24,7 +24,7 @@
         append = '...';
 
       subtext = text.substr(0, limit);
-      subtext.replace(/\s+\S*$/, "");
+      subtext = subtext.replace(/\s+\S*$/, "");
 
       return subtext + ' ' + append;
     }
