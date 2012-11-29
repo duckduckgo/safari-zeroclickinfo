@@ -15,6 +15,16 @@
 
     }
 
+    function truncate(text, limit, append) {
+      if (!append) 
+        append = '...';
+
+      subtext = text.substr(0, limit);
+      subtext.replace(/\s+\S*$/, "");
+
+      return text + ' ' + append;
+    }
+
     function ddgRightClickValidate(event) {
       var selectedText = event.userInfo;
       if (safari.extension.settings.dev) console.log('selectedText:', selectedText);
@@ -54,7 +64,7 @@
  
       
       if (out[0])
-        event.target.title = out[0];
+        event.target.title = truncate(out[0], 40);
       else
         event.target.title = 'Ask Dax about ' + selectedText ;
     }
