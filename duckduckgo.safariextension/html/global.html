@@ -6,6 +6,10 @@
     <script type="text/javascript">
     var DDG_URL = 'https://duckduckgo.com/?q=';
     function ddgRightClickCommand(event) {
+        if (!safari.extension.settings.rightclick) {
+          return;
+        }
+
         var searchTerms = event.userInfo;
         var searchURL = "https://duckduckgo.com/?q=" + searchTerms;
 
@@ -130,10 +134,8 @@
     } 
 
     safari.extension.settings.addEventListener("change", ddgSettingChange, false);
-    if (safari.extension.settings.rightclick) {
-      safari.application.addEventListener("validate", ddgRightClickValidate, false);
-      safari.application.addEventListener("command", ddgRightClickCommand, false);
-    }
+    safari.application.addEventListener("validate", ddgRightClickValidate, false);
+    safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("message", ddgCheckMessage, false);
 
     // Use the new beforeSearch event on Safari 6
