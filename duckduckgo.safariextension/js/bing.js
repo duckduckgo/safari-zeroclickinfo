@@ -83,7 +83,7 @@ function qsearch(direct) {
 } 
 
 // instant search
-document.getElementsByName('q')[0].onkeyup = function(e){
+$("[name='q']").bind('keyup', function(e){
 
     query = getQuery();
     if(ddgBox.lastQuery !== query && query !== '')
@@ -99,9 +99,9 @@ document.getElementsByName('q')[0].onkeyup = function(e){
 
     clearTimeout(ddg_timer);
     ddg_timer = setTimeout(fn, 700);
-};
+});
 
-document.getElementsByName("go")[0].onclick = function(){
+$("[name='go']").bind('click', function(){
     qsearch();
-};
+});
 
