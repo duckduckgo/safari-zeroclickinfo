@@ -31,7 +31,7 @@ var regexp = new RegExp(/^https?:\/\/(www|encrypted)\.google\..*\/.*$/);
 if (regexp.test(window.location.href)) {
 
     $(document).ready(function(){
-        ddgBox = new DuckDuckBox('q', ['isr_pps'], 'center_col', true, 'google');
+        ddgBox = new DuckDuckBox('q', ['rg_s'], 'center_col', true, 'google');
 
         ddgBox.search = function(query) {
             if (query === undefined)
