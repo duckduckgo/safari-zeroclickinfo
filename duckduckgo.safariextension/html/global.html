@@ -20,7 +20,7 @@
     }
 
     function truncate(text, limit, append) {
-      if (!append) 
+      if (!append)
         append = '...';
 
       subtext = text.substr(0, limit);
@@ -36,7 +36,7 @@
       var selectedText = event.userInfo;
       if (safari.extension.settings.dev) console.log('selectedText:', selectedText);
 
-      if (event.command !== 'ddg_context' || 
+      if (event.command !== 'ddg_context' ||
           selectedText === undefined ||
           selectedText === null) {
         return;
@@ -45,30 +45,30 @@
         event.target.disabled = true;
       }
 
-      var request = new XMLHttpRequest();  
+      var request = new XMLHttpRequest();
       request.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(selectedText) + '&format=json&d=1', false);
-      request.send(null);  
-        
+      request.send(null);
+
       var out = [];
-      if (request.status === 200) {  
+      if (request.status === 200) {
           var res = JSON.parse(request.responseText);
-       
-          if (res['AnswerType'] !== "" || 
+
+          if (res['AnswerType'] !== "" ||
               (res['Type'] === 'A' && res['Abstract']  === '') || res['Type'] === 'E') {
-              out[0] = res['Answer'];       
+              out[0] = res['Answer'];
               out[1] = 'http://duckduckgo.com/icon16.png';
-          } else if (res['Type'] === 'D' && res['Definition'] !== '') { 
-              out[0] = res['Definition'];                                  
+          } else if (res['Type'] === 'D' && res['Definition'] !== '') {
+              out[0] = res['Definition'];
               var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
               out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
           } else if (res['Type'] === 'A' && res['Abstract'] !== '') {
               out[0] = res['Heading'] + ": " + res['AbstractText'];
               var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
               out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
-          }   
-      }  
- 
-      
+          }
+      }
+
+
       if (out[0])
         event.target.title = truncate(out[0], 40);
       else
@@ -90,12 +90,12 @@
                 req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
 
             req.onreadystatechange = function(data) {
-                if (req.readyState != 4)  { return; } 
+                if (req.readyState != 4)  { return; }
                 var res = JSON.parse(req.responseText);
                 event.target.page.dispatchMessage('response_google', res);
             }
             req.send(null);
-      }  
+      }
       if (event.name === 'request_bing') {
             if (safari.extension.settings.zeroclickinfo !== true) {
               event.target.page.dispatchMessage('response_bing', '');
@@ -110,7 +110,7 @@
                 req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
 
             req.onreadystatechange = function(data) {
-                if (req.readyState != 4)  { return; } 
+                if (req.readyState != 4)  { return; }
                 var res = JSON.parse(req.responseText);
                 event.target.page.dispatchMessage('response_bing', res);
             }
@@ -121,7 +121,7 @@
       }
 
     }
-    
+
     function ddgSettingChange(event) {
       safari.extension.popovers[0].contentWindow.settings_check();
     }
@@ -131,7 +131,7 @@
       var regex = RegExp(expr);
       var about = RegExp(/(about|safari-extension):.*/);
       return url.match(regex) || url.match(about);
-    } 
+    }
 
     safari.extension.settings.addEventListener("change", ddgSettingChange, false);
     safari.application.addEventListener("validate", ddgRightClickValidate, false);
@@ -144,10 +144,11 @@
           if (!safari.extension.settings.ddg_locationbar) {
             return;
           }
-          
+
           var query = evt.query;
           if (!checkURL(query)) {
             evt.preventDefault();
+            if (safari.extension.settings.dev) console.log('query:', query);
             evt.target.url = DDG_URL + decodeURIComponent(query);
           }
         }, false);
@@ -157,7 +158,7 @@
             if (!safari.extension.settings.ddg_locationbar) {
               return;
             }
- 
+
             //console.log(evt);
             var url = evt.url;
 
