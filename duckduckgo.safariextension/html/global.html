@@ -149,7 +149,7 @@
           if (!checkURL(query)) {
             evt.preventDefault();
             if (safari.extension.settings.dev) console.log('query:', query);
-            evt.target.url = DDG_URL + decodeURIComponent(query);
+            evt.target.url = DDG_URL + encodeURIComponent(query);
           }
         }, false);
     } else {
