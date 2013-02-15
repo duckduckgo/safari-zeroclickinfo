@@ -10,9 +10,9 @@
        <key>Developer Identifier</key>
        <string>HKE973VLUW</string>
        <key>CFBundleVersion</key>
-       <string>19</string>
+       <string>20</string>
        <key>CFBundleShortVersionString</key>
-       <string>1.1</string>
+       <string>1.2</string>
        <key>URL</key>
        <string>http://duckduckgo.com/extensions/duckduckgo.safariextz</string>
      </dict>
