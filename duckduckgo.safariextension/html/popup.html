@@ -299,6 +299,9 @@ if (localStorage['locationbar'] == undefined){
   localStorage['locationbar'] = 'true';
 }
 
+if (localStorage['last_search'] != '') {
+ document.getElementById('search_form_input_homepage').value = localStorage['last_search'];
+}
 
 settings_check();
 defaults_check();
@@ -369,6 +372,8 @@ window.addEventListener("load", function(){
 
 function search(){
   var input = document.getElementById("search_form_input_homepage").value;
+
+  localStorage['last_search'] = input;
 
   if (document.getElementById('adv_ducky').checked === true) {
     input = "\\" + input;

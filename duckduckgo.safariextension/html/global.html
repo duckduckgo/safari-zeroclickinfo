@@ -5,6 +5,8 @@
     <title>DuckDuckGo</title>
     <script type="text/javascript">
     var DDG_URL = 'https://duckduckgo.com/?q=';
+    localStorage['last_search'] = '';
+
     function ddgRightClickCommand(event) {
         if (!safari.extension.settings.rightclick) {
           return;
