@@ -168,7 +168,7 @@ body {
 <div id="search_wrapper_homepage">
   <input id="search_button_homepage" type="submit" value="" />
 </div>
-<input id="search_form_input_clear" type="button" value="" tabindex="3"></input>
+<input id="search_form_input_clear" type="button" value="" tabindex="3" onclick="search_form_input_clear();"></input>
 <input type="text" autocomplete="off" placeholder="Search DuckDuckGo..."
   name="q" id="search_form_input_homepage"
   onFocus="if ('rc' in window) {nua('nro',rc)};fq=1;" onBlur="fq=0" onclick="if (this.value=='put search terms here') {this.value='';this.style.color='#000000';}" value="">
@@ -583,6 +583,13 @@ function openTab(url) {
   tab.activate();
 
 }
+
+function search_input_clear() {
+    document.getElementById('search_form_input_homepage').value = '';
+    document.getElementById("search_form_input_clear").style.background = '#fff';
+    document.getElementById('search_form_input_homepage').focus();
+}
+
 </script>
 
 </body></html>
