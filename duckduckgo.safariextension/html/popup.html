@@ -147,6 +147,16 @@ body {
   padding-left: 1px;
 }
 
+#search_form_input_clear {
+  height: 39px;
+  border: #8d8d8d solid 1px !important;
+  border-right: 0 !important;
+  border-left: 0 !important;
+  font-size: 18px;
+  -webkit-box-shadow: inset -1px 0px 2px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: inset -1px 0px 2px rgba(0, 0, 0, 0.3) !important;
+  background: #fff;
+}
 
 </style>
 </head>
@@ -301,6 +311,8 @@ if (localStorage['locationbar'] == undefined){
 
 if (localStorage['last_search'] != '') {
  document.getElementById('search_form_input_homepage').value = localStorage['last_search'];
+ document.getElementById("search_form_input_clear").style.background = '#fff url("https://duckduckgo.com/assets/icon_xon.v101.png") no-repeat left center';
+
 }
 
 settings_check();
@@ -356,12 +368,14 @@ window.addEventListener("load", function(){
   YAHOO.util.Dom.get("search_form_input_homepage").onkeydown = function(){
     if (this.value == prefill_text)
       this.value = '';
+      document.getElementById("search_form_input_clear").style.background = '#fff url("https://duckduckgo.com/assets/icon_xon.v101.png") no-repeat left center';
 
       this.style.color = '#000000';
   };
   YAHOO.util.Dom.get("search_form_input_homepage").onkeyup = function(){
     if (this.value == '') {
       this.style.color = '#999999';
+      document.getElementById("search_form_input_clear").style.background = '#fff';
 
       this.value = prefill_text;
       document.getElementById('search_form_input_homepage').focus();
