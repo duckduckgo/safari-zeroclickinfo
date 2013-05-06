@@ -153,8 +153,8 @@ body {
   border-right: 0 !important;
   border-left: 0 !important;
   font-size: 18px;
-  -webkit-box-shadow: inset -1px 0px 2px rgba(0, 0, 0, 0.3) !important;
-  box-shadow: inset -1px 0px 2px rgba(0, 0, 0, 0.3) !important;
+  -webkit-box-shadow: inset -1px 0px 2px 0px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: inset -1px 0px 2px 0px rgba(0, 0, 0, 0.3) !important;
   background: #fff;
 }
 
@@ -360,11 +360,6 @@ if (localStorage['advanced_options'] !== 'true') {
 
 window.addEventListener("load", function(){
   document.getElementById("search_form_input_homepage").focus();
-
-  var search_form_input_homepage = document.getElementById('search_form_input_homepage');
-  search_form_input_homepage.style.color = '#999999';
-  search_form_input_homepage.value = prefill_text;
-  eval("search_form_input_homepage.onclick = function() {if (this.value=='" + prefill_text + "') {this.value='';this.style.color='#000000';}}");
 
   document.getElementById("search_form_input_homepage").onkeydown = function(){
       document.getElementById("search_form_input_clear").style.background = '#fff url("https://duckduckgo.com/assets/icon_xon.v101.png") no-repeat left center';
