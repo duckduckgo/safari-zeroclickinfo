@@ -2,7 +2,6 @@
 <head>
 <title>DuckDuckGo</title>
 <link rel="stylesheet" href="http://duckduckgo.com/s427.css" type="text/css">
-<script type="text/javascript" src="http://duckduckgo.com/d785.js"></script>
 <style type="text/css">
 html {
   overflow: hidden;
@@ -360,21 +359,21 @@ if (localStorage['advanced_options'] !== 'true') {
 
 
 window.addEventListener("load", function(){
-  YAHOO.util.Dom.get("search_form_input_homepage").focus();
+  document.getElementById("search_form_input_homepage").focus();
 
   var search_form_input_homepage = document.getElementById('search_form_input_homepage');
   search_form_input_homepage.style.color = '#999999';
   search_form_input_homepage.value = prefill_text;
   eval("search_form_input_homepage.onclick = function() {if (this.value=='" + prefill_text + "') {this.value='';this.style.color='#000000';}}");
 
-  YAHOO.util.Dom.get("search_form_input_homepage").onkeydown = function(){
+  document.getElementById("search_form_input_homepage").onkeydown = function(){
     if (this.value == prefill_text)
       this.value = '';
       document.getElementById("search_form_input_clear").style.background = '#fff url("https://duckduckgo.com/assets/icon_xon.v101.png") no-repeat left center';
 
       this.style.color = '#000000';
   };
-  YAHOO.util.Dom.get("search_form_input_homepage").onkeyup = function(){
+  document.getElementById("search_form_input_homepage").onkeyup = function(){
     if (this.value == '') {
       this.style.color = '#999999';
       document.getElementById("search_form_input_clear").style.background = '#fff';
