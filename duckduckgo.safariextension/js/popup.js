@@ -86,7 +86,8 @@ window.addEventListener("load", function(){
 function search(){
   var input = document.getElementById("search_form_input_homepage").value;
 
-  localStorage['last_search'] = input;
+  if (safari.extension.settings.rightclick)
+    localStorage['last_search'] = input;
 
   if (document.getElementById('adv_ducky').checked === true) {
     input = "\\" + input;
@@ -251,6 +252,9 @@ function settings_check() {
     localStorage['locationbar'] = 'true';
   else
     localStorage['locationbar'] = 'false';
+
+  if (!safari.extension.remember_last_search)
+      localStorage['last_search'] = '';
 
 }
 
