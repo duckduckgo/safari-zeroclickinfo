@@ -66,7 +66,7 @@ window.addEventListener("load", function(){
     document.getElementById("search_form_input_clear").style.background = '#fff url("https://duckduckgo.com/assets/icon_xon.v101.png") no-repeat left center';
 
   } else {
-   document.getElementById("search_form_input_homepage").focus();
+   search_input_clear();
   }
 
   document.getElementById("search_form_input_homepage").onkeydown = function(){
@@ -88,6 +88,8 @@ function search(){
  
   if (safari.extension.settings.remember_last_search) {
     localStorage['last_search'] = input;
+  } else {
+  
   }
 
   if (safari.extension.settings.dev) console.log('remember_last_search:', safari.extension.settings.remember_last_search);
