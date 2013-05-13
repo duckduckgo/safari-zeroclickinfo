@@ -61,7 +61,7 @@ if (localStorage['advanced_options'] !== 'true') {
 
 
 window.addEventListener("load", function(){
-  if (localStorage['last_search'] != '') {
+  if (localStorage['last_search'] != '' && safari.extension.settings.remember_last_search) {
     document.getElementById('search_form_input_homepage').value = localStorage['last_search'];
     document.getElementById("search_form_input_clear").style.background = '#fff url("https://duckduckgo.com/assets/icon_xon.v101.png") no-repeat left center';
 
@@ -89,7 +89,7 @@ function search(){
   if (safari.extension.settings.remember_last_search) {
     localStorage['last_search'] = input;
   } else {
-  
+    search_input_clear();
   }
 
   if (safari.extension.settings.dev) console.log('remember_last_search:', safari.extension.settings.remember_last_search);
