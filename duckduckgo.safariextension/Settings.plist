@@ -52,5 +52,15 @@
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>remember_last_search</string>
+		<key>Title</key>
+		<string>Remember last search</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
 </array>
 </plist>
