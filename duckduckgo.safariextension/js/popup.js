@@ -64,7 +64,6 @@ window.addEventListener("load", function(){
   if (localStorage['last_search'] != '' && safari.extension.settings.remember_last_search) {
     document.getElementById('search_form_input_homepage').value = localStorage['last_search'];
     document.getElementById("search_form_input_clear").style.background = '#fff url("https://duckduckgo.com/assets/icon_xon.v101.png") no-repeat left center';
-
   } else {
    search_input_clear();
   }
