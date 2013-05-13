@@ -90,6 +90,8 @@ function search(){
     localStorage['last_search'] = input;
   }
 
+  if (safari.extension.settings.dev) console.log('remember_last_search:', safari.extension.settings.remember_last_search);
+
   if (document.getElementById('adv_ducky').checked === true) {
     input = "\\" + input;
   }
