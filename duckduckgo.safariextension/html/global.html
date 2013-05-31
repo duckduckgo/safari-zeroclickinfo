@@ -131,8 +131,9 @@
     function checkURL(url){
       var expr = /^(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/i;
       var regex = RegExp(expr);
+      var localhost = RegExp(/^(https?:\/\/)?localhost(:\d+)?/i)
       var about = RegExp(/(about|safari-extension):.*/);
-      return url.match(regex) || url.match(about);
+      return url.match(regex) || url.match(about) || url.match(localhost);
     }
 
     safari.extension.settings.addEventListener("change", ddgSettingChange, false);
