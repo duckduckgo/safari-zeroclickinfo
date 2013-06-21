@@ -141,8 +141,8 @@
     safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("message", ddgCheckMessage, false);
 
-    // Use the new beforeSearch event on Safari 6
-    if (navigator.appVersion.match(/Version\/6.*/)) {
+    // Use the beforeSearch event if it is available
+    if (window.SafariBeforeSearchEvent)) {
         safari.application.addEventListener('beforeSearch', function(evt) {
           if (!safari.extension.settings.ddg_locationbar) {
             return;
