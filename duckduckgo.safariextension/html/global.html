@@ -142,7 +142,7 @@
     safari.application.addEventListener("message", ddgCheckMessage, false);
 
     // Use the beforeSearch event if it is available
-    if (window.SafariBeforeSearchEvent)) {
+    if ('beforeSearch' in safari.application)) {
         safari.application.addEventListener('beforeSearch', function(evt) {
           if (!safari.extension.settings.ddg_locationbar) {
             return;
@@ -176,7 +176,6 @@
               evt.preventDefault();
               evt.target.url = DDG_URL + decodeURIComponent(url);
             }
-
         }, false);
     }
 
