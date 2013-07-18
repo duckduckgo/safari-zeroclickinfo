@@ -32,8 +32,10 @@
     }
 
     function ddgRightClickValidate(event) {
-      if (!safari.extension.settings.rightclick)
-        return;
+      if (!safari.extension.settings.rightclick) {
+         event.preventDefault();
+      }
+
 
       var selectedText = event.userInfo;
       if (safari.extension.settings.dev) console.log('selectedText:', selectedText);
