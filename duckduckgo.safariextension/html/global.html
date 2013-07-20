@@ -24,6 +24,7 @@
     function ddgContextMenu(event) {
         if (!safari.extension.settings.rightclick) {
             event.preventDefault();
+            event.contextMenu.contextMenuItems[0].disabled = true;
             if (safari.extension.settings.dev) console.log('hiding context menu', event);
             return;
         }
