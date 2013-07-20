@@ -9,8 +9,7 @@
 
     function ddgRightClickCommand(event) {
         if (!safari.extension.settings.rightclick) {
-          event.preventDefault();
-          return;
+         return;
         }
 
         var searchTerms = event.userInfo;
@@ -20,6 +19,14 @@
         tab.url = searchURL;
         tab.activate();
 
+    }
+
+    function ddgContextMenu(event) {
+        if (!safari.extension.settings.rightclick) {
+            if (safari.extension.settings.dev) console.log('', event);
+            event.preventDefault();
+            return;
+        }
     }
 
     function truncate(text, limit, append) {
@@ -143,6 +150,7 @@
     safari.extension.settings.addEventListener("change", ddgSettingChange, false);
     safari.application.addEventListener("validate", ddgRightClickValidate, false);
     safari.application.addEventListener("command", ddgRightClickCommand, false);
+    safari.application.addEventListener("contextmenu", ddgContextMenu, false);
     safari.application.addEventListener("message", ddgCheckMessage, false);
 
     // Use the beforeSearch event if it is available
