@@ -9,6 +9,7 @@
 
     function ddgRightClickCommand(event) {
         if (!safari.extension.settings.rightclick) {
+          event.preventDefault();
           return;
         }
 
@@ -34,6 +35,7 @@
     function ddgRightClickValidate(event) {
       if (!safari.extension.settings.rightclick) {
          event.preventDefault();
+         return;
       }
 
 
