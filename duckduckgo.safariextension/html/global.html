@@ -23,7 +23,7 @@
 
     function ddgContextMenu(event) {
         if (!safari.extension.settings.rightclick) {
-            if (safari.extension.settings.dev) console.log('', event);
+            if (safari.extension.settings.dev) console.log('hiding context menu', event);
             event.preventDefault();
             return;
         }
