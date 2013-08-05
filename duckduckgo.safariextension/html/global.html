@@ -145,8 +145,8 @@
       var regex = RegExp(expr);
       var localhost = RegExp(/^(https?:\/\/)?localhost(:\d+)?/i)
       var about = RegExp(/(about|safari-extension):.*/);
-      var nums = RegExp(/^(\d+\./\d+).*/i)
-      return (url.match(regex) || url.match(about) || url.match(localhost)) && !url.match(nums);
+      var nums = RegExp(/^(\d+\.\d+).*/i);
+      return (url.match(regex) || url.match(about) || url.match(localhost)) && !url.match(nums) ;
     }
 
     safari.extension.settings.addEventListener("change", ddgSettingChange, false);
