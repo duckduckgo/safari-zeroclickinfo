@@ -5,7 +5,7 @@
     <title>DuckDuckGo</title>
     <script type="text/javascript">
     var DDG_URL = 'https://duckduckgo.com/?q=';
-    var THANKS_URL = 'http://duckduckgo.com/extensions/thanks/';
+    var THANKS_URL = 'https://duckduckgo.com/extensions/thanks/';
     localStorage['last_search'] = '';
 
     function openTab(url) {
@@ -17,13 +17,14 @@
 
     if (safari.extension.displayVersion != localStorage['last_version']) {
       if (localStorage['last_version'] == undefined) {
-        openTab()
-
+        openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
       } else {
         var path = '?from=' + localStorage['last_version'] +
                    '&to=' + safari.extension.displayVersion;
-
+        openTab(THANKS_URL + path);
       }
+
+      localStorage['last_version'] = safari.extension.displayVersion;
     }
 
 
