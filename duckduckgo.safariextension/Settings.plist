@@ -4,16 +4,6 @@
 <array>
 	<dict>
 		<key>DefaultValue</key>
-		<false/>
-		<key>Key</key>
-		<string>dev</string>
-		<key>Title</key>
-		<string>Developer Mode</string>
-		<key>Type</key>
-		<string>CheckBox</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
 		<string>meanings</string>
@@ -59,6 +49,16 @@
 		<string>remember_last_search</string>
 		<key>Title</key>
 		<string>Remember last search</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<false/>
+		<key>Key</key>
+		<string>dev</string>
+		<key>Title</key>
+		<string>Show debug information</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
