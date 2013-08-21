@@ -17,7 +17,7 @@
 
     if (safari.extension.displayVersion != localStorage['last_version']) {
       if (localStorage['last_version'] == undefined &&
-          safari.extension.displayVersion !== '1.4.7') {
+          safari.extension.displayVersion !== '1.4.6') {
         openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
       } else {
         var path = '?from=' + localStorage['last_version'] +
