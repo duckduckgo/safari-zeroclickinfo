@@ -98,10 +98,9 @@ function search(){
   }
 
   var special = '';
-  if(document.getElementById('adv_meanings').checked !== true) {
+  if(safari.extension.settings.meanings !== true) {
     special = '&d=1';
   }
-
 
   if (safari.application.activeBrowserWindow.activeTab.url === undefined ||
       safari.application.activeBrowserWindow.activeTab.url === '') {
@@ -248,12 +247,6 @@ function settings_check() {
   else
     localStorage['zeroclickinfo'] = 'false';
 
-  document.getElementById('adv_meanings').checked = safari.extension.settings.meanings;
-  if (safari.extension.settings.meanings)
-    localStorage['meanings'] = 'true';
-  else
-    localStorage['meanings'] = 'false';
-
   document.getElementById('locationbar').checked =
     safari.extension.settings.ddg_locationbar;
   if (safari.extension.settings.ddg_locationbar)
@@ -269,10 +262,6 @@ function settings_check() {
 function defaults_check(){
   if (localStorage['ducky'] === 'true') {
     document.getElementById('adv_ducky').checked = true;
-  }
-
-  if (localStorage['meanings'] === 'true') {
-    document.getElementById('adv_meanings').checked = true;
   }
 
   if (localStorage['zeroclickinfo'] === 'true') {
