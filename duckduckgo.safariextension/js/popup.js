@@ -1,8 +1,5 @@
 var prefill_text = 'Search DuckDuckGo...';
 
-if (localStorage['meanings'] == undefined) {
-  localStorage['meanings'] = 'true';
-}
 
 if (localStorage['advanced_options'] == undefined){
   localStorage['advanced_options'] = 'true';
@@ -220,11 +217,6 @@ function ducky_check(){
   localStorage['ducky'] = document.getElementById('adv_ducky').checked;
 }
 
-function meanings_check(){
-  localStorage['meanings'] = document.getElementById('adv_meanings').checked;
-  safari.extension.settings.meanings =
-    ( document.getElementById('adv_meanings').checked === true );
-}
 
 function zeroclickinfo_check(){
   localStorage['zeroclickinfo'] = document.getElementById('zeroclickinfo').checked;
