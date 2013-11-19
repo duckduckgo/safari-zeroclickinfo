@@ -15,8 +15,22 @@
 
     }
 
+    var VersionManager = {
+        ignoredVersions: [],
+        addIgnoredVersions: function (vers) {
+            this.ignoredVersions = this.ignoredVersions.concat(vers);
+        },
+        isIgnored: function (ver) {
+            return (this.ignoredVersions.indexOf(ver) != -1);
+        }
+    };
+
+    VersionManager.addIgnoredVersions(['1.4.11'])
+
     if (safari.extension.displayVersion != localStorage['last_version']) {
-      if (safari.extension.settings.updatepage) {
+      // only show the updatepage if the option is on and also the version is
+      // not ignored
+      if (safari.extension.settings.updatepage && !VersionManager.isIgnored(safari.extension.displayVersion)) {
         if (localStorage['last_version'] == undefined) {
           openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
         } else {
