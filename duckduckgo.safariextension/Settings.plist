@@ -56,6 +56,16 @@
 		<key>DefaultValue</key>
 		<false/>
 		<key>Key</key>
+		<string>updatepage</string>
+		<key>Title</key>
+		<string>Show changelog in new tab after updating the extension</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<false/>
+		<key>Key</key>
 		<string>dev</string>
 		<key>Title</key>
 		<string>Show debug information</string>
