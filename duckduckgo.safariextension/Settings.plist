@@ -18,7 +18,7 @@
 		<key>Key</key>
 		<string>meanings</string>
 		<key>Title</key>
-		<string>Show meanings</string>
+		<string>Show meanings instant answers</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
@@ -38,7 +38,7 @@
 		<key>Key</key>
 		<string>rightclick</string>
 		<key>Title</key>
-		<string>Answers on right click (when you highlight words)</string>
+		<string>Instant answers on right-click (when you highlight words)</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
