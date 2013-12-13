@@ -26,16 +26,18 @@
     };
 
     if (safari.extension.displayVersion != localStorage['last_version']) {
-      // only show the updatepage if the option is on and also the version is
-      // not ignored
-      if (safari.extension.settings.updatepage &&
-          VersionManager.isMajorUpdate(safari.extension.displayVersion)) {
+      // following the updatepage setting
+      if (safari.extension.settings.updatepage) {
         if (localStorage['last_version'] == undefined) {
           openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
         } else {
           var path = '?from=' + localStorage['last_version'] +
                      '&to=' + safari.extension.displayVersion;
-          openTab(THANKS_URL + path);
+
+          // show update page if the current version is considered a major update
+          if (VersionManager.isMajorUpdate(safari.extension.displayVersion)) {
+            openTab(THANKS_URL + path);
+          }
         }
       }
 
