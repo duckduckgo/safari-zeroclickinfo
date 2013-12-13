@@ -8,6 +8,8 @@
     var THANKS_URL = 'https://duckduckgo.com/extensions/thanks/';
     localStorage['last_search'] = '';
 
+  window.onload = function() {
+
     function openTab(url) {
       var tab = safari.application.activeBrowserWindow.openTab();
       tab.url = url;
@@ -234,7 +236,7 @@
         }, false);
     }
 
-
+  }
 
     </script>
   </head>
