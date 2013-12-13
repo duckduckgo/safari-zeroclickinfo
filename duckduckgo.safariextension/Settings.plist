@@ -6,29 +6,19 @@
 		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
-		<string>zeroclickinfo</string>
-		<key>Title</key>
-		<string>Show instant answers on Google/Bing (on top of links)</string>
-		<key>Type</key>
-		<string>CheckBox</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<true/>
-		<key>Key</key>
-		<string>meanings</string>
-		<key>Title</key>
-		<string>Show meanings instant answers</string>
-		<key>Type</key>
-		<string>CheckBox</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<true/>
-		<key>Key</key>
 		<string>ddg_locationbar</string>
 		<key>Title</key>
 		<string>DuckDuckGo as default (in Smart Search field)</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>remember_last_search</string>
+		<key>Title</key>
+		<string>Remember last search in the popup</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
@@ -46,9 +36,19 @@
 		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
-		<string>remember_last_search</string>
+		<string>zeroclickinfo</string>
 		<key>Title</key>
-		<string>Remember last search in the popup</string>
+		<string>Show instant answers on Google/Bing (on top of links)</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>meanings</string>
+		<key>Title</key>
+		<string>Show meanings instant answers</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
