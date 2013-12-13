@@ -28,7 +28,7 @@
     if (safari.extension.displayVersion != localStorage['last_version']) {
       // following the updatepage setting
       if (safari.extension.settings.updatepage) {
-        console.log(localStorage['last_version']);
+        openTab(THANKS_URL + '?x=' + localStorage['last_version']);
         if (localStorage['last_version'] == undefined) {
           openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
         } else {
