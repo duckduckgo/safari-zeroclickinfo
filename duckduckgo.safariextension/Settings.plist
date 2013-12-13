@@ -8,7 +8,7 @@
 		<key>Key</key>
 		<string>zeroclickinfo</string>
 		<key>Title</key>
-		<string>Answers on Google/Bing (on top of links)</string>
+		<string>Show instant answers on Google/Bing (on top of links)</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
@@ -28,7 +28,7 @@
 		<key>Key</key>
 		<string>ddg_locationbar</string>
 		<key>Title</key>
-		<string>DuckDuckGo as default (in address bar)</string>
+		<string>DuckDuckGo as default (in Smart Search field)</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
@@ -38,7 +38,7 @@
 		<key>Key</key>
 		<string>rightclick</string>
 		<key>Title</key>
-		<string>Instant answers on right-click (when you highlight words)</string>
+		<string>Show right click instant answers (when you highlight words)</string>
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
