@@ -80,6 +80,7 @@ window.addEventListener("load", function(){
 
 
   document.getElementById('search_form_input_homepage').focus();
+  // https://developer.mozilla.org/en-US/docs/Web/API/Input.select
   document.getElementById('search_form_input_homepage').setSelectionRange(0, 9999);
 });
 
