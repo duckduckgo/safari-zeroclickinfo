@@ -224,6 +224,12 @@ function zeroclickinfo_check(){
     ( document.getElementById('zeroclickinfo').checked === true );
 }
 
+function remember_last_search_check(){
+  localStorage['remember_last_search'] = document.getElementById('remember_last_search').checked;
+  safari.extension.settings.zeroclickinfo =
+    ( document.getElementById('remember_last_search').checked === true );
+}
+
 function locationbar_check(){
   localStorage['locationbar'] = document.getElementById('locationbar').checked;
   safari.extension.settings.ddg_locationbar =
@@ -245,6 +251,14 @@ function settings_check() {
     localStorage['locationbar'] = 'true';
   else
     localStorage['locationbar'] = 'false';
+
+
+  document.getElementById('remember_last_search').checked = safari.extension.settings.remember_last_search;
+
+  if (safari.extension.settings.remember_last_search)
+    localStorage['remember_last_search'] = 'true';
+  else
+    localStorage['remember_last_search'] = 'false';
 
   if (!safari.extension.settings.remember_last_search)
       localStorage['last_search'] = '';
