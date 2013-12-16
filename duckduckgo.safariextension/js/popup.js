@@ -65,7 +65,6 @@ window.addEventListener("load", function(){
    search_input_clear();
   }
 
-  document.getElementById('search_form_input_homepage').select();
 
   document.getElementById("search_form_input_homepage").onkeydown = function(){
       document.getElementById("search_form_input_clear").style.background = '#fff url("https://duckduckgo.com/assets/icon_xon.v101.png") no-repeat left center';
@@ -78,6 +77,9 @@ window.addEventListener("load", function(){
       document.getElementById('search_form_input_homepage').focus();
     }
   };
+
+
+  document.getElementById('search_form_input_homepage').select();
 });
 
 
