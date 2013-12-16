@@ -79,8 +79,8 @@ window.addEventListener("load", function(){
   };
 
 
-  document.getElementById('search_form_input_homepage').select();
   document.getElementById('search_form_input_homepage').focus();
+  document.getElementById('search_form_input_homepage').setSelectionRange(0, 9999);
 });
 
 
