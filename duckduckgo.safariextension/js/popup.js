@@ -226,7 +226,7 @@ function zeroclickinfo_check(){
 
 function remember_last_search_check(){
   localStorage['remember_last_search'] = document.getElementById('remember_last_search').checked;
-  safari.extension.settings.zeroclickinfo =
+  safari.extension.settings.remember_last_search =
     ( document.getElementById('remember_last_search').checked === true );
 }
 
