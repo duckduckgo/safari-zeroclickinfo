@@ -27,6 +27,8 @@
         }
     };
 
+    console.log(safari.extension.displayVersion, localStorage['last_version']);
+
     if (safari.extension.displayVersion != localStorage['last_version']) {
       // following the updatepage setting
       if (safari.extension.settings.updatepage) {
