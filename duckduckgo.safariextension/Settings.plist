@@ -74,7 +74,7 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
-		<false/>
+    <string>undefined</string>
 		<key>Key</key>
 		<string>latest_version</string>
 	</dict>
