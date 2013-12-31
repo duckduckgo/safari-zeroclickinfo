@@ -27,12 +27,18 @@
         }
     };
 
-    console.log(safari.extension.displayVersion, localStorage['last_version']);
+    console.log(safari.extension.displayVersion, localStorage['last_version'],
+                safari.extension.settings.latest_version);
+
     if (safari.extension.displayVersion != localStorage['last_version']) {
       // following the updatepage setting
       if (safari.extension.settings.updatepage) {
-        if (typeof localStorage['last_version'] == "undefined") {
+
+        if ((typeof localStorage['last_version'] == "undefined") &&
+            (safari.extension.settings.latest_version == "undefined")) {
+
           openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
+
         } else {
           var path = '?from=' + localStorage['last_version'] +
                      '&to=' + safari.extension.displayVersion;
@@ -42,9 +48,11 @@
             openTab(THANKS_URL + path);
           }
         }
+
       }
 
       localStorage['last_version'] = safari.extension.displayVersion;
+      safari.extension.settings.latest_version = safari.extension.displayVersion;
     }
 
 
