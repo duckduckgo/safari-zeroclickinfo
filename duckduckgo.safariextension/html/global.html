@@ -28,11 +28,10 @@
     };
 
     console.log(safari.extension.displayVersion, localStorage['last_version']);
-
     if (safari.extension.displayVersion != localStorage['last_version']) {
       // following the updatepage setting
       if (safari.extension.settings.updatepage) {
-        if (localStorage['last_version'] == undefined) {
+        if (typeof localStorage['last_version'] == "undefined") {
           openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
         } else {
           var path = '?from=' + localStorage['last_version'] +
