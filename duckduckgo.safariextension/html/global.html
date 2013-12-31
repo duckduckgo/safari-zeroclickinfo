@@ -37,14 +37,19 @@
         if ((typeof localStorage['last_version'] == "undefined") &&
             (safari.extension.settings.latest_version == "undefined")) {
 
+          console.log('new install, opening install page');
+
           openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
 
         } else {
           var path = '?from=' + localStorage['last_version'] +
                      '&to=' + safari.extension.displayVersion;
 
+          console.log('seems to be an update, checking if it is a major one');
+
           // show update page if the current version is considered a major update
           if (VersionManager.isMajorUpdate(safari.extension.displayVersion)) {
+            console.log('major update, opening update page');
             openTab(THANKS_URL + path);
           }
         }
