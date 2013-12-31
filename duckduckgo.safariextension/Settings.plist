@@ -72,5 +72,11 @@
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<false/>
+		<key>Key</key>
+		<string>latest_version</string>
+	</dict>
 </array>
 </plist>
