@@ -37,6 +37,10 @@ if (regexp.test(window.location.href)) {
             if (query === undefined)
                 return;
 
+            if ($('#rhs_block ol').length > 0) {
+                    return true;
+            }
+
             safari.self.tab.dispatchMessage("request_google", query);
             if(options.dev) console.log('sending request', query);
 
