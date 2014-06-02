@@ -1,6 +1,5 @@
 
-let ICON_MAXIMIZE = 
-"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2Fy" +
+let ICON_MAXIMIZE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2Fy" +
 "ZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAA" +
 "AAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5U" +
 "Y3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6" +
@@ -28,8 +27,7 @@ let ICON_MAXIMIZE =
 "W4B4C3ppUwOVINWlPUBcj634+g8tvryB+BYRBt0HYj8gLkV2BLYSezsQ74IWaaB8" +
 "boKUm55Dk9laIN4KCjN0zQABBgAY4j5CbsE6wwAAAABJRU5ErkJggg==";
 
-let ICON_MINIMIZE =
-"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2Fy" +
+let ICON_MINIMIZE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2Fy" +
 "ZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAA" +
 "AAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5U" +
 "Y3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6" +
@@ -143,9 +141,6 @@ function search(){
  }
 
   var search = document.getElementById("search_form_input_homepage");
-  //search.value = prefill_text;
-  //search.style.color = '#999999';
-  //search.focus();
 
   safari.extension.popovers[0].hide();
   return false;
@@ -174,7 +169,7 @@ function add_bang(bang) {
 
   var bang_regex = /\!\w+/;
    
-  if (inp.value === prefill_text || inp.value === '') {
+  if (inp.value === '') {
     inp.style.color = '#000';
     inp.value = bang + ' ';
     inp.focus();
