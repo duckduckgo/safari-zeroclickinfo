@@ -88,7 +88,7 @@ if (localStorage['advanced_options'] !== 'true') {
 window.addEventListener("load", function() {
   if (localStorage['last_search'] != '' && safari.extension.settings.remember_last_search) {
     document.getElementById('search_form_input_homepage').value = localStorage['last_search'];
-    document.getElementById("search_form_input_clear").style.background = 'block';
+    document.getElementById("search_form_input_clear").style.display= 'block';
   } else {
    search_input_clear();
   }
@@ -112,7 +112,7 @@ window.addEventListener("load", function() {
   document.getElementById("search_form_input_homepage").onkeyup = function(){
     if (this.value == '') {
       this.style.color = '#999999';
-      document.getElementById("search_form_input_clear").style.background = '#fff';
+      document.getElementById("search_form_input_clear").style.display = 'block';
       document.getElementById('search_form_input_homepage').focus();
     }
   };
@@ -181,7 +181,7 @@ function add_bang(bang) {
   var bang_regex = /\!\w+/;
    
   if (inp.value === '') {
-    inp.style.color = '#000';
+    //inp.style.color = '#000';
     inp.value = bang + ' ';
     inp.focus();
   } else {
