@@ -192,7 +192,7 @@ function add_bang(bang) {
     inp.focus();
   } else {
     var found_bangs = bang_regex.exec(inp.value);
-    if (found_bangs.length > 0) {
+    if (found_bangs !== null) {
         inp.value = inp.value.replace(found_bangs[0], bang);
     } else {
         inp.value += bang;
