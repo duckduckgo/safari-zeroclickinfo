@@ -88,7 +88,7 @@ if (localStorage['advanced_options'] !== 'true') {
 window.addEventListener("load", function() {
   if (localStorage['last_search'] != '' && safari.extension.settings.remember_last_search) {
     document.getElementById('search_form_input_homepage').value = localStorage['last_search'];
-    document.getElementById("search_form_input_clear").style.display= 'block';
+    document.getElementById("search_form_input_clear").style.display = 'inline-block';
   } else {
    search_input_clear();
   }
@@ -106,13 +106,13 @@ window.addEventListener("load", function() {
   }
 
   document.getElementById("search_form_input_homepage").onkeydown = function(){
-      document.getElementById("search_form_input_clear").style.display = 'block';
+      document.getElementById("search_form_input_clear").style.display = 'inline-block';
       this.style.color = '#000000';
   };
   document.getElementById("search_form_input_homepage").onkeyup = function(){
     if (this.value == '') {
       this.style.color = '#999999';
-      document.getElementById("search_form_input_clear").style.display = 'block';
+      document.getElementById("search_form_input_clear").style.display = 'inline-block';
       document.getElementById('search_form_input_homepage').focus();
     }
   };
