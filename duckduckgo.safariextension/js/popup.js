@@ -184,6 +184,8 @@ function add_bang(bang) {
 
   var bang_regex = /\!\w+/;
    
+  document.getElementById("search_form_input_clear").style.display= 'inline-block';
+
   if (inp.value === '') {
     //inp.style.color = '#000';
     inp.value = bang + ' ';
