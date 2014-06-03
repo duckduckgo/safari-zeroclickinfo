@@ -95,7 +95,7 @@ window.addEventListener("load", function() {
 
   // handling hover behavopur of images
   var images = document.getElementsByTagName('img');
-  for (int i = 0; i < images.length; i++) {
+  for(var i = 0; i < images.length; i++) {
     images[i].onmouseover = function() {
         this.src = BTN_HOVER;
     }
@@ -163,7 +163,7 @@ document.getElementById('icon_advanced').onclick = function(){
 
     document.getElementById('advanced').style.display = 'block';
     this.className = 'maximized';
-    safari.extension.popovers[0].height = 220;
+    safari.extension.popovers[0].height = 200;
   } else {
     this.src = ICON_MAXIMIZE;
 
