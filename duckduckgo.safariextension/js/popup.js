@@ -113,9 +113,7 @@ window.addEventListener("load", function() {
   document.getElementById("search_form_input_homepage").onkeyup = function(){
     if (this.value == '') {
       this.style.color = '#999999';
-      document.getElementById("search_form_input_clear").style.display = 'inline-block';
-      document.getElementById('search_form_input_homepage').focus();
-      document.getElementById("search_button_homepage").className = '';
+      search_input_clear();
     }
   };
 
