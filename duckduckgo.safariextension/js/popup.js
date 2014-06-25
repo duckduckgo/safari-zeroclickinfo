@@ -94,7 +94,7 @@ window.addEventListener("load", function() {
   }
 
   // handling hover behavopur of images
-  var images = document.getElementsByTagName('img');
+  var images = document.querySelector('li img');
   for(var i = 0; i < images.length; i++) {
     images[i].onmouseover = function() {
         this.src = BTN_HOVER;
