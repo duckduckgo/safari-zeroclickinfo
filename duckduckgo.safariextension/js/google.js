@@ -78,9 +78,7 @@ if (regexp.test(window.location.href)) {
 
                 if(options.dev) console.log(event.message);
 
-                if (options.dev) console.log((options.zeroclick_google_right) ? 'rhs' : 'center_col');
-
-                ddgBox = new DuckDuckBox('q', ['rg_s'], (options.zeroclick_google_right) ? 'rhs' : 'center_col', true, 'google');
+                ddgBox = new DuckDuckBox('q', ['rg_s'], (options.zeroclickinfo_google_right) ? 'rhs' : 'center_col', true, 'google');
 
                 ddgBox.search = function(query) {
                     if (query === undefined)
