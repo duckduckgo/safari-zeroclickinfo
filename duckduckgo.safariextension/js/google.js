@@ -74,8 +74,11 @@ if (regexp.test(window.location.href)) {
 
         safari.self.addEventListener("message", function(event){
             if (event.name === "set_settings") {
-                if(options.dev) console.log(event.message);
                 options = event.message;
+
+                if(options.dev) console.log(event.message);
+
+                if (options.dev) console.log((options.zeroclick_google_right) ? 'rhs' : 'center_col');
 
                 ddgBox = new DuckDuckBox('q', ['rg_s'], (options.zeroclick_google_right) ? 'rhs' : 'center_col', true, 'google');
 
