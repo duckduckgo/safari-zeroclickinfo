@@ -15,97 +15,99 @@
  */
 
 var options = {};
-safari.self.tab.dispatchMessage("get_settings");
-
-safari.self.addEventListener("message", function(event){
-    if (event.name === "set_settings") {
-        if(options.dev) console.log(event.message);
-        options = event.message;
-    }
-}, false);
- 
-
 var ddgBox;
+
+function getQuery(direct) {
+    var instant = document.getElementsByClassName("gssb_a");
+    if (instant.length !== 0 && !direct){
+        var selected_instant = instant[0];
+
+        var query = selected_instant.childNodes[0].childNodes[0].childNodes[0].
+                    childNodes[0].childNodes[0].childNodes[0].innerHTML;
+        query = query.replace(/<\/?(?!\!)[^>]*>/gi, '');
+
+        if(options.dev)
+            console.log(query);
+
+        return query;
+    } else {
+        return document.getElementsByName('q')[0].value;
+    }
+}
+
+function qsearch(direct) {
+    var query = getQuery(direct);
+    ddgBox.lastQuery = query;
+    ddgBox.search(query);
+}
+
+var ddg_timer;
+
+// instant search
+$("[name='q']").bind('keyup', function(e){
+    query = getQuery();
+    if(ddgBox.lastQuery !== query && query !== '')
+        ddgBox.hideZeroClick();
+
+    if(options.dev)
+        console.log(e.keyCode);
+
+    var fn = function(){ qsearch(); };
+
+    if(e.keyCode == 40 || e.keyCode == 38)
+        fn = function(){ qsearch(true); };
+
+    clearTimeout(ddg_timer);
+    ddg_timer = setTimeout(fn, 700);
+});
+
+$("[name='btnG']").bind('click', function(){
+    qsearch();
+});
+
 
 var regexp = new RegExp(/^https?:\/\/(www|encrypted)\.google\..*\/.*$/);
 if (regexp.test(window.location.href)) {
 
     $(document).ready(function(){
-        ddgBox = new DuckDuckBox('q', ['rg_s'], 'center_col', true, 'google');
+        safari.self.tab.dispatchMessage("get_settings");
 
-        ddgBox.search = function(query) {
-            if (query === undefined)
-                return;
+        safari.self.addEventListener("message", function(event){
+            if (event.name === "set_settings") {
+                if(options.dev) console.log(event.message);
+                options = event.message;
 
-            if ($('#rhs_block ol').length > 0) {
-                    return true;
-            }
+                ddgBox = new DuckDuckBox('q', ['rg_s'], (options.zeroclick_google_right) ? 'rhs' : 'center_col', true, 'google');
 
-            safari.self.tab.dispatchMessage("request_google", query);
-            if(options.dev) console.log('sending request', query);
+                ddgBox.search = function(query) {
+                    if (query === undefined)
+                        return;
 
-            safari.self.addEventListener("message", function(event){
-                if(options.dev) console.log('message in');
-                if (event.name === "response_google") {
-                    if(options.dev) console.log(event.message, query);
-                    ddgBox.renderZeroClick(event.message, query);
+                    // ditch the InstantAnswer Box if there is a Knowledge
+                    // Graph result
+                    if ($('#rhs_block ol').length > 0) {
+                            return true;
+                    }
+
+                    safari.self.tab.dispatchMessage("request_google", query);
+                    if(options.dev) console.log('sending request', query);
+
+                    safari.self.addEventListener("message", function(event){
+                        if(options.dev) console.log('message in');
+                        if (event.name === "response_google") {
+                            if(options.dev) console.log(event.message, query);
+                            ddgBox.renderZeroClick(event.message, query);
+                        }
+                    }, false);
+
+                    if (options.dev)
+                        console.log("query:", query);
                 }
-            }, false);
 
-            if (options.dev)
-                console.log("query:", query);
-        }
+                ddgBox.init();
 
-        ddgBox.init();
-
-        var ddg_timer;
-
-        function getQuery(direct) {
-            var instant = document.getElementsByClassName("gssb_a");
-            if (instant.length !== 0 && !direct){
-                var selected_instant = instant[0];
-                
-                var query = selected_instant.childNodes[0].childNodes[0].childNodes[0].
-                            childNodes[0].childNodes[0].childNodes[0].innerHTML;
-                query = query.replace(/<\/?(?!\!)[^>]*>/gi, '');
-
-                if(options.dev)
-                    console.log(query);
-
-                return query;
-            } else {
-                return document.getElementsByName('q')[0].value;
             }
-        }
-
-        function qsearch(direct) {
-            var query = getQuery(direct);
-            ddgBox.lastQuery = query;
-            ddgBox.search(query);
-        } 
-
-        // instant search
-        $("[name='q']").bind('keyup', function(e){
-
-            query = getQuery();
-            if(ddgBox.lastQuery !== query && query !== '')
-                ddgBox.hideZeroClick();
-
-            if(options.dev)
-                console.log(e.keyCode);
-
-            var fn = function(){ qsearch(); };
-
-            if(e.keyCode == 40 || e.keyCode == 38)
-                fn = function(){ qsearch(true); };
-
-            clearTimeout(ddg_timer);
-            ddg_timer = setTimeout(fn, 700);
-        });
-
-        $("[name='btnG']").bind('click', function(){
-            qsearch();
-        });
+        }, false);
 
     });
 
