@@ -44,6 +44,16 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
+		<false/>
+		<key>Key</key>
+		<string>zeroclickinfo_google_right</string>
+		<key>Title</key>
+		<string>Show Answers in right panel on Google</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
 		<string>meanings</string>
