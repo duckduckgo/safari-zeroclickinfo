@@ -86,7 +86,7 @@ if (regexp.test(window.location.href)) {
 
                     // ditch the InstantAnswer Box if there is a Knowledge
                     // Graph result
-                    if ($('#rhs_block ol').length > 0) {
+                    if ($('#rhs_block ol .xpdopen').length > 0) {
                             return true;
                     }
 
