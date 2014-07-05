@@ -1,3 +1,19 @@
+/*
+   Copyright (C) 2012, 2014 DuckDuckGo, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
 
 var ICON_MAXIMIZE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2Fy" +
 "ZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAA" +
@@ -117,6 +133,34 @@ window.addEventListener("load", function() {
     }
   };
 
+  document.getElementById('adv_ducky').onclick = ducky_check;
+  document.getElementById('adv_locationbar').onclick = locationbar_check;
+  document.getElementById('adv_remember_last_search').onclick = remember_last_search_check;
+  document.getElementById('adv_zeroclick').onclick = zeroclickinfo_check;
+
+
+
+  document.getElementById('bang_w').onclick = function(){
+    add_bang('!w');
+  }
+  document.getElementById('bang_bi').onclick = function(){
+    add_bang('!bi');
+  }
+  document.getElementById('bang_a').onclick = function(){
+    add_bang('!a');
+  }
+  document.getElementById('bang_gi').onclick = function(){
+    add_bang('!gi');
+  }
+  document.getElementById('bang_n').onclick = function(){
+    add_bang('!n');
+  }
+  document.getElementById('bang_yt').onclick = function(){
+    add_bang('!yt');
+  }
+  document.getElementById('bang_m').onclick = function(){
+    add_bang('!m');
+  }
 
   document.getElementById("search_form_input_clear").onclick = function(){
     search_input_clear();
@@ -130,7 +174,7 @@ window.addEventListener("load", function() {
 
 function search(){
   var input = document.getElementById("search_form_input_homepage").value;
- 
+
   if (safari.extension.settings.remember_last_search) {
     localStorage['last_search'] = input;
   } else {
@@ -183,7 +227,7 @@ function add_bang(bang) {
   var inp = document.getElementById('search_form_input_homepage');
 
   var bang_regex = /\!\w+/;
-   
+
   document.getElementById("search_form_input_clear").style.display= 'inline-block';
   document.getElementById("search_button_homepage").className = 'selected';
 
