@@ -31,11 +31,18 @@ var regexp = new RegExp(/^https?:\/\/www\.bing\.com\/.*$/);
 if (regexp.test(window.location.href)) {
 
     $(document).ready(function(){
-        if (document.getElementById('b_results') !== null)
-            ddgBox = new DuckDuckBox('q', [], 'b_results', false, 'bing');
-        else
-            ddgBox = new DuckDuckBox('q', [], 'results_container', false, 'bing');
+        if (document.getElementById('b_results') !== null) {
+            var results_div = 'b_results';
+        } else {
+            var results_div = 'results_container';
+        }
 
+        ddgBox = new DuckDuckBox({
+                inputName: 'q',
+                hover: false,
+                contentDiv: results_div,
+                className: 'bing'
+              });
 
         ddgBox.search = function(query) {
             if (query === undefined)
