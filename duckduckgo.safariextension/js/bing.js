@@ -23,7 +23,7 @@ safari.self.addEventListener("message", function(event){
         options = event.message;
     }
 }, false);
- 
+
 
 var ddgBox;
 
@@ -55,6 +55,12 @@ if (regexp.test(window.location.href)) {
                 if(options.dev) console.log('message in');
                 if (event.name === "response_bing") {
                     if(options.dev) console.log(event.message, query);
+
+                    // ditch the InstantAnswer Box if there is a Bing Calc one
+                    if (document.getElementById('rcCalB') !== null) {
+                        return true;
+                    }
+
                     ddgBox.renderZeroClick(event.message, query);
                 }
             }, false);
@@ -71,7 +77,7 @@ if (regexp.test(window.location.href)) {
             var instant = document.getElementsByClassName("gssb_a");
             if (instant.length !== 0 && !direct){
                 var selected_instant = instant[0];
-                
+
                 var query = selected_instant.childNodes[0].childNodes[0].childNodes[0].
                             childNodes[0].childNodes[0].childNodes[0].innerHTML;
                 query = query.replace(/<\/?(?!\!)[^>]*>/gi, '');
@@ -89,7 +95,7 @@ if (regexp.test(window.location.href)) {
             var query = getQuery(direct);
             ddgBox.lastQuery = query;
             ddgBox.search(query);
-        } 
+        }
 
         // instant search
         $("[name='q']").bind('keyup', function(e){
