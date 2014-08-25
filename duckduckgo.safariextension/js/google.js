@@ -91,17 +91,31 @@ if (regexp.test(window.location.href)) {
                     if (query === undefined)
                         return;
 
-                    // ditch the InstantAnswer Box if there is a Knowledge
-                    // Graph result
-                    if ($('#rhs_block ol .xpdopen').length > 0) {
-                            return true;
-                    }
 
                     safari.self.tab.dispatchMessage("request_google", query);
                     if(options.dev) console.log('sending request', query);
 
                     safari.self.addEventListener("message", function(event){
                         if(options.dev) console.log('message in');
+
+                        // ditch the InstantAnswer Box if there is a Knowledge
+                        // Graph result
+                        if ($('#rhs_block ol .xpdopen').length > 0) {
+                                return true;
+                        }
+
+                        // ditch the InstantAnswer Box if there is an artist Knowledge
+                        // Graph result, e.g. justin bieber
+                        if ($('#rhs_block ol .rhsvw').length > 0) {
+                            return true;
+                        }
+
+                        if ($('#center_col .vk_c').length > 0) {
+                            return true;
+                        }
+
+
+
                         if (event.name === "response_google") {
                             if(options.dev) console.log(event.message, query);
                             ddgBox.renderZeroClick(event.message, query);
