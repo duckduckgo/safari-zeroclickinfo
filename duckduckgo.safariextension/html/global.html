@@ -155,10 +155,7 @@
 
             query = event.message;
             var req = new XMLHttpRequest();
-            if (safari.extension.settings.meanings)
-                req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json', true);
-            else
-                req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
+            req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
 
             req.onreadystatechange = function(data) {
                 if (req.readyState != 4)  { return; }
@@ -175,10 +172,7 @@
 
             query = event.message;
             var req = new XMLHttpRequest();
-            if (safari.extension.settings.meanings)
-                req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json', true);
-            else
-                req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
+            req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
 
             req.onreadystatechange = function(data) {
                 if (req.readyState != 4)  { return; }

@@ -56,16 +56,6 @@
 		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
-		<string>meanings</string>
-		<key>Title</key>
-		<string>Show meanings instant answers</string>
-		<key>Type</key>
-		<string>CheckBox</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<true/>
-		<key>Key</key>
 		<string>updatepage</string>
 		<key>Title</key>
 		<string>Show changelog in new tab after updating the extension</string>

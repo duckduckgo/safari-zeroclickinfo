@@ -388,6 +388,9 @@
 #ddg_zeroclick.bing {
    width: 517px;
    margin-left: 20px;
+}
+
+.bing #ddg_zeroclick_answer {
    line-height: 2.2em;
 }
 

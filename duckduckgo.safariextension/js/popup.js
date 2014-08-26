@@ -188,9 +188,6 @@ function search(){
   }
 
   var special = '';
-  if(safari.extension.settings.meanings !== true) {
-    special = '&d=1';
-  }
 
   if (safari.application.activeBrowserWindow.activeTab.url === undefined ||
       safari.application.activeBrowserWindow.activeTab.url === '') {
