@@ -119,6 +119,7 @@
       var request = new XMLHttpRequest();
       request.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(selectedText) + '&format=json&d=1');
       request.onload = function(){
+        console.log('request loaded');
         var out = [];
         if (request.status === 200) {
             var res = JSON.parse(request.responseText);
@@ -139,11 +140,12 @@
         }
 
 
+        console.log('setting the title')
         if (out[0])
           event.target.title = 'Ask Dax: ' + truncate(out[0], 40);
         else
           event.target.title = 'Ask Dax about ' + selectedText ;
-      }
+      };
       request.send(null);
 
     }
