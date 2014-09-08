@@ -117,33 +117,35 @@
       }
 
       var request = new XMLHttpRequest();
-      request.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(selectedText) + '&format=json&d=1', false);
+      request.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(selectedText) + '&format=json&d=1');
+      request.onload = function(){
+        var out = [];
+        if (request.status === 200) {
+            var res = JSON.parse(request.responseText);
+
+            if (res['AnswerType'] !== "" ||
+                (res['Type'] === 'A' && res['Abstract']  === '') || res['Type'] === 'E') {
+                out[0] = res['Answer'];
+                out[1] = 'http://duckduckgo.com/icon16.png';
+            } else if (res['Type'] === 'D' && res['Definition'] !== '') {
+                out[0] = res['Definition'];
+                var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
+                out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
+            } else if (res['Type'] === 'A' && res['Abstract'] !== '') {
+                out[0] = res['Heading'] + ": " + res['AbstractText'];
+                var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
+                out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
+            }
+        }
+
+
+        if (out[0])
+          event.target.title = 'Ask Dax: ' + truncate(out[0], 40);
+        else
+          event.target.title = 'Ask Dax about ' + selectedText ;
+      }
       request.send(null);
 
-      var out = [];
-      if (request.status === 200) {
-          var res = JSON.parse(request.responseText);
-
-          if (res['AnswerType'] !== "" ||
-              (res['Type'] === 'A' && res['Abstract']  === '') || res['Type'] === 'E') {
-              out[0] = res['Answer'];
-              out[1] = 'http://duckduckgo.com/icon16.png';
-          } else if (res['Type'] === 'D' && res['Definition'] !== '') {
-              out[0] = res['Definition'];
-              var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
-              out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
-          } else if (res['Type'] === 'A' && res['Abstract'] !== '') {
-              out[0] = res['Heading'] + ": " + res['AbstractText'];
-              var source_base_url = res['AbstractURL'].match(/http.?:\/\/(.*?\.)?(.*\..*?)\/.*/)[2];
-              out[1] = 'http://duckduckgo.com/i/' + source_base_url + '.ico';
-          }
-      }
-
-
-      if (out[0])
-        event.target.title = 'Ask Dax: ' + truncate(out[0], 40);
-      else
-        event.target.title = 'Ask Dax about ' + selectedText ;
     }
 
     function ddgCheckMessage (event) {
