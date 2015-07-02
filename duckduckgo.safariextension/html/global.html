@@ -49,9 +49,11 @@
 
           console.log('seems to be an update, checking if it is a major one');
 
+          // A hacky way of preserving a setting whose default has changed.
           if ((safari.extension.settings.latest_version === '1.6.5') &&
               (safari.extension.displayVersion == '1.6.6')) {
-            console.log('current zeroclickinfo:' + safari.extension.settings.zeroclickinfo);
+            safari.extension.settings.zeroclickinfo = (localStorage['zeroclickinfo'] === 'true');
+            console.log('Set zeroclickinfo to', safari.extension.settings.zeroclickinfo);
           }
 
           // show update page if the current version is considered a major update
