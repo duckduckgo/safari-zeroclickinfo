@@ -10,11 +10,13 @@
        <key>Developer Identifier</key>
        <string>HKE973VLUW</string>
        <key>CFBundleVersion</key>
-       <string>25</string>
+       <string>26</string>
        <key>CFBundleShortVersionString</key>
-       <string>1.6.5</string>
+       <string>1.6.6</string>
        <key>URL</key>
        <string>http://duckduckgo.com/extensions/duckduckgo.safariextz</string>
+       <key>Update From Gallery</key>
+       <true/>
      </dict>
    </array>
 </dict>
