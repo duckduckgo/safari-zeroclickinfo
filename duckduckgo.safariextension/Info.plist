@@ -50,7 +50,7 @@
 				<key>Identifier</key>
 				<string>popup_button</string>
 				<key>Image</key>
-				<string>img/icon_18.png</string>
+				<string>img/ddg-icon.png</string>
 				<key>Label</key>
 				<string>DuckDuckGo</string>
 				<key>Palette Label</key>
