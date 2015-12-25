@@ -9,8 +9,20 @@
 		<string>ddg_locationbar</string>
 		<key>Title</key>
 		<string>DuckDuckGo as default (in Smart Search field)</string>
+		<key>Titles</key>
+		<array>
+  		<string>Yes</string>
+  		<string>No</string>
+  		<string>Only for queries with '!bang' commands or beginning with '\'</string>
+		</array>
 		<key>Type</key>
-		<string>CheckBox</string>
+		<string>RadioButtons</string>
+    <key>Values</key>
+		<array>
+      <true/>
+  		<false/>
+  		<string>bang</string>
+		</array>
 	</dict>
 	<dict>
 		<key>DefaultValue</key>

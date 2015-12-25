@@ -277,8 +277,8 @@ function settings_check() {
     localStorage['zeroclickinfo'] = 'false';
 
   document.getElementById('adv_locationbar').checked =
-    safari.extension.settings.ddg_locationbar;
-  if (safari.extension.settings.ddg_locationbar)
+    (safari.extension.settings.ddg_locationbar === true);
+  if (safari.extension.settings.ddg_locationbar === true)
     localStorage['locationbar'] = 'true';
   else
     localStorage['locationbar'] = 'false';
