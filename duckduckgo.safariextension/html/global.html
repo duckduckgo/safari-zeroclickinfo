@@ -17,60 +17,6 @@
 
     }
 
-    var VersionManager = {
-        majorUpdates: [],
-        addMajorUpdate: function (vers) {
-            this.majorUpdates = this.majorUpdates.concat(vers);
-        },
-        isMajorUpdate: function (ver) {
-            return (this.majorUpdates.indexOf(ver) != -1);
-        }
-    };
-
-    VersionManager.addMajorUpdate('1.6.5');
-
-    console.log(safari.extension.displayVersion, localStorage['last_version'],
-                safari.extension.settings.latest_version);
-
-    if (safari.extension.displayVersion != safari.extension.settings.latest_version) {
-      // following the updatepage setting
-      if (safari.extension.settings.updatepage) {
-
-        if ((typeof localStorage['last_version'] == "undefined") &&
-            (safari.extension.settings.latest_version == "undefined")) {
-
-          console.log('new install, opening install page');
-
-          openTab(THANKS_URL + '?to=' + safari.extension.displayVersion);
-
-        } else {
-          var path = '?from=' + localStorage['last_version'] +
-                     '&to=' + safari.extension.displayVersion;
-
-          console.log('seems to be an update, checking if it is a major one');
-
-          // A hacky way of preserving a setting whose default has changed.
-          if ((safari.extension.settings.latest_version === '1.6.5') &&
-              (safari.extension.displayVersion == '1.6.7')) {
-            safari.extension.settings.zeroclickinfo = (localStorage['zeroclickinfo'] === 'true');
-            console.log('set zeroclickinfo to', safari.extension.settings.zeroclickinfo);
-          }
-
-          // show update page if the current version is considered a major update
-          if (VersionManager.isMajorUpdate(safari.extension.displayVersion)) {
-            console.log('major update, opening update page');
-            openTab(THANKS_URL + path);
-          }
-        }
-
-      }
-
-      localStorage['last_version'] = safari.extension.displayVersion;
-      safari.extension.settings.latest_version = safari.extension.displayVersion;
-    }
-
-
-
     function ddgRightClickCommand(event) {
         if (!safari.extension.settings.rightclick) {
          return;
