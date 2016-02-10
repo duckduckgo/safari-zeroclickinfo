@@ -155,7 +155,7 @@ document.getElementById('icon_advanced').onclick = function(){
 
     document.getElementById('advanced').style.display = 'block';
     this.className = 'maximized';
-    safari.extension.popovers[0].height = 200;
+    safari.extension.popovers[0].height = 170;
   } else {
     this.src = ICON_MAXIMIZE;
 
