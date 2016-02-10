@@ -72,11 +72,5 @@
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
-	<dict>
-		<key>DefaultValue</key>
-    <string>undefined</string>
-		<key>Key</key>
-		<string>latest_version</string>
-	</dict>
 </array>
 </plist>
