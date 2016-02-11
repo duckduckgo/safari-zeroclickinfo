@@ -134,7 +134,7 @@ function search(){
     input = "\\" + input;
   }
 
-  var special = '';
+  var special = '&bext=msp';
 
   if (safari.application.activeBrowserWindow.activeTab.url === undefined ||
       safari.application.activeBrowserWindow.activeTab.url === '') {

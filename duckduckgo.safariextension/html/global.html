@@ -5,7 +5,6 @@
     <title>DuckDuckGo</title>
     <script type="text/javascript">
     var DDG_URL = 'https://duckduckgo.com/?q=';
-    var THANKS_URL = 'https://duckduckgo.com/extensions/thanks/';
     localStorage['last_search'] = '';
 
   window.onload = function() {
@@ -23,7 +22,7 @@
         }
 
         var searchTerms = event.userInfo;
-        var searchURL = "https://duckduckgo.com/?q=" + searchTerms;
+        var searchURL = DDG_URL + searchTerms + '&bext=msc';
 
         var tab = safari.application.activeBrowserWindow.openTab();
         tab.url = searchURL;
@@ -70,7 +69,7 @@
       }
 
       var request = new XMLHttpRequest();
-      request.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(selectedText) + '&format=json&d=1', false);
+      request.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(selectedText) + '&format=json&d=1&bext=msr', false);
       request.send(null);
 
       var out = [];
@@ -108,7 +107,7 @@
 
             query = event.message;
             var req = new XMLHttpRequest();
-            req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
+            req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1&bext=mse', true);
 
             req.onreadystatechange = function(data) {
                 if (req.readyState != 4)  { return; }
@@ -125,7 +124,7 @@
 
             query = event.message;
             var req = new XMLHttpRequest();
-            req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1', true);
+            req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1&bext=mse', true);
 
             req.onreadystatechange = function(data) {
                 if (req.readyState != 4)  { return; }
@@ -171,7 +170,7 @@
           if (!checkURL(query)) {
             evt.preventDefault();
             if (safari.extension.settings.dev) console.log('query:', query);
-            evt.target.url = DDG_URL + encodeURIComponent(query);
+            evt.target.url = DDG_URL + encodeURIComponent(query) + '&bext=msl';
           }
         }, false);
     } else {
@@ -193,7 +192,7 @@
 
             if (!checkURL(url)) {
               evt.preventDefault();
-              evt.target.url = DDG_URL + decodeURIComponent(url);
+              evt.target.url = DDG_URL + decodeURIComponent(url) + '&bext=msl';
             }
         }, false);
     }
