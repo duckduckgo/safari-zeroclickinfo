@@ -170,14 +170,14 @@ DuckDuckBox.prototype = {
         return $('<div>', {id: 'ddg_zeroclick_header'})
                        .append($('<a>', {
                                    class: 'ddg_head',
-                                   href: DDG_URL + encodeURIComponent(query)
+                                   href: DDG_URL + encodeURIComponent(query) + '&bext=msc'
                                }).text(heading))
                        .append($('<img>', {
                                    src: HEADER_ICON_URL
                                }))
                        .append($('<a>', {
                                    class: 'ddg_more',
-                                   href: DDG_URL + encodeURIComponent(query)
+                                   href: DDG_URL + encodeURIComponent(query) + '&bext=msc'
                                }).html('See DuckDuckGo results &raquo;'));
 
     },
@@ -512,7 +512,7 @@ DuckDuckBox.prototype = {
                                     src: 'https://duckduckgo.com//assets/icons/meta/DDG-icon_24x24.png',
                                     id: 'ddg_zeroclick_official_links_img'
                        }).click(function(){
-                           window.location.href = DDG_URL + encodeURIComponent(query);
+                           window.location.href = DDG_URL + encodeURIComponent(query) + '&bext=msc';
                        }));
         result.append(bottom);
 
