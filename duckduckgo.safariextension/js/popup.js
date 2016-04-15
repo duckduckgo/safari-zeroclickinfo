@@ -27,10 +27,6 @@ if (localStorage['advanced_options'] == undefined){
   localStorage['advanced_options'] = 'true';
 }
 
-if (localStorage['zeroclickinfo'] == undefined){
-  localStorage['zeroclickinfo'] = 'true';
-}
-
 if (localStorage['locationbar'] == undefined){
   localStorage['locationbar'] = 'true';
 }
@@ -83,7 +79,6 @@ window.addEventListener("load", function() {
   document.getElementById('adv_ducky').onclick = ducky_check;
   document.getElementById('adv_locationbar').onclick = locationbar_check;
   document.getElementById('adv_remember_last_search').onclick = remember_last_search_check;
-  document.getElementById('adv_zeroclick').onclick = zeroclickinfo_check;
 
 
 
@@ -196,12 +191,6 @@ function ducky_check(){
 }
 
 
-function zeroclickinfo_check(){
-  localStorage['zeroclickinfo'] = document.getElementById('adv_zeroclick').checked;
-  safari.extension.settings.zeroclickinfo =
-    ( document.getElementById('adv_zeroclick').checked === true );
-}
-
 function remember_last_search_check(){
   localStorage['remember_last_search'] = document.getElementById('adv_remember_last_search').checked;
   safari.extension.settings.remember_last_search =
@@ -216,12 +205,6 @@ function locationbar_check(){
 }
 
 function settings_check() {
-
-  document.getElementById('adv_zeroclick').checked = safari.extension.settings.zeroclickinfo;
-  if (safari.extension.settings.zeroclickinfo)
-    localStorage['zeroclickinfo'] = 'true';
-  else
-    localStorage['zeroclickinfo'] = 'false';
 
   document.getElementById('adv_locationbar').checked =
     safari.extension.settings.ddg_locationbar;
@@ -246,10 +229,6 @@ function settings_check() {
 function defaults_check(){
   if (localStorage['ducky'] === 'true') {
     document.getElementById('adv_ducky').checked = true;
-  }
-
-  if (localStorage['zeroclickinfo'] === 'true') {
-    document.getElementById('adv_zeroclick').checked = true;
   }
 
   if (localStorage['locationbar'] === 'true') {

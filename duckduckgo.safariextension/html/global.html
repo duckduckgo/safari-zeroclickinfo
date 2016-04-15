@@ -98,46 +98,6 @@
         event.target.title = 'Ask Dax about ' + selectedText ;
     }
 
-    function ddgCheckMessage (event) {
-      if (event.name === 'request_google') {
-            if (safari.extension.settings.zeroclickinfo !== true) {
-              event.target.page.dispatchMessage('response_google', '');
-              return;
-            }
-
-            query = event.message;
-            var req = new XMLHttpRequest();
-            req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1&bext=mse', true);
-
-            req.onreadystatechange = function(data) {
-                if (req.readyState != 4)  { return; }
-                var res = JSON.parse(req.responseText);
-                event.target.page.dispatchMessage('response_google', res);
-            }
-            req.send(null);
-      }
-      if (event.name === 'request_bing') {
-            if (safari.extension.settings.zeroclickinfo !== true) {
-              event.target.page.dispatchMessage('response_bing', '');
-              return;
-            }
-
-            query = event.message;
-            var req = new XMLHttpRequest();
-            req.open('GET', 'https://api.duckduckgo.com?q=' + encodeURIComponent(query) + '&format=json&d=1&bext=mse', true);
-
-            req.onreadystatechange = function(data) {
-                if (req.readyState != 4)  { return; }
-                var res = JSON.parse(req.responseText);
-                event.target.page.dispatchMessage('response_bing', res);
-            }
-            req.send(null);
-      }
-      if (event.name === 'get_settings') {
-        event.target.page.dispatchMessage('set_settings', JSON.parse(JSON.stringify(safari.extension.settings)));
-      }
-
-    }
 
     function ddgSettingChange(event) {
       safari.extension.popovers[0].contentWindow.settings_check();
@@ -156,7 +116,6 @@
     safari.application.addEventListener("validate", ddgRightClickValidate, false);
     safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("contextmenu", ddgContextMenu, false);
-    safari.application.addEventListener("message", ddgCheckMessage, false);
 
     // Use the beforeSearch event if it is available
     if (window.SafariBeforeSearchEvent) {
