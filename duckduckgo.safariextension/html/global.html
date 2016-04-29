@@ -126,6 +126,10 @@
           }
 
           var query = evt.query;
+          if ((safari.extension.settings.ddg_locationbar=="bang") && !(/(![a-zA-Z0-9\/\.\@\$])|(^\s*\\)/.test(query))) {
+            return;
+          }
+
           if (!checkURL(query)) {
             evt.preventDefault();
             if (safari.extension.settings.dev) console.log('query:', query);
