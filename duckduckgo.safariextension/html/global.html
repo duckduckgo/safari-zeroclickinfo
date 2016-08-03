@@ -117,6 +117,15 @@
     safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("contextmenu", ddgContextMenu, false);
 
+    // use previously used localStorage['last_version'] to determine whether
+    // this is a new install or not
+    // https://github.com/duckduckgo/safari-zeroclickinfo/commit/4746f30668033551025847a33234ad15579f53d5#diff-89d925e2bf34fb6e3d713637cfd75bdbL39
+    if (typeof localStorage['last_version'] == "undefined") {
+      if (typeof localStorage['atb'] == "undefined") {
+        localStorage['atb'] = 'v' + Math.ceil((new Date().getTime() - 1456333200000) / 604800000);
+      }
+    }
+
     // Use the beforeSearch event if it is available
     if (window.SafariBeforeSearchEvent) {
         if (safari.extension.settings.dev) console.log('beforeSearc available');
@@ -133,7 +142,14 @@
           if (!checkURL(query)) {
             evt.preventDefault();
             if (safari.extension.settings.dev) console.log('query:', query);
-            evt.target.url = DDG_URL + encodeURIComponent(query) + '&bext=msl';
+
+            var url = DDG_URL + encodeURIComponent(query) + '&bext=msl';
+            if (localStorage['atb']) {
+              url = url + '&atb=' + localStorage['atb']
+            }
+            if (safari.extension.settings.dev) console.log('url:', url);
+
+            evt.target.url = url;
           }
         }, false);
     } else {
@@ -155,7 +171,14 @@
 
             if (!checkURL(url)) {
               evt.preventDefault();
-              evt.target.url = DDG_URL + decodeURIComponent(url) + '&bext=msl';
+
+              var url = DDG_URL + encodeURIComponent(query) + '&bext=msl';
+              if (localStorage['atb']) {
+                url = url + '&atb=' + localStorage['atb']
+              }
+              if (safari.extension.settings.dev) console.log('url:', url);
+
+              evt.target.url = url;
             }
         }, false);
     }
