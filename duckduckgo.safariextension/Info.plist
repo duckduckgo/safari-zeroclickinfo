@@ -66,10 +66,6 @@
 	<dict>
 		<key>Scripts</key>
 		<dict>
-			<key>End</key>
-			<array>
-				<string>js/duckduckgo.js</string>
-			</array>
 			<key>Start</key>
 			<array>
 				<string>js/contextmenu.js</string>
