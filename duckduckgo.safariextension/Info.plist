@@ -80,6 +80,8 @@
 		<array>
 			<string>https://*.duckduckgo.com/*</string>
 			<string>https://duckduckgo.com/*</string>
+			<string>http://*.duckduckgo.com/*</string>
+			<string>http://duckduckgo.com/*</string>
 			<string>http://*.google.com/*</string>
 			<string>http://*.google.ad/*</string>
 			<string>http://*.google.ae/*</string>
