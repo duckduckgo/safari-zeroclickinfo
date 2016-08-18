@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function(){
+!function(){
+
   var atb = document.getElementById('atb-extension-overlay');
 
   // if that div doesn't exist on the page, they didn't install
@@ -416,4 +417,5 @@ document.addEventListener('DOMContentLoaded', function(){
   if (success) {
     success.className += ' is-showing';
   }
-})
+
+}();
