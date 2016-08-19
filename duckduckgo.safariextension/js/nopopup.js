@@ -17,12 +17,21 @@
 "use strict";
 
 document.addEventListener('DOMContentLoaded', function() {
-  if(!safari.extension.settings.nopopups) {
-    return;
-  }
+  safari.self.tab.dispatchMessage("get_settings");
 
-  var elements = document.getElementsByClassName('gb_g');
-  for (var i=0; i < elements.length; i++) {
-    elements[i].style.display = 'none';
-  }
+  safari.self.addEventListener("message", function(event) {
+    if (event.name === "set_settings") {
+
+      var options = event.message;
+
+      if (!options.nopopups) {
+        return
+      }
+
+      var elements = document.getElementsByClassName('gb_g');
+      for (var i=0; i < elements.length; i++) {
+        elements[i].style.display = 'none';
+      }
+    }
+  });
 });

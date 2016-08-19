@@ -117,6 +117,12 @@
     safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("contextmenu", ddgContextMenu, false);
 
+    safari.application.addEventListener("message", function(event) {
+      if (event.name === 'get_settings') {
+        event.target.page.dispatchMessage('set_settings', JSON.parse(JSON.stringify(safari.extension.settings)));
+      }
+    }, false);
+
     // use previously used localStorage['last_version'] to determine whether
     // this is a new install or not
     // https://github.com/duckduckgo/safari-zeroclickinfo/commit/4746f30668033551025847a33234ad15579f53d5#diff-89d925e2bf34fb6e3d713637cfd75bdbL39
