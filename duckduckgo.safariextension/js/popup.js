@@ -129,7 +129,7 @@ function search(){
     input = "\\" + input;
   }
 
-  var special = '&bext=msp';
+  var special = '&bext=msp' + '&atb=' + localStorage['atb'];
 
   if (safari.application.activeBrowserWindow.activeTab.url === undefined ||
       safari.application.activeBrowserWindow.activeTab.url === '') {
