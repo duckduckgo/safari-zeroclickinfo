@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.7.3</string>
+	<string>1.7.4</string>
 	<key>CFBundleVersion</key>
 	<string>32</string>
 	<key>Chrome</key>
@@ -69,12 +69,12 @@
 			<key>Start</key>
 			<array>
 				<string>js/contextmenu.js</string>
+				<string>js/nopopup.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
 		<array>
 			<string>css/noatb.css</string>
-			<string>css/nopopup.css</string>
 		</array>
 		<key>Whitelist</key>
 		<array>
