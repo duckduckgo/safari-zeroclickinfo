@@ -17,7 +17,7 @@
 "use strict";
 
 document.addEventListener('DOMContentLoaded', function() {
-  if(!safari.extension.settings.nopopup) {
+  if(!safari.extension.settings.nopopups) {
     return;
   }
 
