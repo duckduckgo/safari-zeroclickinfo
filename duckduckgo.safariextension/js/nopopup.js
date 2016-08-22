@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (event.name === "set_settings") {
 
       var options = event.message;
+      console.log(options, event);
 
       if (!options.nopopups) {
         return
