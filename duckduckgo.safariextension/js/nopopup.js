@@ -23,16 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (event.name === "set_settings") {
 
       var options = event.message;
-      console.log(options, event);
 
-      if (!options.nopopups) {
+      if (options.nopopups === false) {
         return
       }
 
-      var elements = document.getElementsByClassName('gb_g');
-      for (var i=0; i < elements.length; i++) {
-        elements[i].style.display = 'none';
-      }
+      var style = document.createElement('style');
+      style.appendChild(document.createTextNode('.gb_g { display: none !important; }'));
+      document.head.appendChild(style);
     }
   });
 });
