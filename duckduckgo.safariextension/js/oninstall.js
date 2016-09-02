@@ -16,9 +16,9 @@
 */
 "use strict";
 
-document.addEventListener('DOMContentLoaded', function() {
+setTimeout(function() {
   var atbParam = document.querySelector('html').getAttribute('data-atb');
   if (atbParam) {
     safari.self.tab.dispatchMessage("set_atb", atbParam);
   }
-});
+}, 500);
