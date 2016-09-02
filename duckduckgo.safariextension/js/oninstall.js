@@ -16,7 +16,7 @@
 */
 "use strict";
 
-safari.self.tab.dispatchMessage("get_settings");
+safari.self.tab.dispatchMessage("check_atb_set");
 
 safari.self.addEventListener("message", function(event) {
   if (event.name === "get_atb") {
