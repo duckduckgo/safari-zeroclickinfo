@@ -16,9 +16,15 @@
 */
 "use strict";
 
-setTimeout(function() {
-  var atbParam = document.querySelector('html').getAttribute('data-atb');
-  if (atbParam) {
-    safari.self.tab.dispatchMessage("set_atb", atbParam);
+safari.self.tab.dispatchMessage("get_settings");
+
+safari.self.addEventListener("message", function(event) {
+  if (event.name === "get_atb") {
+    setTimeout(function() {
+      var atbParam = document.querySelector('html').getAttribute('data-atb');
+      if (atbParam) {
+        safari.self.tab.dispatchMessage("set_atb", atbParam);
+      }
+    }, 500);
   }
-}, 500);
+});
