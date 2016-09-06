@@ -121,6 +121,15 @@
       if (event.name === 'get_settings') {
         event.target.page.dispatchMessage('set_settings', JSON.parse(JSON.stringify(safari.extension.settings)));
       }
+      if (event.name === 'check_atb_set') {
+        if (typeof localStorage['atb_set'] == "undefined") {
+          event.target.page.dispatchMessage('get_atb');
+        }
+      }
+      if (event.name === 'set_atb') {
+        localStorage['atb'] = event.message;
+        localStorage['atb_set'] = true;
+      }
     }, false);
 
     // use previously used localStorage['last_version'] to determine whether

@@ -70,6 +70,7 @@
 			<array>
 				<string>js/contextmenu.js</string>
 				<string>js/nopopup.js</string>
+				<string>js/oninstall.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
