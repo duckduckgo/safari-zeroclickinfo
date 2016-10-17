@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       var style = document.createElement('style');
-      style.appendChild(document.createTextNode('.gb_ga.gb_g { display: none !important; }'));
+      style.appendChild(document.createTextNode('.gb_g[aria-label=promo] { display: none !important; }'));
       document.head.appendChild(style);
     }
   });
