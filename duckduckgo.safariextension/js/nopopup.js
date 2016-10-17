@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       var style = document.createElement('style');
-      style.appendChild(document.createTextNode('.gb_g { display: none !important; }'));
+      style.appendChild(document.createTextNode('.ga_gb.gb_g { display: none !important; }'));
       document.head.appendChild(style);
     }
   });
