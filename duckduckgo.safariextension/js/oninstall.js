@@ -17,6 +17,7 @@
 "use strict";
 
 safari.self.tab.dispatchMessage("check_atb_set");
+safari.self.tab.dispatchMessage("get_atb_param");
 
 safari.self.addEventListener("message", function(event) {
   if (event.name === "get_atb") {
@@ -26,5 +27,17 @@ safari.self.addEventListener("message", function(event) {
         safari.self.tab.dispatchMessage("set_atb", atbParam);
       }
     }, 500);
+  }
+
+  if (event.name === "atb_param") {
+    var atbParam = event.message;
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'atb';
+    input.value = atbParam;
+    var form = document.querySelector('#search_form_homepage');
+    if (form) {
+      form.appendChild(input);
+    }
   }
 });
