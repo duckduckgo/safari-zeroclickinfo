@@ -130,6 +130,11 @@
         localStorage['atb'] = event.message;
         localStorage['atb_set'] = true;
       }
+      if (event.name === 'get_atb_param') {
+        if (typeof localStorage['atb'] !== "undefined") {
+          event.target.page.dispatchMessage('atb_param', localStorage['atb']);
+        }
+      }
     }, false);
 
     // use previously used localStorage['last_version'] to determine whether
