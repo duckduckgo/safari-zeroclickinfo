@@ -113,6 +113,34 @@ window.addEventListener("load", function() {
   document.getElementById('search_form_input_homepage').setSelectionRange(0, 9999);
 });
 
+var get_set_atb = function(){
+    var atb = localStorage['atb'],
+        setATB = localStorage['set_atb'];
+
+    if(!atb || !setATB){
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        var DONE = XMLHttpRequest.DONE ? XMLHttpRequest.DONE : 4;
+        if(xhr.readyState == DONE){
+            var curATB = JSON.parse(xhr.responseText);
+            if(curATB !== setATB){
+                localStorage['set_atb'] = curATB.version;
+            }
+        }
+    };
+
+    xhr.open('GET',
+            'https://jason.duckduckgo.com/atb.js?' + Math.ceil(Math.random() * 1e7) 
+            + '&atb=' + atb + '&set_atb=' + setATB,
+            true
+    );
+
+    xhr.send();
+}
 
 function search(){
   var input = document.getElementById("search_form_input_homepage").value;
@@ -128,6 +156,8 @@ function search(){
   if (document.getElementById('adv_ducky').checked === true) {
     input = "\\" + input;
   }
+
+  get_set_atb();
 
   var special = '&bext=msp' + '&atb=' + localStorage['atb'];
 
