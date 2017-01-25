@@ -119,7 +119,7 @@
 
     var update_set_atb = function() {
         var atb = localStorage['atb'],
-            setATB = localStorage['set_atb'];
+            setATB = localStorage['atb_set'];
 
         if(!atb || !setATB){
             return;
@@ -132,7 +132,7 @@
             if(atbRequest.readyState == DONE){
                 var curATB = JSON.parse(atbRequest.responseText);
                 if(curATB.version !== setATB){
-                    localStorage['set_atb'] = curATB.version;
+                    localStorage['atb_set'] = curATB.version;
                 }
             }
         };
@@ -160,8 +160,7 @@
       }
       if (event.name === 'set_atb') {
         localStorage['atb'] = event.message;
-        localStorage['set_atb'] = event.message;
-        localStorage['atb_set'] = true;
+        localStorage['atb_set'] = event.message;
       }
       if (event.name === 'get_atb_param') {
         if (typeof localStorage['atb'] !== "undefined") {

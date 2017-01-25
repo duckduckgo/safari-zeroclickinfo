@@ -115,7 +115,7 @@ window.addEventListener("load", function() {
 
 var update_set_atb = function() {
         var atb = localStorage['atb'],
-            setATB = localStorage['set_atb'];
+            setATB = localStorage['atb_set'];
 
         if(!atb || !setATB){
             return;
@@ -128,7 +128,7 @@ var update_set_atb = function() {
             if(xhr.readyState == DONE){
                 var curATB = JSON.parse(xhr.responseText);
                 if(curATB !== setATB){
-                    localStorage['set_atb'] = curATB.version;
+                    localStorage['atb_set'] = curATB.version;
                 }
             }
         };
