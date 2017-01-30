@@ -253,9 +253,11 @@
     }
     
     safari.application.addEventListener('navigate', function(evt) {
-        var urlMatch = evt.target.url.match(/https?:\/\/duckduckgo.com\/\?q=.*/);
-        if(urlMatch && urlMatch[0]){
-            update_set_atb();
+        if(evt.target && evt.target.url){
+            var urlMatch = evt.target.url.match(/https?:\/\/duckduckgo.com\/\?q=.*/);
+            if(urlMatch && urlMatch[0]){
+                update_set_atb();
+            }
         }
     });
   }
