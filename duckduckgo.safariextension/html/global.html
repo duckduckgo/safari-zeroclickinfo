@@ -117,34 +117,6 @@
     safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("contextmenu", ddgContextMenu, false);
 
-    var update_set_atb = function() {
-        var atb = localStorage['atb'],
-            setATB = localStorage['atb_set'];
-
-        if(!atb || !setATB){
-            return;
-        }
-
-        var atbRequest = new XMLHttpRequest();
-
-        atbRequest.onreadystatechange = function() {
-            var DONE = XMLHttpRequest.DONE ? XMLHttpRequest.DONE : 4;
-            if(atbRequest.readyState == DONE){
-                var curATB = JSON.parse(atbRequest.responseText);
-                if(curATB.version !== setATB){
-                    localStorage['atb_set'] = curATB.version;
-                }
-            }
-        };
-
-        atbRequest.open('GET',
-                'https://jason.duckduckgo.com/atb.js?' + Math.ceil(Math.random() * 1e7)
-                + '&atb=' + atb + '&set_atb=' + setATB,
-                true
-        );
-
-        atbRequest.send();
-    }
 
     safari.application.addEventListener("message", function(event) {
       if (event.name === 'get_settings') {
@@ -153,9 +125,6 @@
       if (event.name === 'check_atb_set') {
         if (typeof localStorage['atb_set'] == "undefined") {
           event.target.page.dispatchMessage('get_atb');
-        }
-        else {
-            update_set_atb()
         }
       }
       if (event.name === 'set_atb') {
@@ -195,6 +164,35 @@
       }
     }
 
+    var update_set_atb = function() {
+        var atb = localStorage['atb'],
+            setATB = localStorage['atb_set'];
+
+        if(!atb || !setATB){
+            return;
+        }
+
+        var atbRequest = new XMLHttpRequest();
+
+        atbRequest.onreadystatechange = function() {
+            var DONE = XMLHttpRequest.DONE ? XMLHttpRequest.DONE : 4;
+            if(atbRequest.readyState == DONE){
+                var curATB = JSON.parse(atbRequest.responseText);
+                if(curATB.version !== setATB){
+                    localStorage['atb_set'] = curATB.version;
+                }
+            }
+        };
+
+        atbRequest.open('GET',
+                'https://jason.duckduckgo.com/atb.js?' + Math.ceil(Math.random() * 1e7)
+                + '&atb=' + atb + '&set_atb=' + setATB,
+                true
+        );
+
+        atbRequest.send();
+    }
+
     // Use the beforeSearch event if it is available
     if (window.SafariBeforeSearchEvent) {
         if (safari.extension.settings.dev) console.log('beforeSearc available');
@@ -221,6 +219,8 @@
             evt.target.url = url;
           }
         }, false);
+
+
     } else {
     // Use the new old beforeNavigate event on Safari 5
         safari.application.addEventListener('beforeNavigate', function(evt) {
@@ -251,7 +251,13 @@
             }
         }, false);
     }
-
+    
+    safari.application.addEventListener('navigate', function(evt) {
+        var urlMatch = evt.target.url.match(/https?:\/\/duckduckgo.com\/\?q=.*/);
+        if(urlMatch && urlMatch[0]){
+            update_set_atb();
+        }
+    });
   }
 
     </script>
