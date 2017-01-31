@@ -113,6 +113,7 @@ window.addEventListener("load", function() {
   document.getElementById('search_form_input_homepage').setSelectionRange(0, 9999);
 });
 
+
 function search(){
   var input = document.getElementById("search_form_input_homepage").value;
 

@@ -117,7 +117,6 @@
     safari.application.addEventListener("command", ddgRightClickCommand, false);
     safari.application.addEventListener("contextmenu", ddgContextMenu, false);
 
-
     safari.application.addEventListener("message", function(event) {
       if (event.name === 'get_settings') {
         event.target.page.dispatchMessage('set_settings', JSON.parse(JSON.stringify(safari.extension.settings)));
@@ -219,8 +218,6 @@
             evt.target.url = url;
           }
         }, false);
-
-
     } else {
     // Use the new old beforeNavigate event on Safari 5
         safari.application.addEventListener('beforeNavigate', function(evt) {
