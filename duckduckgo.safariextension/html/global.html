@@ -248,15 +248,17 @@
             }
         }, false);
     }
-    
-    safari.application.addEventListener('navigate', function(evt) {
-        if(evt.target && evt.target.url){
-            var urlMatch = evt.target.url.match(/https?:\/\/duckduckgo.com\/\?q=.*/);
-            if(urlMatch && urlMatch[0]){
-                update_set_atb();
+
+    if(localStorage['atb'] && localStorage['atb_set'] && window.SafariNavigateEvent){
+        safari.application.addEventListener('navigate', function(evt) {
+            if(evt.target && evt.target.url){
+                var urlMatch = evt.target.url.match(/https?:\/\/duckduckgo.com\/\?*/);
+                if(urlMatch && urlMatch[0]){
+                    update_set_atb();
+                }
             }
-        }
-    });
+        });
+     }
   }
 
     </script>
