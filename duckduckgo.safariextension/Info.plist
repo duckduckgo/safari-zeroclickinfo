@@ -69,6 +69,7 @@
 			<key>Start</key>
 			<array>
 				<string>js/oninstall.js</string>
+				<string>js/xhr-intercept.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
