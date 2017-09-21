@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>DuckDuckGo</string>
 	<key>Builder Version</key>
-	<string>11602.3.12.0.1</string>
+	<string>12604.1.38.1.7</string>
 	<key>CFBundleDisplayName</key>
 	<string>DuckDuckGo</string>
 	<key>CFBundleIdentifier</key>
@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.8.0</string>
+	<string>1.9.0</string>
 	<key>CFBundleVersion</key>
-	<string>38</string>
+	<string>39</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Context Menu Items</key>
@@ -35,13 +35,13 @@
 		<array>
 			<dict>
 				<key>Filename</key>
-				<string>html/popup.html</string>
+				<string>html/trackers.html</string>
 				<key>Height</key>
-				<real>170</real>
+				<integer>700</integer>
 				<key>Identifier</key>
 				<string>popup</string>
 				<key>Width</key>
-				<real>520</real>
+				<integer>240</integer>
 			</dict>
 		</array>
 		<key>Toolbar Items</key>
@@ -50,7 +50,7 @@
 				<key>Identifier</key>
 				<string>popup_button</string>
 				<key>Image</key>
-				<string>img/ddg-icon.png</string>
+				<string>Icon-32.png</string>
 				<key>Label</key>
 				<string>DuckDuckGo</string>
 				<key>Palette Label</key>
@@ -68,14 +68,12 @@
 		<dict>
 			<key>Start</key>
 			<array>
-				<string>js/contextmenu.js</string>
-				<string>js/nopopup.js</string>
 				<string>js/oninstall.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
 		<array>
-			<string>css/noatb.css</string>
+			<string>public/css/trackers.css</string>
 		</array>
 		<key>Whitelist</key>
 		<array>

@@ -1,0 +1,159 @@
+@import "../vars";
+@import "../mixins";
+
+/* Normalize File */
+@import "../../node_modules/normalize.scss/normalize";
+
+/* Font definitions */
+@import "fonts";
+
+
+/**
+ * DDG Chrome Extension Resets & Base Styles
+ */
+
+html, body {
+    height: 100%;
+    min-height: 100%;
+
+    &.body--neutral {
+        background: $color--neutral-bg;
+    }
+}
+
+h1, h2, h3, h4, h5, h5 {
+    font-size: $font__size--default;
+    margin: 0;
+    padding: 0;
+
+    &.menu-title {
+      font-weight: bold;
+      padding: 14px 0;
+    }
+}
+
+section, ul, ol, li {
+    margin: 0;
+    padding: 0;
+
+    &.divider-bottom {
+        border-bottom: 1px solid $platinum;
+    }
+}
+
+form, input, select, option, button {
+    outline: none;
+
+    * {
+        outline: none;
+    }
+}
+
+
+/* Fonts */
+body,
+input,
+textarea,
+select {
+    font-family:$font__face--default;
+    font-size: $font__size--default;
+    font-weight: normal;
+    color: $slate;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+
+/* Links */
+a {
+    color: $blue;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &.link-secondary {
+        color: $slate;
+    }
+}
+
+/* Hide element */
+.is-hidden {
+    display: none;
+}
+
+
+/* Position */
+.pull-right {
+    position: absolute;
+    right: 14px;
+}
+
+.pull-left {
+    position: absolute;
+    left: 14px;
+}
+
+
+/* Card Display */
+.card {
+    background-color: $card__bg-color;
+    border-radius: $card__border-radius;
+    box-shadow: $card__box-shadow;
+    padding: $card__padding;
+    margin: $card__margin;
+
+    .border--bottom {
+        border-bottom: $card__border;
+    }
+
+    .border--top {
+        border-top: $card__border;
+    }
+
+    .menu-title {
+        padding: 14px 7px 7px 14px;
+    }
+}
+
+
+/* Icons */
+/* Standard icon display within the extension */
+.icon {
+    @include icon_display();
+    /* you'll need to set the background image within each instance of .icon */
+
+    &.icon__arrow {
+        width: 16px;
+        height: 16px;
+
+        .is-browser--chrome & {
+            background-image: url($icon__arrow--chrome);
+        }
+
+        .is-browser--moz & {
+            background-image: url($icon__arrow--moz);
+        }
+
+        &.icon__arrow--left {
+            transform: rotate(180deg);
+        }
+    }
+
+    &.icon__settings {
+        width: 16px;
+        height: 16px;
+
+        .is-browser--chrome & {
+            background-image: url($icon__settings--chrome);
+        }
+
+        .is-browser--moz & {
+            background-image: url($icon__settings--moz);
+        }
+
+    }
+}
