@@ -15,10 +15,10 @@ require.scopes.settings =(() => {
     }
 
     function buildSettingsFromLocalStorage() {
-        chrome.storage.local.get(['settings'], function(results){
-            Object.assign(settings, results['settings']);
+     //   chrome.storage.local.get(['settings'], function(results){
+            Object.assign(settings, localStorage['settings']);
             runExternalSettings();
-        });
+    //    });
     }
 
     function runExternalSettings(){
@@ -39,7 +39,8 @@ require.scopes.settings =(() => {
     }
 
     function syncSettingTolocalStorage(){
-        chrome.storage.local.set({'settings': settings});
+        //chrome.storage.local.set({'settings': settings});
+        localStorage['settings'] = settings
         return true;
     }
 
@@ -58,18 +59,18 @@ require.scopes.settings =(() => {
     function updateSetting(name, value) {
         settings[name] = value;
         runExternalSetting(name, value);
-        syncSettingTolocalStorage();
+        //syncSettingTolocalStorage();
     }
 
     function logSettings () {
-        chrome.storage.local.get(['settings'], function (s) { 
-            console.log(s.settings) 
-        })
+        //chrome.storage.local.get(['settings'], function (s) { 
+        //    console.log(s.settings) 
+        //})
     }
 
     function registerListeners(){
-        chrome.runtime.onMessage.addListener(onUpdateSetting);
-        chrome.runtime.onMessage.addListener(onGetSetting);
+        //chrome.runtime.onMessage.addListener(onUpdateSetting);
+        //chrome.runtime.onMessage.addListener(onGetSetting);
     }
 
     var onUpdateSetting = function(req, sender, res) {

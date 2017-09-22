@@ -196,6 +196,8 @@ BaseModel.prototype = $.extend({}, mixins.events, {
             var msgData = message.msgName;
             var newMessage = { name: msgName, data: msgData };
 
+            console.log(newMessage);
+
             safari.extension.globalPage.contentWindow.handleMessage(message, function (result) {
                 resolve(result);
             });

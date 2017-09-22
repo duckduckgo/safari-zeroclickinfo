@@ -37,43 +37,24 @@ require.scopes.utils = ( () => {
     }
 
     function syncToStorage (data){
-        chrome.storage.local.set(data, function() { });
+        //chrome.storage.local.set(data, function() { });
     }
 
     function getFromStorage (key, callback){
-        chrome.storage.local.get(key, function(result){
-            if(result[key]){
-                callback(result[key]);
-            }
-        });
+        //chrome.storage.local.get(key, function(result){
+        //    if(result[key]){
+        //        callback(result[key]);
+        //    }
+        //});
     }
 
     function getCurrentURL(callback){
-        chrome.tabs.query({"active": true, "lastFocusedWindow": true}, function(tabData) {
-            if(tabData.length){
-                callback(tabData[0].url)
-            }
-        });
+        callback(safari.application.activeBrowserWindow.activeTab.url)
     }
 
     function getCurrentTab(callback){
-        return new Promise( (resolve, reject) => {
-            chrome.tabs.query({"active": true, "lastFocusedWindow": true}, function(tabData) {
-                if(tabData.length){
-                    resolve(tabData[0])
-                }
-            });
-        })
+        callback(safari.application.activeBrowserWindow.activeTab)
     }
-
-    chrome.runtime.onMessage.addListener( (req, sender, res) => {
-        if (req.getCurrentTab) {
-            getCurrentTab().then((tab) => {
-                res(tab)
-            })
-        }
-        return true;
-    })
 
     return {
         extractHostFromURL: extractHostFromURL,

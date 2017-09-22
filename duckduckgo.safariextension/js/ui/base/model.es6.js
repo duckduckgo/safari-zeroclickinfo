@@ -113,6 +113,8 @@ BaseModel.prototype = $.extend({},
                 let msgData = message.msgName
                 let newMessage = {name: msgName, data: msgData}
 
+                console.log(newMessage)
+
                 safari.extension.globalPage.contentWindow.handleMessage(message, ((result) => {
                         resolve(result)
                     })

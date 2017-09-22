@@ -37,7 +37,7 @@ require.scopes.load = ( () => {
             }
         }
         else {
-            xhr.open("GET", chrome.extension.getURL(params.url));
+            xhr.open("GET", safari.extension.baseURI + params.url);
         }
 
         xhr.send(null);

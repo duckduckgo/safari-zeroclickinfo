@@ -1230,7 +1230,7 @@ module.exports = hyperx(belCreateElement, {comments: true})
 module.exports.default = module.exports
 module.exports.createElement = belCreateElement
 
-},{"global/document":29,"hyperx":32,"on-load":33}],28:[function(require,module,exports){
+},{"global/document":29,"hyperx":32,"on-load":34}],28:[function(require,module,exports){
 
 },{}],29:[function(require,module,exports){
 (function (global){
@@ -1572,9 +1572,34 @@ var closeRE = RegExp('^(' + [
 function selfClosing (tag) { return closeRE.test(tag) }
 
 },{"hyperscript-attribute-to-property":31}],33:[function(require,module,exports){
+assert.notEqual = notEqual
+assert.notOk = notOk
+assert.equal = equal
+assert.ok = assert
+
+module.exports = assert
+
+function equal (a, b, m) {
+  assert(a == b, m) // eslint-disable-line eqeqeq
+}
+
+function notEqual (a, b, m) {
+  assert(a != b, m) // eslint-disable-line eqeqeq
+}
+
+function notOk (t, m) {
+  assert(!t, m)
+}
+
+function assert (t, m) {
+  if (!t) throw new Error(m || 'AssertionError')
+}
+
+},{}],34:[function(require,module,exports){
 /* global MutationObserver */
 var document = require('global/document')
 var window = require('global/window')
+var assert = require('assert')
 var watch = Object.create(null)
 var KEY_ID = 'onloadid' + (new Date() % 9e6).toString(36)
 var KEY_ATTR = 'data-' + KEY_ID
@@ -1592,6 +1617,16 @@ if (window && window.MutationObserver) {
       eachMutation(mutations[i].addedNodes, turnon)
     }
   })
+  if (document.body) {
+    beginObserve(observer)
+  } else {
+    document.addEventListener('DOMContentLoaded', function (event) {
+      beginObserve(observer)
+    })
+  }
+}
+
+function beginObserve (observer) {
   observer.observe(document.body, {
     childList: true,
     subtree: true,
@@ -1602,6 +1637,7 @@ if (window && window.MutationObserver) {
 }
 
 module.exports = function onload (el, on, off, caller) {
+  assert(document.body, 'on-load: will not work prior to DOMContentLoaded')
   on = on || function () {}
   off = off || function () {}
   el.setAttribute(KEY_ATTR, 'o' + INDEX)
@@ -1609,6 +1645,9 @@ module.exports = function onload (el, on, off, caller) {
   INDEX += 1
   return el
 }
+
+module.exports.KEY_ATTR = KEY_ATTR
+module.exports.KEY_ID = KEY_ID
 
 function turnon (index, el) {
   if (watch[index][0] && watch[index][2] === 0) {
@@ -1660,4 +1699,4 @@ function eachMutation (nodes, fn) {
   }
 }
 
-},{"global/document":29,"global/window":30}]},{},[10]);
+},{"assert":33,"global/document":29,"global/window":30}]},{},[10]);

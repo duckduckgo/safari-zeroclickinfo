@@ -50,6 +50,7 @@ function updateLists () {
 // Make sure the list updater runs on start up
 updateLists()
 
+/*    
 chrome.alarms.onAlarm.addListener(alarm => {
     if (alarm.name === 'updateEasyLists') {
         updateLists()
@@ -59,3 +60,4 @@ chrome.alarms.onAlarm.addListener(alarm => {
 // set an alarm to recheck the lists
 // update every 3 hours
 chrome.alarms.create('updateEasyLists', {periodInMinutes: 180})
+*/

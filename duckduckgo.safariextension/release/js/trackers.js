@@ -12,7 +12,7 @@ let entityList,
     entityMap;
 
 load.JSONfromExternalFile(settings.getSetting('entityList'), (list) => entityList = list)
-load.JSONfromExternalFile(settings.getSetting('entityMap'), (list) => entityMap = list)
+load.JSONfromLocalFile(settings.getSetting('entityMap'), (list) => entityMap = list)
 
 require.scopes.trackers = (function() {    
 
