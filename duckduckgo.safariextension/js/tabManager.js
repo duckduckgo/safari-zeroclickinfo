@@ -10,12 +10,14 @@ class TabManager {
      * 3. When we get a new main_frame request
      */
     create(tabData) {
+        console.log(`CREATE TAB: ${tabData.url}`)
         let newTab = new Tab(tabData);
         this.tabContainer[newTab.id] = newTab;
         return newTab;
     };
 
     delete(id) {
+        console.log(`DELETE TAB ${id}`)
         delete this.tabContainer[id];
     };
 
@@ -61,10 +63,27 @@ class TabManager {
 
 var tabManager = new TabManager();
 
+/*
 chrome.tabs.onRemoved.addListener( (id, info) => {
     // remove the tab object
     tabManager.delete(id);
 });
+*/
+
+var closeHandler = function (e) {
+    let url
+    if (e.type === 'close') {
+        url = e.target.url
+    } else {
+        url = e.message.unload
+    }
+
+    let tabs = getDuplicateTabCount(e.target.browserWindow.tabs, url)
+    // the safari tab may or may not exist when we get the event so 0 or 1 tabs
+    if (tabs <= 1) tabManager.delete(url)
+}
+
+safari.application.addEventListener("close", closeHandler, true);
 
 /* This handles the new tab case. You have clicked to 
  * open a new tab and haven't typed in a url yet.
@@ -72,9 +91,13 @@ chrome.tabs.onRemoved.addListener( (id, info) => {
  * an intital tab instance here. We'll update this instance
  * later on when webrequests start coming in.
  */
-chrome.tabs.onUpdated.addListener( (id, info) => {
-    if (!tabManager.get({'tabId': id})) {
-        info.id = id;
+/*
+safari.application.addEventListener('open', ( (tabEvent) => {
+    if (!tabManager.get({'tabId': tabEvent.url})) {
+        // adapt safari tabevent data to work with tabManager.create
+        // safari doesn't have unique IDs for each tab so we'll use the url for now
+        let createData = {id: tabEvent.url, url: tabEvent.url, requestId: 0, status: 'complete'}
+
         tabManager.create(info);
     }
     else {
@@ -82,15 +105,6 @@ chrome.tabs.onUpdated.addListener( (id, info) => {
         if (tab && info.status) {
             tab.status = info.status;
 
-            /**
-             * When the tab finishes loading:
-             * 1. check main_frame url (via tab.url) for http/s, update site score
-             * 2. check for incomplete upgraded https upgrade requests, whitelist 
-             * the entire site if there are any then notify tabManager
-             *
-             * NOTE: we aren't making a distinction between active and passive
-             * content when https content is mixed after a forced upgrade
-             */
             if (tab.status === 'complete') {
 
                 if (tab.url.match(/^https:\/\//)) {
@@ -103,8 +117,9 @@ chrome.tabs.onUpdated.addListener( (id, info) => {
         }
     }
 
-});
-
+}), true);
+*/
+/*
 chrome.runtime.onMessage.addListener( (req, sender, res) => {
     if (req.whitelisted) {
         tabManager.whitelistDomain(req.whitelisted)
@@ -119,15 +134,34 @@ chrome.runtime.onMessage.addListener( (req, sender, res) => {
     }
     return true;
 });
+*/
+
+function getDuplicateTabCount (tabs, url) {
+    let count = 0
+    tabs.forEach((tab) => {
+        if(tab.url === url) {
+            count += 1
+        }
+    })
+    return count
+}
 
 // update tab url after the request is finished. This makes
 // sure we have the correct url after any https rewrites
-chrome.webRequest.onHeadersReceived.addListener( (request) => {
+safari.application.addEventListener('message', ( (request) => {
+
+    if (request.name === 'unloadTab') {
+        closeHandler(request)
+    }
+
+    /*
     let tab = tabManager.get({tabId: request.tabId});
     if (tab) {
         tab.url = request.url;
         tab.updateSite();
         Companies.incrementPages();
     }
-}, {urls: ['<all_urls>'], types: ['main_frame']});
+    */
+}), true);
+
 

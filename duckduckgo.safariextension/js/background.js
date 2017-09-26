@@ -19,6 +19,7 @@ var debugRequest = false;
 var trackers = require('trackers');
 var utils = require('utils');
 var settings = require('settings');
+let browser = 'safari'
 
 function Background() {
   $this = this;
@@ -26,6 +27,11 @@ function Background() {
 
 var background = new Background();
 
+var handleMessage = function (message) {
+    if (message.name === 'canLoad') {
+        return onBeforeRequest(message)
+    }
+}
 
 /** 
  * Before each request:
@@ -34,15 +40,34 @@ var background = new Background();
  * - Upgrade http -> https per HTTPS Everywhere rules
  */
 var onBeforeRequest = function (requestData) { 
-    let potentialTracker = requestData.message
-    let currentURL = requestData.target.url
+    let potentialTracker = requestData.message.potentialTracker
+    let currentURL = requestData.message.mainFrameURL
+
+    if (!(currentURL && potentialTracker)) return
+
+    // for safari we need to create the tab obj in here. The tab open event doesn't
+    // contain any tab specific data for us to do this in tabManager
+    let thisTab = tabManager.get({tabId: currentURL})
+    if (!thisTab && requestData.message.frame === 'main_frame') {
+        let createTabData = {id: currentURL, url: currentURL, requestId: 0, status: 'complete'}
+        thisTab = tabManager.create(createTabData)
+    }
 
     var tracker =  trackers.isTracker(potentialTracker, currentURL, 0, requestData);
     
     if (tracker) {
-        console.info("[" + tracker.parentCompany + "] " + tracker.url);
-        return {cancel: true};
+        thisTab.site.addTracker(tracker)
+        thisTab.addToTrackers(tracker)
+
+        if (!thisTab.site.whitelisted) {
+            thisTab.addOrUpdateTrackersBlocked(tracker)
+
+            if (tracker.parentCompany !== 'unknown') Companies.add(tracker.parentCompany)
+
+            console.info(`${thisTab.site.domain} [${tracker.parentCompany }] ${tracker.url}`);
+            return {cancel: true};
+        }
     }   
 }
 
-safari.application.addEventListener("message", onBeforeRequest, true);
+safari.application.addEventListener("message", handleMessage, true);

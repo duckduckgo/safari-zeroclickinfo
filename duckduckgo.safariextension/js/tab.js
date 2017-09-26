@@ -57,20 +57,20 @@ class Tab {
         this.site = new Site(utils.extractHostFromURL(tabData.url))
 
         // set the new tab icon to the dax logo
-        chrome.browserAction.setIcon({path: 'img/icon_48.png', tabId: tabData.tabId})
+        //chrome.browserAction.setIcon({path: 'img/icon_48.png', tabId: tabData.tabId})
     };
 
     updateBadgeIcon () {
         if (!this.site.specialDomain() && !this.site.whitelisted && settings.getSetting('trackerBlockingEnabled')) {
             let scoreIcon = scoreIconLocations[this.site.score.get()];
-            chrome.browserAction.setIcon({path: scoreIcon, tabId: this.id});
+            //chrome.browserAction.setIcon({path: scoreIcon, tabId: this.id});
         }
     };
 
     updateSite () {
         this.site = new Site(utils.extractHostFromURL(this.url))
         // reset badge to dax whenever we go to a new site
-        chrome.browserAction.setIcon({path: 'img/icon_48.png', tabId: this.id});
+        //chrome.browserAction.setIcon({path: 'img/icon_48.png', tabId: this.id});
     };
 
     /* Store all trackers for a given tab even if we
@@ -131,34 +131,7 @@ class Tab {
 
             // then reload this tab, downgraded from https to http
             const downgrade = this.url.replace(/^https:\/\//, 'http://')
-            chrome.tabs.update(this.id, { url: downgrade })
+            //chrome.tabs.update(this.id, { url: downgrade })
         }
     }
 }
-
-chrome.webRequest.onHeadersReceived.addListener((header) => {
-    let tab = tabManager.get({'tabId': header.tabId})
-    
-    // Remove successful & rewritten requests    
-    if (tab && header.statusCode < 400) {
-
-        tab.httpsRequests = tab.httpsRequests.filter((url) => {
-            // disregard diff between 'https://www.foo.com' and 'https://foo.com'
-            const _url = url.replace('https://www.', 'https://')
-            const _headerUrl = header.url.replace('https://www.', 'https://')
-            return _url !== _headerUrl
-        });
-    }
-
-}, {urls: ['<all_urls>']});
-
-chrome.webRequest.onBeforeRedirect.addListener((req) => {
-    // count redirects
-    let tab = tabManager.get({'tabId': req.tabId})
-    if (!tab) return
-    if (tab.httpsRedirects[req.requestId]) {
-        tab.httpsRedirects[req.requestId] += 1
-    } else {
-        tab.httpsRedirects[req.requestId] = 1        
-    }
-}, {urls: ["*://*/*"]})
