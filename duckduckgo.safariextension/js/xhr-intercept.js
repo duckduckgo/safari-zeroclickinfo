@@ -5,7 +5,7 @@ var onBeforeLoad = (e) => {
     let frame = (window === window.top) ? "main_frame" : "sub_frame"
 
     if (frame == 'main_frame' && !mainFrameURL) {
-        mainFrameURL = e.target.baseURI
+        mainFrameURL = getLocation()
     }
 
     if (e.url) {
@@ -17,9 +17,19 @@ var onBeforeLoad = (e) => {
 
 var unload = (e) => {
     if (window === window.top) {
-        safari.self.tab.dispatchMessage('unloadTab', {unload: e.target.URL})
+        safari.self.tab.dispatchMessage('unloadTab', {unload: mainFrameURL})
     }
+}
+
+// return location without params
+function getLocation () {
+    return location.protocol + "//" + location.hostname + location.pathname
 }
 
 window.onbeforeunload = ((e) => unload(e))
 document.addEventListener('beforeload', onBeforeLoad, true);
+document.addEventListener("DOMContentLoaded", function(event) {
+    if (window === window.top) {
+        safari.self.tab.dispatchMessage('tabLoaded', {mainFrameURL: mainFrameURL})
+    }
+});

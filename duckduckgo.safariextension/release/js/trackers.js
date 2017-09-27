@@ -38,7 +38,12 @@ function isTracker(urlToCheck, currLocation, tabId, request) {
 
     if (settings.getSetting('trackerBlockingEnabled')) {
         
-        let urlSplit = tldjs.parse(urlToCheck).hostname.split('.');
+        let urlHost = tldjs.parse(urlToCheck).hostname
+
+        if (!urlHost) return
+
+        let urlSplit = urlHost.split('.')
+
         var isWhiteListed = false;
         var social_block = settings.getSetting('socialBlockingIsEnabled');
         var blockSettings = settings.getSetting('blocking').slice(0);

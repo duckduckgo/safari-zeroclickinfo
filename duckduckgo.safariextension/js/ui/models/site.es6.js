@@ -27,6 +27,7 @@ Site.prototype = $.extend({},
       modelName: 'site',
 
       setSiteObj: function() {
+          this.tab = safari.extension.globalPage.contentWindow.tabManager.get({tabId: safari.application.activeBrowserWindow.tabs[0].url})
           if (!this.tab) {
               this.domain = 'new tab'; // tab can be null for firefox new tabs
               this.siteRating = '';

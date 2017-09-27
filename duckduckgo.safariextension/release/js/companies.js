@@ -91,6 +91,7 @@ var Companies = ( () => {
 
 Companies.buildFromStorage();
 
+/*
 // sync data to storage when a tab finishes loading
 chrome.tabs.onUpdated.addListener( (id,info) => {
     if (info.status === "complete") {
@@ -107,3 +108,5 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
     }
     return true;
 });
+*/
+

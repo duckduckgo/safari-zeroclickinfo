@@ -109,16 +109,12 @@ BaseModel.prototype = $.extend({},
         fetch: function(message) {
             return new Promise( (resolve, reject) => {
                 // adapt message for safari
-                let msgName = Object.keys(message)[0]
-                let msgData = message.msgName
-                let newMessage = {name: msgName, data: msgData}
-
-                console.log(newMessage)
-
-                safari.extension.globalPage.contentWindow.handleMessage(message, ((result) => {
-                        resolve(result)
-                    })
-                );
+                if (message.getCurrentTab) {
+                    resolve(safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url }))
+                }
+                else if (message.getTopBlocked) {
+                    resolve(safari.extension.globalPage.contentWindow.Companies.getTopBlocked())
+                }
             })
         }
     }

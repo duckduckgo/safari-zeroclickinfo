@@ -81,6 +81,8 @@ var closeHandler = function (e) {
     let tabs = getDuplicateTabCount(e.target.browserWindow.tabs, url)
     // the safari tab may or may not exist when we get the event so 0 or 1 tabs
     if (tabs <= 1) tabManager.delete(url)
+
+    updateTabBadge(e, 0)
 }
 
 safari.application.addEventListener("close", closeHandler, true);
@@ -154,6 +156,10 @@ safari.application.addEventListener('message', ( (request) => {
         closeHandler(request)
     }
 
+    if (request.name === 'tabLoaded') {
+        updateTabBadge(request)
+    }
+
     /*
     let tab = tabManager.get({tabId: request.tabId});
     if (tab) {
@@ -164,4 +170,31 @@ safari.application.addEventListener('message', ( (request) => {
     */
 }), true);
 
+// temp hack to show site score as badge icon number
+var updateTabBadge = function(e, val) {
+    console.log(`UPDATE BADGE: ${e.name}`)
 
+    if (val === 0) {
+        safari.extension.toolbarItems[0].badge = val
+    }
+    else {
+        let map = {A: 0, B: 1, C: 2, D: 3}
+        let url = (e.target && e.target.url) ? e.target.url : (e.target.activeTab) ? e.target.activeTab.url : ''
+
+        if (e.name === 'tabLoaded') url = e.message.mainFrameURL
+
+        let tab = tabManager.get({tabId: url})
+
+        console.log("UPDATE BADGE FOR TAB")
+        console.log(tab)
+
+        if (!tab) {
+            safari.extension.toolbarItems[0].badge = 0
+                return
+        }
+        safari.extension.toolbarItems[0].badge = map[tab.site.score.get()]
+    
+    }
+}
+
+safari.application.addEventListener('activate', updateTabBadge, true)

@@ -6,6 +6,18 @@
  * The Score attributes are then used generate a site
  * privacy score used in the popup.
  */
+var load = require('load')
+var settings = require('settings')
+
+let tosdr 
+let tosdrRegexList
+let tosdrListLoaded
+load.JSONfromLocalFile(settings.getSetting('tosdr'), (data) => {
+    tosdr = data
+    tosdrRegexList = Object.keys(tosdr).map(x => new RegExp(x))
+    tosdrListLoaded = true
+})
+
 const siteScores = ['A', 'B', 'C', 'D']
 
 // percent of the top 500 sites a major tracking network is seen on
@@ -31,7 +43,7 @@ class Score {
             let match = tosdrSite.exec(this.domain)
             if (match) {
                 // remove period at end for lookup in pagesSeenOn
-                let name = match[0].slice(0,-1)
+                let name = match[0]
                 let tosdrData = tosdr[name]
 
                 return result = {
@@ -185,7 +197,7 @@ class Site {
         if (this.domain === 'extensions')
             return "extensions";
 
-        if (this.domain === chrome.runtime.id)
+        if (this.domain.match('safari-extension://'))
             return "options";
 
         if (this.domain === 'newtab')

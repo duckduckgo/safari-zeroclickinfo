@@ -192,15 +192,11 @@ BaseModel.prototype = $.extend({}, mixins.events, {
     fetch: function fetch(message) {
         return new Promise(function (resolve, reject) {
             // adapt message for safari
-            var msgName = Object.keys(message)[0];
-            var msgData = message.msgName;
-            var newMessage = { name: msgName, data: msgData };
-
-            console.log(newMessage);
-
-            safari.extension.globalPage.contentWindow.handleMessage(message, function (result) {
-                resolve(result);
-            });
+            if (message.getCurrentTab) {
+                resolve(safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url }));
+            } else if (message.getTopBlocked) {
+                resolve(safari.extension.globalPage.contentWindow.Companies.getTopBlocked());
+            }
         });
     }
 });

@@ -145,6 +145,7 @@ Site.prototype = $.extend({}, Parent.prototype, {
     modelName: 'site',
 
     setSiteObj: function setSiteObj() {
+        this.tab = safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url });
         if (!this.tab) {
             this.domain = 'new tab'; // tab can be null for firefox new tabs
             this.siteRating = '';
@@ -850,8 +851,8 @@ Site.prototype = $.extend({}, Parent.prototype, {
             if (tab) {
                 _this.model.fetch({ getTab: tab.id }).then(function (backgroundTabObj) {
                     if (backgroundTabObj) {
-                        self.model.tab = backgroundTabObj;
-                        self.model.domain = backgroundTabObj.site.domain;
+                        self.model.tab = safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url });
+                        self.model.domain = self.model.tab.site.domain;
                         self._getSiteRating();
                     }
 

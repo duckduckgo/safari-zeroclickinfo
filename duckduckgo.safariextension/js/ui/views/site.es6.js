@@ -68,8 +68,8 @@ Site.prototype = $.extend({},
                 if (tab) {
                     this.model.fetch({getTab: tab.id}).then( (backgroundTabObj) => {
                         if (backgroundTabObj) {
-                            self.model.tab = backgroundTabObj
-                            self.model.domain = backgroundTabObj.site.domain
+                            self.model.tab = safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url });
+                            self.model.domain = self.model.tab.site.domain
                             self._getSiteRating()
                         }
 
