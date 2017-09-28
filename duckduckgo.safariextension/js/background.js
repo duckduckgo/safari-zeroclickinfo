@@ -45,12 +45,17 @@ var onBeforeRequest = function (requestData) {
 
     if (!(currentURL && potentialTracker)) return
 
+    //console.log(`REQUEST: page: ${currentURL} tabId: ${requestData.message.tabId} tracker: ${potentialTracker}`)
+
     // for safari we need to create the tab obj in here. The tab open event doesn't
     // contain any tab specific data for us to do this in tabManager
-    let thisTab = tabManager.get({tabId: currentURL})
+    
+    let tabId = tabManager.getTabId(requestData)
+    let thisTab = tabManager.get({tabId: tabId})
+
     if (!thisTab && requestData.message.frame === 'main_frame') {
-        let createTabData = {id: currentURL, url: currentURL, requestId: 0, status: 'complete'}
-        thisTab = tabManager.create(createTabData)
+        thisTab = tabManager.create(requestData)
+        console.log(`CREATED TABID: ${thisTab}`)
     }
 
     var tracker =  trackers.isTracker(potentialTracker, currentURL, 0, requestData);
