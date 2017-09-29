@@ -3,6 +3,17 @@ class TabManager {
         this.tabContainer = {}
     };
 
+    getActiveTab () {
+
+        let active = safari.application.activeBrowserWindow.activeTab
+        console.log(active)
+        if (active.ddgTabId) {
+            return tabManager.get({tabId: active.ddgTabId})
+        } else {
+            let id = getTabId({target: active})
+            return tabManager.get({tabId: id})
+        }   
+    }
     // send safari event, get tab id
     getTabId (e) {
         if (e.target.ddgTabId) return e.target.ddgTabId
@@ -181,14 +192,14 @@ safari.application.addEventListener('message', ( (request) => {
 // temp hack to show site score as badge icon number
 var updateTabBadge = function(e, val) {
     let tabId = tabManager.getTabId(e)
-
+    safari.extension.popovers[0].contentWindow.location.reload()
     console.log(`UPDATE BADGE: ${e.target.ddgTabId}`)
 
     if (val === 0) {
         safari.extension.toolbarItems[0].badge = val
     }
     else {
-        let map = {A: 0, B: 1, C: 2, D: 3}
+        let map = {A: 1, B: 2, C: 3, D: 4}
         let tab = tabManager.get({tabId: e.target.ddgTabId})
 
         console.log("UPDATE BADGE FOR TAB")

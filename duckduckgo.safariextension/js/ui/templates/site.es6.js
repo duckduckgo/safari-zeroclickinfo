@@ -22,7 +22,7 @@ module.exports = function () {
             </li>
             <li class="site-info__li--tracker-count border--bottom">
                 <h2>
-                    <a href="#" class="js-site-show-all-trackers link-secondary">
+                    <a href="javascript: void(0)" class="js-site-show-all-trackers link-secondary">
                         <span class="site-info__tracker-count">${countText}</span>Unique Trackers Blocked
                         <span class="icon icon__arrow pull-right"></span>
                     </a>

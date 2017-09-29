@@ -3,6 +3,30 @@ class TabManager {
         this.tabContainer = {}
     };
 
+    getActiveTab () {
+
+        let active = safari.application.activeBrowserWindow.activeTab
+        console.log(active)
+        if (active.ddgTabId) {
+            return tabManager.get({tabId: active.ddgTabId})
+        } else {
+            let id = getTabId({target: active})
+            return tabManager.get({tabId: id})
+        }   
+    }
+    // send safari event, get tab id
+    getTabId (e) {
+        if (e.target.ddgTabId) return e.target.ddgTabId
+
+        for (let id in safari.application.activeBrowserWindow.tabs) {
+            if (safari.application.activeBrowserWindow.tabs[id] === e.target) {
+                // also add the id to this safari tab
+                safari.application.activeBrowserWindow.tabs[id].ddgTabId = id
+                return id
+            }
+        }
+    }
+
     /* This overwrites the current tab data for a given
      * id and is only called in three cases:
      * 1. When we rebuild saved tabs when the browser is restarted
@@ -11,7 +35,11 @@ class TabManager {
      */
     create(tabData) {
         console.log(`CREATE TAB: ${tabData.url}`)
-        let newTab = new Tab(tabData);
+        let createTabData = {url: tabData.message.currentURL, id: tabManager.getTabId(tabData)}
+
+        console.log(createTabData)
+
+        let newTab = new Tab(createTabData);
         this.tabContainer[newTab.id] = newTab;
         return newTab;
     };
@@ -71,18 +99,9 @@ chrome.tabs.onRemoved.addListener( (id, info) => {
 */
 
 var closeHandler = function (e) {
-    let url
-    if (e.type === 'close') {
-        url = e.target.url
-    } else {
-        url = e.message.unload
-    }
-
-    let tabs = getDuplicateTabCount(e.target.browserWindow.tabs, url)
-    // the safari tab may or may not exist when we get the event so 0 or 1 tabs
-    if (tabs <= 1) tabManager.delete(url)
-
-    updateTabBadge(e, 0)
+    let tabId = tabManager.getTabId(e)
+    if (tabId) tabManager.delete(tabId)
+    //updateTabBadge(e, 0)
 }
 
 safari.application.addEventListener("close", closeHandler, true);
@@ -172,18 +191,16 @@ safari.application.addEventListener('message', ( (request) => {
 
 // temp hack to show site score as badge icon number
 var updateTabBadge = function(e, val) {
-    console.log(`UPDATE BADGE: ${e.name}`)
+    let tabId = tabManager.getTabId(e)
+    safari.extension.popovers[0].contentWindow.location.reload()
+    console.log(`UPDATE BADGE: ${e.target.ddgTabId}`)
 
     if (val === 0) {
         safari.extension.toolbarItems[0].badge = val
     }
     else {
-        let map = {A: 0, B: 1, C: 2, D: 3}
-        let url = (e.target && e.target.url) ? e.target.url : (e.target.activeTab) ? e.target.activeTab.url : ''
-
-        if (e.name === 'tabLoaded') url = e.message.mainFrameURL
-
-        let tab = tabManager.get({tabId: url})
+        let map = {A: 1, B: 2, C: 3, D: 4}
+        let tab = tabManager.get({tabId: e.target.ddgTabId})
 
         console.log("UPDATE BADGE FOR TAB")
         console.log(tab)
@@ -196,5 +213,3 @@ var updateTabBadge = function(e, val) {
     
     }
 }
-
-safari.application.addEventListener('activate', updateTabBadge, true)

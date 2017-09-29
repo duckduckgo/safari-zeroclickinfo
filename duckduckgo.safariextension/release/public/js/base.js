@@ -195,7 +195,7 @@ BaseModel.prototype = $.extend({}, mixins.events, {
             if (message.getCurrentTab) {
                 resolve(safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url }));
             } else if (message.getTopBlocked) {
-                resolve(safari.extension.globalPage.contentWindow.Companies.getTopBlocked());
+                resolve(safari.extension.globalPage.contentWindow.Companies.getTopBlocked(message.getTopBlocked));
             }
         });
     }

@@ -145,7 +145,7 @@ Site.prototype = $.extend({}, Parent.prototype, {
     modelName: 'site',
 
     setSiteObj: function setSiteObj() {
-        this.tab = safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url });
+        this.tab = safari.extension.globalPage.contentWindow.tabManager.getActiveTab();
         if (!this.tab) {
             this.domain = 'new tab'; // tab can be null for firefox new tabs
             this.siteRating = '';
@@ -257,22 +257,11 @@ SiteTrackerList.prototype = $.extend({}, Parent.prototype, {
     modelName: 'siteTrackerList',
 
     fetchAsyncData: function fetchAsyncData() {
-        var _this = this;
-
         var self = this;
         return new Promise(function (resolve, reject) {
-            _this.fetch({ getCurrentTab: true }).then(function (tab) {
-                if (tab) {
-                    self.fetch({ getTab: tab.id }).then(function (bkgTab) {
-                        self.tab = bkgTab;
-                        self._updateCompaniesList();
-                        resolve();
-                    });
-                } else {
-                    console.debug('SiteTrackerList model: no tab');
-                    resolve();
-                }
-            });
+            self.tab = safari.extension.globalPage.contentWindow.tabManager.getActiveTab();
+            self._updateCompaniesList();
+            resolve();
         });
     },
 
@@ -601,7 +590,7 @@ module.exports = function (trackerListMap) {
 },{"bel":27}],16:[function(require,module,exports){
 'use strict';
 
-var _templateObject = _taggedTemplateLiteral(['<section class="site-info card">\n        <ul class="menu-list">\n            <li class="border--bottom">\n                <h1 class="site-info__domain">', '</h1>\n                <div class="site-info__rating site-info__rating--', ' pull-right"></div>\n            </li>\n            <li class="border--bottom">\n                <h2>\n                    <span class="site-info__https-status site-info__https-status--', '">\n                    </span><span class="site-info__https-status-msg bold">', '</span>\n                </h3>\n            </li>\n            <li class="site-info__li--tracker-count border--bottom">\n                <h2>\n                    <a href="#" class="js-site-show-all-trackers link-secondary">\n                        <span class="site-info__tracker-count">', '</span>Unique Trackers Blocked\n                        <span class="icon icon__arrow pull-right"></span>\n                    </a>\n                </h2>\n            </li>\n            <li class="site-info__li--toggle">\n                <span class="site-info__toggle-text">', '</span>\n                ', '\n            </li>\n        </ul>\n    </section>'], ['<section class="site-info card">\n        <ul class="menu-list">\n            <li class="border--bottom">\n                <h1 class="site-info__domain">', '</h1>\n                <div class="site-info__rating site-info__rating--', ' pull-right"></div>\n            </li>\n            <li class="border--bottom">\n                <h2>\n                    <span class="site-info__https-status site-info__https-status--', '">\n                    </span><span class="site-info__https-status-msg bold">', '</span>\n                </h3>\n            </li>\n            <li class="site-info__li--tracker-count border--bottom">\n                <h2>\n                    <a href="#" class="js-site-show-all-trackers link-secondary">\n                        <span class="site-info__tracker-count">', '</span>Unique Trackers Blocked\n                        <span class="icon icon__arrow pull-right"></span>\n                    </a>\n                </h2>\n            </li>\n            <li class="site-info__li--toggle">\n                <span class="site-info__toggle-text">', '</span>\n                ', '\n            </li>\n        </ul>\n    </section>']);
+var _templateObject = _taggedTemplateLiteral(['<section class="site-info card">\n        <ul class="menu-list">\n            <li class="border--bottom">\n                <h1 class="site-info__domain">', '</h1>\n                <div class="site-info__rating site-info__rating--', ' pull-right"></div>\n            </li>\n            <li class="border--bottom">\n                <h2>\n                    <span class="site-info__https-status site-info__https-status--', '">\n                    </span><span class="site-info__https-status-msg bold">', '</span>\n                </h3>\n            </li>\n            <li class="site-info__li--tracker-count border--bottom">\n                <h2>\n                    <a href="javascript: void(0)" class="js-site-show-all-trackers link-secondary">\n                        <span class="site-info__tracker-count">', '</span>Unique Trackers Blocked\n                        <span class="icon icon__arrow pull-right"></span>\n                    </a>\n                </h2>\n            </li>\n            <li class="site-info__li--toggle">\n                <span class="site-info__toggle-text">', '</span>\n                ', '\n            </li>\n        </ul>\n    </section>'], ['<section class="site-info card">\n        <ul class="menu-list">\n            <li class="border--bottom">\n                <h1 class="site-info__domain">', '</h1>\n                <div class="site-info__rating site-info__rating--', ' pull-right"></div>\n            </li>\n            <li class="border--bottom">\n                <h2>\n                    <span class="site-info__https-status site-info__https-status--', '">\n                    </span><span class="site-info__https-status-msg bold">', '</span>\n                </h3>\n            </li>\n            <li class="site-info__li--tracker-count border--bottom">\n                <h2>\n                    <a href="javascript: void(0)" class="js-site-show-all-trackers link-secondary">\n                        <span class="site-info__tracker-count">', '</span>Unique Trackers Blocked\n                        <span class="icon icon__arrow pull-right"></span>\n                    </a>\n                </h2>\n            </li>\n            <li class="site-info__li--toggle">\n                <span class="site-info__toggle-text">', '</span>\n                ', '\n            </li>\n        </ul>\n    </section>']);
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -621,7 +610,7 @@ module.exports = function () {
 },{"./shared/toggle-button":14,"bel":27}],17:[function(require,module,exports){
 'use strict';
 
-var _templateObject = _taggedTemplateLiteral(['<section class="sliding-subview sliding-subview--trackers-blocked sliding-subview--has-fixed-header">\n            <nav class="sliding-subview__header card">\n                <a href="#" class="sliding-subview__header__title sliding-subview__header__title--has-icon js-sliding-subview-close">\n                    <span class="icon icon__arrow icon__arrow--left pull-left"></span>\n                </a>\n                <ul class="sliding-subview__header__tabbed-nav">\n                    <a href="#" class="js-nav-tab js-nav-tab-page">This Page</a>\n                    <a href="#" class="js-nav-tab js-nav-tab-all">All Time</a>\n                </ul>\n            </nav>\n        </section>'], ['<section class="sliding-subview sliding-subview--trackers-blocked sliding-subview--has-fixed-header">\n            <nav class="sliding-subview__header card">\n                <a href="#" class="sliding-subview__header__title sliding-subview__header__title--has-icon js-sliding-subview-close">\n                    <span class="icon icon__arrow icon__arrow--left pull-left"></span>\n                </a>\n                <ul class="sliding-subview__header__tabbed-nav">\n                    <a href="#" class="js-nav-tab js-nav-tab-page">This Page</a>\n                    <a href="#" class="js-nav-tab js-nav-tab-all">All Time</a>\n                </ul>\n            </nav>\n        </section>']),
+var _templateObject = _taggedTemplateLiteral(['<section class="sliding-subview sliding-subview--trackers-blocked sliding-subview--has-fixed-header">\n            <nav class="sliding-subview__header card">\n                <a href="javascript:void(0)" class="sliding-subview__header__title sliding-subview__header__title--has-icon js-sliding-subview-close">\n                    <span class="icon icon__arrow icon__arrow--left pull-left"></span>\n                </a>\n                <ul class="sliding-subview__header__tabbed-nav">\n                    <a href="#" class="js-nav-tab js-nav-tab-page">This Page</a>\n                    <a href="#" class="js-nav-tab js-nav-tab-all">All Time</a>\n                </ul>\n            </nav>\n        </section>'], ['<section class="sliding-subview sliding-subview--trackers-blocked sliding-subview--has-fixed-header">\n            <nav class="sliding-subview__header card">\n                <a href="javascript:void(0)" class="sliding-subview__header__title sliding-subview__header__title--has-icon js-sliding-subview-close">\n                    <span class="icon icon__arrow icon__arrow--left pull-left"></span>\n                </a>\n                <ul class="sliding-subview__header__tabbed-nav">\n                    <a href="#" class="js-nav-tab js-nav-tab-page">This Page</a>\n                    <a href="#" class="js-nav-tab js-nav-tab-all">All Time</a>\n                </ul>\n            </nav>\n        </section>']),
     _templateObject2 = _taggedTemplateLiteral(['\n            <ol class="menu-list top-blocked__list card js-top-blocked-list">\n                ', '\n            </ol>'], ['\n            <ol class="menu-list top-blocked__list card js-top-blocked-list">\n                ', '\n            </ol>']),
     _templateObject3 = _taggedTemplateLiteral(['<ol class="menu-list top-blocked__list card js-top-blocked-list">\n                <li class="top-blocked__li top-blocked__li--no-trackers">No trackers found here... <br />Phew!</li>\n            </ol>'], ['<ol class="menu-list top-blocked__list card js-top-blocked-list">\n                <li class="top-blocked__li top-blocked__li--no-trackers">No trackers found here... <br />Phew!</li>\n            </ol>']);
 
@@ -843,34 +832,22 @@ Site.prototype = $.extend({}, Parent.prototype, {
     },
 
     getBackgroundTabData: function getBackgroundTabData() {
-        var _this = this;
-
         var self = this;
 
-        this.model.fetch({ getCurrentTab: true }).then(function (tab) {
-            if (tab) {
-                _this.model.fetch({ getTab: tab.id }).then(function (backgroundTabObj) {
-                    if (backgroundTabObj) {
-                        self.model.tab = safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url });
-                        self.model.domain = self.model.tab.site.domain;
-                        self._getSiteRating();
-                    }
+        // get safari tab directly
+        self.model.tab = safari.extension.globalPage.contentWindow.tabManager.getActiveTab();
+        self.model.domain = self.model.tab.site.domain;
+        self._getSiteRating();
+        self.model.setSiteObj();
 
-                    self.model.setSiteObj();
+        if (self.model.disabled) {
+            // determined in setSiteObj()
+            self._setDisabled();
+        }
 
-                    if (self.model.disabled) {
-                        // determined in setSiteObj()
-                        self._setDisabled();
-                    }
-
-                    self.model.update();
-                    self.model.setHttpsMessage();
-                    self.rerender(); // our custom rerender below
-                });
-            } else {
-                console.debug('Site view: no tab');
-            }
-        });
+        self.model.update();
+        self.model.setHttpsMessage();
+        self.rerender(); // our custom rerender below
     },
 
     _whitelistClick: function _whitelistClick(e) {
@@ -901,10 +878,10 @@ Site.prototype = $.extend({}, Parent.prototype, {
     },
 
     _getSiteRating: function _getSiteRating() {
-        var _this2 = this;
+        var _this = this;
 
         this.model.fetch({ getSiteScore: this.model.tab.id }).then(function (rating) {
-            if (rating && _this2.model.update(rating)) _this2.rerender();
+            if (rating && _this.model.update(rating)) _this.rerender();
         });
     }
 });

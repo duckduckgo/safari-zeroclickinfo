@@ -19,19 +19,10 @@ SiteTrackerList.prototype = $.extend({},
       fetchAsyncData: function () {
           const self = this;
           return new Promise ((resolve, reject) => {
-              this.fetch({getCurrentTab: true}).then((tab) => {
-                  if (tab) {
-                      self.fetch({getTab: tab.id}).then((bkgTab) => {
-                        self.tab = bkgTab;
-                        self._updateCompaniesList()
-                        resolve()
-                      });
-                  } else {
-                      console.debug('SiteTrackerList model: no tab');
-                      resolve()
-                  }
-              });
-          });
+              self.tab = safari.extension.globalPage.contentWindow.tabManager.getActiveTab()
+              self._updateCompaniesList()
+              resolve()
+           });
       },
 
       _updateCompaniesList: function () {

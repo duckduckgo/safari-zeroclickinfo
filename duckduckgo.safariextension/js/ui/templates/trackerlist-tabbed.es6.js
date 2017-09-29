@@ -7,7 +7,7 @@ module.exports = function () {
 
         return bel`<section class="sliding-subview sliding-subview--trackers-blocked sliding-subview--has-fixed-header">
             <nav class="sliding-subview__header card">
-                <a href="#" class="sliding-subview__header__title sliding-subview__header__title--has-icon js-sliding-subview-close">
+                <a href="javascript:void(0)" class="sliding-subview__header__title sliding-subview__header__title--has-icon js-sliding-subview-close">
                     <span class="icon icon__arrow icon__arrow--left pull-left"></span>
                 </a>
                 <ul class="sliding-subview__header__tabbed-nav">

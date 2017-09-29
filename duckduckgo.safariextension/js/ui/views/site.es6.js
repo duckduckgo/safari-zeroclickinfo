@@ -63,31 +63,20 @@ Site.prototype = $.extend({},
 
         getBackgroundTabData: function () {
             let self = this;
+            
+            // get safari tab directly
+            self.model.tab = safari.extension.globalPage.contentWindow.tabManager.getActiveTab()
+            self.model.domain = self.model.tab.site.domain
+            self._getSiteRating()
+            self.model.setSiteObj();
 
-            this.model.fetch({getCurrentTab: true}).then((tab) => {
-                if (tab) {
-                    this.model.fetch({getTab: tab.id}).then( (backgroundTabObj) => {
-                        if (backgroundTabObj) {
-                            self.model.tab = safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url });
-                            self.model.domain = self.model.tab.site.domain
-                            self._getSiteRating()
-                        }
+            if (self.model.disabled) {   // determined in setSiteObj()
+               self._setDisabled();
+            }
 
-                        self.model.setSiteObj();
-
-                        if (self.model.disabled) {   // determined in setSiteObj()
-                            self._setDisabled();
-                        }
-
-                        self.model.update();
-                        self.model.setHttpsMessage();
-                        self.rerender(); // our custom rerender below
-                    });
-
-                } else {
-                    console.debug('Site view: no tab');
-                }
-            });
+            self.model.update();
+            self.model.setHttpsMessage();
+            self.rerender(); // our custom rerender below
         },
 
         _whitelistClick: function (e) {
