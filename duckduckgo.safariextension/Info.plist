@@ -37,11 +37,11 @@
 				<key>Filename</key>
 				<string>html/trackers.html</string>
 				<key>Height</key>
-				<integer>600</integer>
+				<integer>480</integer>
 				<key>Identifier</key>
 				<string>popup</string>
 				<key>Width</key>
-				<integer>280</integer>
+				<integer>270</integer>
 			</dict>
 		</array>
 		<key>Toolbar Items</key>
@@ -71,6 +71,11 @@
 				<string>js/xhr-intercept.js</string>
 			</array>
 		</dict>
+		<key>Whitelist</key>
+		<array>
+			<string>http://*/*</string>
+			<string>https://*/*</string>
+		</array>
 	</dict>
 	<key>Description</key>
 	<string>DuckDuckGo enhancements for Safari</string>
