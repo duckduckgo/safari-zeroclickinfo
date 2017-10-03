@@ -8,7 +8,7 @@ var onBeforeLoad = (e) => {
     }
 
     if (e.url) {
-        if (e.url.match(/^blob:http/)) return
+        if (!e.url.match(/^https?:\/\//)) return
 
         let block = safari.self.tab.canLoad(e, {currentURL: e.target.baseURI, potentialTracker: e.url, frame: frame, mainFrameURL: mainFrameURL})
         if (block.cancel) {
