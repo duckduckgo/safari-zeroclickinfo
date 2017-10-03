@@ -87,6 +87,7 @@ Site.prototype = $.extend({},
             safari.extension.globalPage.contentWindow.tabManager.reloadTab()
             //const w = chrome.extension.getViews({type: 'popup'})[0];
             //w.close()
+            safari.self.hide()
         },
 
         rerender: function() {
