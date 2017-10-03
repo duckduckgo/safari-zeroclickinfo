@@ -37,11 +37,11 @@
 				<key>Filename</key>
 				<string>html/trackers.html</string>
 				<key>Height</key>
-				<integer>700</integer>
+				<integer>600</integer>
 				<key>Identifier</key>
 				<string>popup</string>
 				<key>Width</key>
-				<integer>290</integer>
+				<integer>280</integer>
 			</dict>
 		</array>
 		<key>Toolbar Items</key>
@@ -50,7 +50,7 @@
 				<key>Identifier</key>
 				<string>popup_button</string>
 				<key>Image</key>
-				<string>Grade-D-gray@2x.png</string>
+				<string>img/search-loupe@2x.png</string>
 				<key>Label</key>
 				<string>DuckDuckGo</string>
 				<key>Palette Label</key>

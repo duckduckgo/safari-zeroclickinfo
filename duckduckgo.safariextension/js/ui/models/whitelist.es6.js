@@ -23,8 +23,9 @@ Whitelist.prototype = $.extend({},
                 {
                 list: 'whitelisted',
                 domain: domain,
-                value: false
-                }
+                value: false,
+                },
+                context: 'options'
             });
         }
   }

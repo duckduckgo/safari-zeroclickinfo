@@ -507,6 +507,8 @@ a {
       background-image: url("chrome-extension://__MSG_@@extension_id__/img/arrow@2x.png"); }
     .is-browser--moz .icon.icon__arrow {
       background-image: url("moz-extension://__MSG_@@extension_id__/img/arrow@2x.png"); }
+    .is-browser--safari .icon.icon__arrow {
+      background-image: url("safari-extension://com.duckduckgo.safari-HKE973VLUW/1f28a05/img/arrow@2x.png"); }
     .icon.icon__arrow.icon__arrow--left {
       transform: rotate(180deg); }
   .icon.icon__settings {
@@ -516,3 +518,5 @@ a {
       background-image: url("chrome-extension://__MSG_@@extension_id__/img/settings-gear@2x.png"); }
     .is-browser--moz .icon.icon__settings {
       background-image: url("moz-extension://__MSG_@@extension_id__/img/settings-gear@2x.png"); }
+    .is-browser--safari .icon.icon__settings {
+      background-image: url("safari-extension://com.duckduckgo.safari-HKE973VLUW/1f28a05/img/settings-gear@2x.png"); }

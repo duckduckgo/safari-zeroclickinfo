@@ -47,7 +47,12 @@ Trackers.prototype = $.extend({},
                         this.message.fetch({firefoxOptionPage:true}).then(page => {
                                 chrome.tabs.create({url: page})
                         });
-                    } else {
+                    }
+                    else if (browser === 'safari') {
+                        safari.self.hide()
+                        safari.extension.globalPage.contentWindow.tabManager.openOptionsPage()
+                    }
+                    else {
                         chrome.runtime.openOptionsPage()
                     }
                 })

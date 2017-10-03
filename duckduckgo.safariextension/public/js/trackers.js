@@ -421,6 +421,9 @@ Trackers.prototype = $.extend({}, Parent.prototype, mixins.setBrowserClassOnBody
                     _this.message.fetch({ firefoxOptionPage: true }).then(function (page) {
                         chrome.tabs.create({ url: page });
                     });
+                } else if (browser === 'safari') {
+                    safari.self.hide();
+                    safari.extension.globalPage.contentWindow.tabManager.openOptionsPage();
                 } else {
                     chrome.runtime.openOptionsPage();
                 }
@@ -511,7 +514,7 @@ module.exports = function () {
 },{"bel":27}],12:[function(require,module,exports){
 'use strict';
 
-var _templateObject = _taggedTemplateLiteral(['<a class="linkable ', '"\n                  id="js-linkable-', '"\n                  href="#">\n            ', '\n            <span class="', '"></div>\n        </a>'], ['<a class="linkable ', '"\n                  id="js-linkable-', '"\n                  href="#">\n            ', '\n            <span class="', '"></div>\n        </a>']);
+var _templateObject = _taggedTemplateLiteral(['<a class="linkable ', '"\n                  id="js-linkable-', '"\n                  href="javascript:void(0)">\n            ', '\n            <span class="', '"></div>\n        </a>'], ['<a class="linkable ', '"\n                  id="js-linkable-', '"\n                  href="javascript:void(0)">\n            ', '\n            <span class="', '"></div>\n        </a>']);
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -636,7 +639,7 @@ module.exports = function () {
 },{"./shared/trackerlist-items.es6.js":15,"bel":27}],18:[function(require,module,exports){
 'use strict';
 
-var _templateObject = _taggedTemplateLiteral(['<section class="top-blocked card">\n            <h3 class="menu-title border--bottom">Top blocked companies over time</h3>\n            <ul class="menu-list top-blocked__list">\n                ', '\n                <li class="top-blocked__li top-blocked__li--see-all border--top">\n                    <a href="#" class="link-secondary js-top-blocked-see-all">\n                        <span class="icon icon__arrow pull-right"></span>\n                        See all\n                    </a>\n                </li>\n            </ul>\n        </section>'], ['<section class="top-blocked card">\n            <h3 class="menu-title border--bottom">Top blocked companies over time</h3>\n            <ul class="menu-list top-blocked__list">\n                ', '\n                <li class="top-blocked__li top-blocked__li--see-all border--top">\n                    <a href="#" class="link-secondary js-top-blocked-see-all">\n                        <span class="icon icon__arrow pull-right"></span>\n                        See all\n                    </a>\n                </li>\n            </ul>\n        </section>']),
+var _templateObject = _taggedTemplateLiteral(['<section class="top-blocked card">\n            <h3 class="menu-title border--bottom">Top blocked companies over time</h3>\n            <ul class="menu-list top-blocked__list">\n                ', '\n                <li class="top-blocked__li top-blocked__li--see-all border--top">\n                    <a href="javascript:void(0)" class="link-secondary js-top-blocked-see-all">\n                        <span class="icon icon__arrow pull-right"></span>\n                        See all\n                    </a>\n                </li>\n            </ul>\n        </section>'], ['<section class="top-blocked card">\n            <h3 class="menu-title border--bottom">Top blocked companies over time</h3>\n            <ul class="menu-list top-blocked__list">\n                ', '\n                <li class="top-blocked__li top-blocked__li--see-all border--top">\n                    <a href="javascript:void(0)" class="link-secondary js-top-blocked-see-all">\n                        <span class="icon icon__arrow pull-right"></span>\n                        See all\n                    </a>\n                </li>\n            </ul>\n        </section>']),
     _templateObject2 = _taggedTemplateLiteral(['<section class="top-blocked card">\n                    <h3 class="menu-title">Top blocked over time</h3>\n                    <ul class="menu-list top-blocked__list">\n                        <li class="top-blocked__li top-blocked__li--no-trackers">\n                            No data collected yet... <br />\n                            Start browsing the web and check back in a bit!\n                        </li>\n                    </ul>\n            </section>'], ['<section class="top-blocked card">\n                    <h3 class="menu-title">Top blocked over time</h3>\n                    <ul class="menu-list top-blocked__list">\n                        <li class="top-blocked__li top-blocked__li--no-trackers">\n                            No data collected yet... <br />\n                            Start browsing the web and check back in a bit!\n                        </li>\n                    </ul>\n            </section>']);
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -854,9 +857,10 @@ Site.prototype = $.extend({}, Parent.prototype, {
         this.model.toggleWhitelist();
         console.log('isWhitelisted: ', this.model.isWhitelisted);
         this.model.set('whitelisted', this.isWhitelisted);
-        chrome.tabs.reload(this.model.tab.id);
-        var w = chrome.extension.getViews({ type: 'popup' })[0];
-        w.close();
+        //chrome.tabs.reload(this.model.tab.id);
+        safari.extension.globalPage.contentWindow.tabManager.reloadTab();
+        //const w = chrome.extension.getViews({type: 'popup'})[0];
+        //w.close()
     },
 
     rerender: function rerender() {

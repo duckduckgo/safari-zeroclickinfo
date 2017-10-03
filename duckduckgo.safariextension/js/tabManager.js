@@ -87,6 +87,17 @@ class TabManager {
 
         settings.updateSetting(list, globalwhitelist)
     }
+
+    openOptionsPage () {
+        let options = safari.extension.baseURI + 'html/options.html'
+        safari.application.activeBrowserWindow.openTab().url = options
+    }
+
+    reloadTab () {
+        var activeTab = safari.application.activeBrowserWindow.activeTab;
+        activeTab.url = activeTab.url
+    }
+
 }
 
 var tabManager = new TabManager();
@@ -174,11 +185,21 @@ safari.application.addEventListener('message', ( (request) => {
     if (request.name === 'unloadTab') {
         closeHandler(request)
     }
-
-    if (request.name === 'tabLoaded') {
+    else if (request.name === 'tabLoaded') {
         updateTabBadge(request)
-    }
 
+        let tab = tabManager.get({tabId: request.target.ddgTabId})
+        
+        // update site https status. We should move this out 
+        if (request.message.mainFrameURL && request.message.mainFrameURL.match(/^https:\/\//)) {
+            tab.site.score.update({hasHTTPS: true})
+        }
+        
+        console.info(tab.site.score)
+    }
+    else if (request.name === 'whitelisted') {
+        tabManager.whitelistDomain(request.message.whitelisted)
+    }
     /*
     let tab = tabManager.get({tabId: request.tabId});
     if (tab) {
@@ -188,6 +209,7 @@ safari.application.addEventListener('message', ( (request) => {
     }
     */
 }), true);
+
 
 // temp hack to show site score as badge icon number
 var updateTabBadge = function(e, val) {

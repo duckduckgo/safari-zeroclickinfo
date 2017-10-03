@@ -191,11 +191,39 @@ BaseModel.prototype = $.extend({}, mixins.events, {
      **/
     fetch: function fetch(message) {
         return new Promise(function (resolve, reject) {
+            console.log("Fetch");
+            console.log(message);
             // adapt message for safari
             if (message.getCurrentTab) {
                 resolve(safari.extension.globalPage.contentWindow.tabManager.get({ tabId: safari.application.activeBrowserWindow.tabs[0].url }));
             } else if (message.getTopBlocked) {
                 resolve(safari.extension.globalPage.contentWindow.Companies.getTopBlocked(message.getTopBlocked));
+            } else if (message.getBrowser) {
+                resolve('safari');
+            } else if (message.whitelisted) {
+                if (message.context && message.context === 'options') {
+                    resolve(safari.self.tab.dispatchMessage('whitelisted', message));
+                } else {
+                    resolve(safari.extension.globalPage.contentWindow.tabManager.whitelistDomain(message.whitelisted));
+                }
+            } else if (message.getSetting) {
+                if (message.context && message.context === 'options') {
+                    // send message with time stamp
+                    var timestamp = Date.now();
+                    message.timestamp = timestamp;
+                    safari.self.tab.dispatchMessage('getSetting', message);
+
+                    safari.self.addEventListener('message', function (e) {
+                        if (e.name === 'getSetting' && e.message.timestamp === timestamp) {
+                            delete e.message.timestamp;
+                            resolve(e.message);
+                        }
+                    }, false);
+                }
+            } else if (message.updateSetting) {
+                if (message.context && message.context === 'options') {
+                    resolve(safari.self.tab.dispatchMessage('updateSetting', message));
+                }
             }
         });
     }

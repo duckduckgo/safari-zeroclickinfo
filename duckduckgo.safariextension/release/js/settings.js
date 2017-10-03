@@ -97,3 +97,20 @@ require.scopes.settings =(() => {
     }
 
 })();
+
+var handleSettingsMessage = function (e) {
+    if (e.message.getSetting) {
+        console.log(e)
+        let settingName = e.message.getSetting.name || ''
+        let setting = settings.getSetting(settingName) || {}
+        setting.timestamp= e.message.timestamp
+        e.target.page.dispatchMessage('getSetting', setting)
+    }
+    else if (e.message.updateSetting) {
+        let name = e.message.updateSetting.name
+        let val = e.message.updateSetting.value
+        settings.updateSetting(name, val)
+    }
+}
+
+safari.application.addEventListener("message", handleSettingsMessage, false);

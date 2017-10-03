@@ -71,7 +71,8 @@ var onBeforeRequest = function (requestData) {
 
             console.info(`${thisTab.site.domain} [${tracker.parentCompany }] ${tracker.url}`);
             safari.extension.popovers[0].contentWindow.location.reload()
-            return {cancel: true};
+            requestData.message = {cancel: true}
+            return
         }
     }   
 }

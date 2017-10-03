@@ -1,4 +1,5 @@
 const Parent = window.DDG.base.Model;
+const context = 'options'
 
 function PrivacyOptions (attrs) {
     // set some default values for the toggle switches in the template
@@ -27,7 +28,7 @@ PrivacyOptions.prototype = $.extend({},
       getSettings: function () {
           let self = this
           return new Promise((resolve, reject) => {
-              self.fetch({getSetting: 'all'}).then((settings) => {
+              self.fetch({getSetting: 'all', context: context}).then((settings) => {
                   self.trackerBlockingEnabled = settings['trackerBlockingEnabled'];
                   self.httpsEverywhereEnabled = settings['httpsEverywhereEnabled'];
                   self.embeddedTweetsEnabled = settings['embeddedTweetsEnabled'];

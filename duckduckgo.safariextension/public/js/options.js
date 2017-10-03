@@ -46,6 +46,7 @@ module.exports = BackgroundMessage;
 'use strict';
 
 var Parent = window.DDG.base.Model;
+var context = 'options';
 
 function PrivacyOptions(attrs) {
     // set some default values for the toggle switches in the template
@@ -71,7 +72,7 @@ PrivacyOptions.prototype = $.extend({}, Parent.prototype, {
     getSettings: function getSettings() {
         var self = this;
         return new Promise(function (resolve, reject) {
-            self.fetch({ getSetting: 'all' }).then(function (settings) {
+            self.fetch({ getSetting: 'all', context: context }).then(function (settings) {
                 self.trackerBlockingEnabled = settings['trackerBlockingEnabled'];
                 self.httpsEverywhereEnabled = settings['httpsEverywhereEnabled'];
                 self.embeddedTweetsEnabled = settings['embeddedTweetsEnabled'];
@@ -107,7 +108,8 @@ Whitelist.prototype = $.extend({}, Parent.prototype, {
                 list: 'whitelisted',
                 domain: domain,
                 value: false
-            }
+            },
+            context: 'options'
         });
     }
 });
@@ -344,7 +346,7 @@ Whitelist.prototype = $.extend({}, Parent.prototype, {
 
     setWhitelistFromSettings: function setWhitelistFromSettings() {
         var self = this;
-        this.model.fetch({ getSetting: { name: 'whitelisted' } }).then(function (list) {
+        this.model.fetch({ getSetting: { name: 'whitelisted' }, context: 'options' }).then(function (list) {
             var wlist = list || {};
             self.model.list = Object.keys(wlist);
             self.model.list.sort();

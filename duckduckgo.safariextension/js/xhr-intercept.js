@@ -1,7 +1,6 @@
-let mainFrameURL
+var mainFrameURL
 
 var onBeforeLoad = (e) => {
-    let block = {}
     let frame = (window === window.top) ? "main_frame" : "sub_frame"
 
     if (frame == 'main_frame' && !mainFrameURL) {
@@ -9,10 +8,14 @@ var onBeforeLoad = (e) => {
     }
 
     if (e.url) {
-        block = safari.self.tab.canLoad(e, {currentURL: e.target.baseURI, potentialTracker: e.url, frame: frame, mainFrameURL: mainFrameURL})
+        if (e.url.match(/^blob:http/)) return
+
+        let block = safari.self.tab.canLoad(e, {currentURL: e.target.baseURI, potentialTracker: e.url, frame: frame, mainFrameURL: mainFrameURL})
+        if (block.cancel) {
+            e.preventDefault()
+        }
     }
 
-    if (block.cancel) e.preventDefault()
 }
 
 var unload = (e) => {
