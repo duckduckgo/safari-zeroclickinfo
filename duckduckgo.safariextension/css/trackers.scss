@@ -146,6 +146,10 @@ body {
                 .is-browser--moz & {
                     background-image: url($icon__rating__A--moz);
                 }
+
+                .is-browser--safari & {
+                    background-image: url($icon__rating__A--safari);
+                }
             }
 
             &.site-info__rating--B {
@@ -156,6 +160,10 @@ body {
 
                 .is-browser--moz & {
                     background-image: url($icon__rating__B--moz);
+                }
+
+                .is-browser--safari & {
+                    background-image: url($icon__rating__B--safari);
                 }
             }
 
@@ -168,6 +176,10 @@ body {
                 .is-browser--moz & {
                     background-image: url($icon__rating__C--moz);
                 }
+
+                .is-browser--safari & {
+                    background-image: url($icon__rating__C--safari);
+                }
             }
 
             &.site-info__rating--D {
@@ -178,6 +190,10 @@ body {
 
                 .is-browser--moz & {
                     background-image: url($icon__rating__D--moz);
+                }
+
+                .is-browser--safari & {
+                    background-image: url($icon__rating__D--safari);
                 }
             }
         }
@@ -194,6 +210,10 @@ body {
                 .is-browser--moz & {
                     background-image: url($icon__https-status__default--moz);
                 }
+
+                .is-browser--safari & {
+                    background-image: url($icon__https-status__default--safari);
+                }
             }
 
             &.site-info__https-status--upgraded {
@@ -205,6 +225,10 @@ body {
                 .is-browser--moz & {
                     background-image: url($icon__https-status__upgraded--moz);
                 }
+
+                .is-browser--safari & {
+                    background-image: url($icon__https-status__upgraded--safari);
+                }
             }
 
             &.site-info__https-status--none {
@@ -215,6 +239,10 @@ body {
 
                 .is-browser--moz & {
                     background-image: url($icon__https-status__none--moz);
+                }
+
+                .is-browser--safari & {
+                    background-image: url($icon__https-status__none--safari);
                 }
 
             }

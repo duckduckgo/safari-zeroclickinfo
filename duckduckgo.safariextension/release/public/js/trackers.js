@@ -861,6 +861,7 @@ Site.prototype = $.extend({}, Parent.prototype, {
         safari.extension.globalPage.contentWindow.tabManager.reloadTab();
         //const w = chrome.extension.getViews({type: 'popup'})[0];
         //w.close()
+        safari.self.hide();
     },
 
     rerender: function rerender() {
@@ -1362,6 +1363,9 @@ module.exports = function (h, opts) {
               // https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attributes
               // empty string is falsy, not well behaved value in browser
               cur[1][key] = key.toLowerCase()
+            }
+            if (parts[i][0] === CLOSE) {
+              i--
             }
             break
           }

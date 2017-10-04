@@ -127,6 +127,10 @@ BaseModel.prototype = $.extend({},
                         resolve(safari.extension.globalPage.contentWindow.tabManager.whitelistDomain(message.whitelisted))
                     }
                 }
+                else if (message.getSiteScore) {
+                    let tab = safari.extension.globalPage.contentWindow.tabManager.get({tabId: message.getSiteScore})
+                    if (tab) resolve(tab.site.score.get())
+                }
                 else if (message.getSetting) {
                     if (message.context && message.context === 'options') {
                         // send message with time stamp
