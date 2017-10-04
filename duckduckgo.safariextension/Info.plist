@@ -68,14 +68,9 @@
 		<dict>
 			<key>Start</key>
 			<array>
-				<string>js/xhr-intercept.js</string>
+				<string>js/content-script.js</string>
 			</array>
 		</dict>
-		<key>Whitelist</key>
-		<array>
-			<string>http://*/*</string>
-			<string>https://*/*</string>
-		</array>
 	</dict>
 	<key>Description</key>
 	<string>DuckDuckGo enhancements for Safari</string>
