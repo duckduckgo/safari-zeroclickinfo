@@ -33,6 +33,7 @@ Search.prototype = $.extend({},
         _handleSubmit: function (e) {
             console.log(`Search submit for ${this.$input.val()}`);
             this.model.doSearch(this.$input.val());
+            e.preventDefault()
         }
     }
 

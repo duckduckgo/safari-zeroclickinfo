@@ -10,7 +10,7 @@ class TabManager {
         if (active.ddgTabId) {
             return tabManager.get({tabId: active.ddgTabId})
         } else {
-            let id = getTabId({target: active})
+            let id = tabManager.getTabId({target: active})
             return tabManager.get({tabId: id})
         }   
     }
@@ -189,8 +189,14 @@ safari.application.addEventListener('message', ( (request) => {
         if (request.message.mainFrameURL && request.message.mainFrameURL.match(/^https:\/\//)) {
             tab.site.score.update({hasHTTPS: true})
         }
+
+        if (tab) {
+            tab.updateBadgeIcon()
+        }
+        else {
+            safari.extension.toolbarItems[0].image = safari.extension.baseURI + 'img/ddg-icon.png'
+        }
         
-        console.info(tab.site.score)
     }
     else if (request.name === 'whitelisted') {
         tabManager.whitelistDomain(request.message.whitelisted)
@@ -209,7 +215,6 @@ safari.application.addEventListener('message', ( (request) => {
 // temp hack to show site score as badge icon number
 var updateTabBadge = function(e, val) {
     let tabId = tabManager.getTabId(e)
-    safari.extension.popovers[0].contentWindow.location.reload()
     console.log(`UPDATE BADGE: ${e.target.ddgTabId}`)
 
     if (val === 0) {
@@ -226,7 +231,17 @@ var updateTabBadge = function(e, val) {
             safari.extension.toolbarItems[0].badge = 0
                 return
         }
-        safari.extension.toolbarItems[0].badge = map[tab.site.score.get()]
-    
+        console.log(`GRADE: ${tab.site.score.get()}`)
+
+        tab.updateBadgeIcon()
+        safari.extension.popovers[0].contentWindow.location.reload()
     }
 }
+
+safari.application.addEventListener('beforeSearch', (e) => {
+    if (e.target && e.target.ddgTabId) {
+        tabManager.delete(e.target.ddgTabId)
+    }
+}, false)
+
+

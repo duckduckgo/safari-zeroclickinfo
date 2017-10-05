@@ -2,7 +2,13 @@ ITEMS   := rules html data public img js manifest.json
 
 release: npm grunt tosdr moveout
 
-dev: grunt moveout
+dev: node-modules-in grunt moveout node-modules-out
+
+node-modules-in:
+	mv ../node_modules .
+
+node-modules-out:
+	mv node_modules ../
 
 npm:
 	npm install --tldjs-update-rules

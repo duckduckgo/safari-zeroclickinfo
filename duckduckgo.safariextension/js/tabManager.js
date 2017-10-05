@@ -237,3 +237,11 @@ var updateTabBadge = function(e, val) {
         safari.extension.popovers[0].contentWindow.location.reload()
     }
 }
+
+safari.application.addEventListener('beforeSearch', (e) => {
+    if (e.target && e.target.ddgTabId) {
+        tabManager.delete(e.target.ddgTabId)
+    }
+}, false)
+
+

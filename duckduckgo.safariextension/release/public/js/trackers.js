@@ -106,10 +106,11 @@ Search.prototype = $.extend({}, Parent.prototype, {
     doSearch: function doSearch(s) {
         this.searchText = s;
         console.log("doSearch() for " + s);
-
-        chrome.tabs.create({
-            url: "https://duckduckgo.com/?q=" + s + "&bext=" + localStorage['os'] + "cr"
-        });
+        safari.self.hide();
+        safari.application.activeBrowserWindow.openTab().url = "https://duckduckgo.com/?q=" + s + "&bext=" + localStorage['os'] + "cr";
+        //chrome.tabs.create({
+        //  url: "https://duckduckgo.com/?q=" + s + "&bext=" + localStorage['os'] + "cr"
+        //});
     }
 
 });
@@ -775,6 +776,7 @@ Search.prototype = $.extend({}, Parent.prototype, {
     _handleSubmit: function _handleSubmit(e) {
         console.log('Search submit for ' + this.$input.val());
         this.model.doSearch(this.$input.val());
+        e.preventDefault();
     }
 });
 
