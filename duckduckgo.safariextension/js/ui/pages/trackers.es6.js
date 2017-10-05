@@ -50,7 +50,8 @@ Trackers.prototype = $.extend({},
                     }
                     else if (browser === 'safari') {
                         safari.self.hide()
-                        safari.extension.globalPage.contentWindow.tabManager.openOptionsPage()
+                        let options = safari.extension.baseURI + 'html/options.html'
+                        safari.application.activeBrowserWindow.openTab().url = options
                     }
                     else {
                         chrome.runtime.openOptionsPage()

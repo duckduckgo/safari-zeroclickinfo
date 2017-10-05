@@ -37,11 +37,12 @@ class Tracker {
  *      }
  */
 const scoreIconLocations = {
-    "A": "img/toolbar-rating-a@2x.png",
-    "B": "img/toolbar-rating-b@2x.png",
-    "C": "img/toolbar-rating-c@2x.png",
-    "D": "img/toolbar-rating-d@2x.png"
+    "A": "img/Grade-A-gray@2x.png",
+    "B": "img/Grade-B-gray@2x.png",
+    "C": "img/Grade-C-gray@2x.png",
+    "D": "img/Grade-D-gray@2x.png"
 }
+const defaultIcon = 'img/ddg-icon.png'
 
 class Tab {
     constructor(tabData) {
@@ -58,12 +59,14 @@ class Tab {
 
         // set the new tab icon to the dax logo
         //chrome.browserAction.setIcon({path: 'img/icon_48.png', tabId: tabData.tabId})
+        safari.extension.toolbarItems[0].image = safari.extension.baseURI + defaultIcon
     };
 
     updateBadgeIcon () {
         if (!this.site.specialDomain() && !this.site.whitelisted && settings.getSetting('trackerBlockingEnabled')) {
-            let scoreIcon = scoreIconLocations[this.site.score.get()];
+            let scoreIcon = scoreIconLocations[this.site.score.get()] || defaultIcon
             //chrome.browserAction.setIcon({path: scoreIcon, tabId: this.id});
+            safari.extension.toolbarItems[0].image = safari.extension.baseURI + scoreIcon
         }
     };
 
@@ -71,6 +74,7 @@ class Tab {
         this.site = new Site(utils.extractHostFromURL(this.url))
         // reset badge to dax whenever we go to a new site
         //chrome.browserAction.setIcon({path: 'img/icon_48.png', tabId: this.id});
+        safari.extension.toolbarItems[0].image = safari.extension.baseURI + defaultIcon
     };
 
     /* Store all trackers for a given tab even if we

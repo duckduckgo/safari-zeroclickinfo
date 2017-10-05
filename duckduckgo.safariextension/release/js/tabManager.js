@@ -88,11 +88,6 @@ class TabManager {
         settings.updateSetting(list, globalwhitelist)
     }
 
-    openOptionsPage () {
-        let options = safari.extension.baseURI + 'html/options.html'
-        safari.application.activeBrowserWindow.openTab().url = options
-    }
-
     reloadTab () {
         var activeTab = safari.application.activeBrowserWindow.activeTab;
         activeTab.url = activeTab.url

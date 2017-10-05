@@ -37,7 +37,7 @@
 				<key>Filename</key>
 				<string>html/trackers.html</string>
 				<key>Height</key>
-				<integer>480</integer>
+				<integer>490</integer>
 				<key>Identifier</key>
 				<string>popup</string>
 				<key>Width</key>
@@ -50,7 +50,7 @@
 				<key>Identifier</key>
 				<string>popup_button</string>
 				<key>Image</key>
-				<string>img/search-loupe@2x.png</string>
+				<string>img/ddg-icon@3x.png</string>
 				<key>Label</key>
 				<string>DuckDuckGo</string>
 				<key>Palette Label</key>

@@ -7,11 +7,13 @@ var onBeforeLoad = (e) => {
         mainFrameURL = getLocation()
     }
 
+
     if (e.url) {
-        //if (!e.url.match(/^https?:\/\//)) return
+        if (!e.url.match(/^https?:\/\/|^\/\//)) return
 
         let block = safari.self.tab.canLoad(e, {currentURL: e.target.baseURI, potentialTracker: e.url, frame: frame, mainFrameURL: mainFrameURL})
         if (block.cancel) {
+            console.log(`DDG BLOCKING ${e.url}`)
             e.preventDefault()
         }
     }
